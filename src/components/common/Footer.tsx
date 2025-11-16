@@ -5,14 +5,8 @@ const Footer = () => {
   const isMobile = useIsMobile();
 
   return (
-    <footer className="w-full border-t border-[#999] bg-[#FFF] py-4">
-      <div
-        className={`
-          flex text-[#ccc]
-          ${isMobile ? "flex-col gap-4" : "flex-row justify-between"}
-          w-full max-w-[1200px] mx-auto px-4
-        `}
-      >
+    <footer className="flex w-full border-t border-[#999] bg-[#FFF] py-4">
+      <div className="flex w-full pt-[1.87rem] pl-[5.12rem] gap-[2.56rem] text-[#666]">
         {/* 왼쪽 메뉴 */}
         <div className="flex flex-col gap-1 text-sm">
           <p className="hover:underline cursor-pointer">서비스 소개</p>
