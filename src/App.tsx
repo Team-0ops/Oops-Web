@@ -13,7 +13,12 @@ const publicRoutes: RouteObject[] = [
     path: "/",
     element: <PublicLayout />,
     errorElement: <div>error</div>,
-    children: [{}],
+    children: [
+      {
+        index: true,
+        element: <div>home</div>,
+      },
+    ],
   },
 ];
 

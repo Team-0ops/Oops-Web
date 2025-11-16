@@ -1,37 +1,30 @@
+import { useIsMobile } from "../../hooks/common/useIsMobile";
+
 const Footer = () => {
+  //현재 모바일인지 아닌자 판별하는 훅 : boolean 반환
+  const isMobile = useIsMobile();
+
   return (
-    <footer className="flex w-full border-t border-[#B3B3B3]">
-      <div className="flex gap-[33px] mt-[15px] text-[#B3B3B3]">
-        <div className="flex flex-col gap-[6px] ml-[20px]">
-          <a
-            href="https://humane-trollius-aaf.notion.site/Oops-24f794923899800cbae1f5780c547eb3?source=copy_link"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:underline"
-          >
-            서비스 소개
-          </a>
-          <p>광고문의</p>
-          <p>멤버 소개</p>
+    <footer className="w-full border-t border-[#999] bg-[#FFF] py-4">
+      <div
+        className={`
+          flex text-[#ccc]
+          ${isMobile ? "flex-col gap-4" : "flex-row justify-between"}
+          w-full max-w-[1200px] mx-auto px-4
+        `}
+      >
+        {/* 왼쪽 메뉴 */}
+        <div className="flex flex-col gap-1 text-sm">
+          <p className="hover:underline cursor-pointer">서비스 소개</p>
+          <p className="hover:underline cursor-pointer">광고문의</p>
+          <p className="hover:underline cursor-pointer">멤버 소개</p>
         </div>
-        <div className="flex flex-col gap-[6px]">
-          <a
-            href="https://humane-trollius-aaf.notion.site/Oops-2267949238998078a1f4db2c51db7cac?source=copy_link"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:underline"
-          >
-            이용약관
-          </a>
-          <a
-            href="https://humane-trollius-aaf.notion.site/Oops-22679492389980c7abdbfc05cca7313f?source=copy_link"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:underline"
-          >
-            개인정보 처리방침
-          </a>
-          <p>신고가이드</p>
+
+        {/* 오른쪽 메뉴 */}
+        <div className="flex flex-col gap-1 text-sm">
+          <p className="hover:underline cursor-pointer">이용약관</p>
+          <p className="hover:underline cursor-pointer">개인정보 처리방침</p>
+          <p className="hover:underline cursor-pointer">신고가이드</p>
         </div>
       </div>
     </footer>
