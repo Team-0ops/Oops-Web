@@ -5,17 +5,15 @@ const Footer = () => {
   const isMobile = useIsMobile();
 
   return (
-    <footer className="flex w-full border-t border-[#999] bg-[#FFF] py-4">
-      <div className="flex w-full pt-[1.87rem] pl-[5.12rem] gap-[2.56rem] text-[#666]">
-        {/* 왼쪽 메뉴 */}
-        <div className="flex flex-col gap-1 text-sm">
+    <footer className="flex w-full h-[8.125rem] border-t border-[#999]">
+      <div className="caption3 flex w-full pt-[1.87rem] pl-[5.12rem] gap-[2.56rem] text-[#CCC] ">
+        <div className="flex flex-col gap-[0.38rem]">
           <p className="hover:underline cursor-pointer">서비스 소개</p>
           <p className="hover:underline cursor-pointer">광고문의</p>
           <p className="hover:underline cursor-pointer">멤버 소개</p>
         </div>
 
-        {/* 오른쪽 메뉴 */}
-        <div className="flex flex-col gap-1 text-sm">
+        <div className="flex flex-col gap-[0.38rem]">
           <p className="hover:underline cursor-pointer">이용약관</p>
           <p className="hover:underline cursor-pointer">개인정보 처리방침</p>
           <p className="hover:underline cursor-pointer">신고가이드</p>
