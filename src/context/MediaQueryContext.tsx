@@ -14,7 +14,7 @@ export const MediaQueryContext: React.Context<MediaQueryType> =
   });
 
 export const MediaQueryProvider = ({ children }: PropsWithChildren) => {
-  const isMobile = useMediaQuery("(max-width: 1279px)");
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   if (isMobile === null) {
     throw new Error(

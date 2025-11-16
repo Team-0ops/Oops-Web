@@ -12,13 +12,11 @@ const Navbar = () => {
           <Logo className="w-auto h-[24px]" />
         </div>
         <div className="flex items-centexr gap-3">
-          <Search />
-          <Write />
-          <>
-            <div className="body5 px-[13px] py-[3px] justify-center items-center rounded-[20px] border border-[#1D1D1D]">
-              로그인/회원가입
-            </div>
-          </>
+          <Search className="w-[1.875rem] h-[1.875rem]" />
+          <Write className="w-[1.875rem] h-[1.875rem]" />
+          <div className="body2 w-[8.625rem] h-[1.875rem] flex justify-center items-center rounded-[1.25rem] bg-[#B3E378]">
+            <p>로그인/회원가입</p>
+          </div>
         </div>
       </div>
     </nav>
