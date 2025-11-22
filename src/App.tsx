@@ -6,6 +6,7 @@ import {
   RouterProvider,
   type RouteObject,
 } from "react-router-dom";
+import MainPage from "./pages/MainPage";
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
@@ -15,8 +16,9 @@ const publicRoutes: RouteObject[] = [
     errorElement: <div>error</div>,
     children: [
       {
+        // path : "" 와 동일함  -> 하지만 react 에서 index: true를 적극 권장
         index: true,
-        element: <div>home</div>,
+        element: <MainPage />,
       },
     ],
   },
