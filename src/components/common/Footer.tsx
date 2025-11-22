@@ -6,7 +6,7 @@ const Footer = () => {
 
   return (
     <footer className="flex w-full h-[8.125rem] border-t border-[#999]">
-      <div className="caption3 flex w-full pt-[1.87rem] pl-[5.12rem] gap-[2.56rem] text-[#CCC] ">
+      <div className="caption3 flex w-full pt-[1.87rem] pl-[5.12rem] sm:pl-[1.44rem] xl:pl-[5.12rem] gap-[2.56rem] text-[#CCC] ">
         <div className="flex flex-col gap-[0.38rem]">
           <p className="hover:underline cursor-pointer">서비스 소개</p>
           <p className="hover:underline cursor-pointer">광고문의</p>
