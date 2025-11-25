@@ -7,18 +7,22 @@ import {
   type RouteObject,
 } from "react-router-dom";
 import MainPage from "./pages/MainPage";
-
+import ErrorPage from "./pages/ErrorPage";
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
   {
     path: "/",
     element: <PublicLayout />,
-    errorElement: <div>error</div>,
     children: [
       {
         // path : "" 와 동일함  -> 하지만 react 에서 index: true를 적극 권장
         index: true,
         element: <MainPage />,
+      },
+      // 설정한 path 이외에 모든 Path 에 대해 ErrorPage 랜더링
+      {
+        path: "*",
+        element: <ErrorPage />,
       },
     ],
   },
