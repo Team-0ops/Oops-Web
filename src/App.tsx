@@ -9,6 +9,7 @@ import {
 import MainPage from "./pages/MainPage";
 import ErrorPage from "./pages/ErrorPage";
 import LoginPage from "./pages/LoginPage";
+import SearchPage from "./pages/SearchPage";
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
   {
@@ -23,6 +24,10 @@ const publicRoutes: RouteObject[] = [
       {
         path: "login",
         element: <LoginPage />,
+      },
+      {
+        path: "search",
+        element: <SearchPage />,
       },
       // 설정한 path 이외에 모든 Path 에 대해 ErrorPage 랜더링
       {
