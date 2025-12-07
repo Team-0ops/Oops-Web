@@ -10,6 +10,11 @@ export const LoginPage = () => {
           <div className="flex flex-col justify-center gap-[1.88rem]">
             <Kakao className="w-full h-[4.375rem] cursor-pointer" />
             <Naver className="w-full h-[4.375rem] cursor-pointer" />
+            <input className="bg-white"></input>
+            <input className="bg-white"></input>
+            <button className="w-full h-[4.375rem] bg-white rounded-[0.625rem] text-[#B3E378] font-bold text-[1.25rem] cursor-pointer">
+              로그인
+            </button>
           </div>
         </div>
       </div>
