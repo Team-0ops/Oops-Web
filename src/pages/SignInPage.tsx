@@ -2,10 +2,21 @@ import WelcomCard from "../assets/icons/welcomeOops.svg?react";
 import Kakao from "../assets/icons/KakaoLogin.svg?react";
 import Naver from "../assets/icons/NaverLogin.svg?react";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext.tsx";
 export const SignInPage = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
+  const { login, user } =useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await login({ email: id, password: password });
+      console.log("login successfully", user);
+    }catch (error) {
+      console.error("로그인 실패:", error);
+  }};
 
   return (
     <>
@@ -15,11 +26,23 @@ export const SignInPage = () => {
           <div className="flex flex-col justify-center gap-[1.88rem]">
             <Kakao className="w-full h-[4.375rem] cursor-pointer" />
             <Naver className="w-full h-[4.375rem] cursor-pointer" />
-            <input className="bg-white"></input>
-            <input className="bg-white"></input>
-            <button className="w-full h-[4.375rem] bg-white rounded-[0.625rem] text-[#B3E378] font-bold text-[1.25rem] cursor-pointer">
-              로그인
-            </button>
+            <form onSubmit={handleSubmit}>
+              <input
+                value={id}
+                onChange={(e) => setId(e.target.value)}
+                className="bg-white"
+              ></input>
+              <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="bg-white"></input>
+              <button
+                type="submit"
+                className="w-full h-[4.375rem] bg-white rounded-[0.625rem] text-[#B3E378] font-bold text-[1.25rem] cursor-pointer"
+              >
+                로그인
+              </button>
+            </form>
           </div>
         </div>
       </div>

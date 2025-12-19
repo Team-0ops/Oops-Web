@@ -3,9 +3,10 @@ import {
   PropsWithChildren,
   useState,
   useEffect,
-  useMemo, useCallback
+  useMemo,
+  useCallback, useContext
 } from "react";
-import {RequestSignInDto} from "../types/Auth.ts";
+import { RequestSignInDto } from "../types/Auth.ts";
 import { User } from "../types/User.ts";
 import { getMyInfo, postSignIn } from "../apis/auth.ts";
 
@@ -16,18 +17,18 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (params: RequestSignInDto) => Promise<void>;
   refreshUser: () => Promise<void>;
-};
+}
 
 export const AuthContext: React.Context<AuthContextType> =
-    createContext<AuthContextType>({
-      user: null,
-      isLoading: false,
-      isAuthenticated: false,
-      login: async () => {
-        throw new Error("AuthProvider가 설정되지 않았습니다.");
-      },
-      refreshUser: async () => {},
-    });
+  createContext<AuthContextType>({
+    user: null,
+    isLoading: false,
+    isAuthenticated: false,
+    login: async () => {
+      throw new Error("AuthProvider가 설정되지 않았습니다.");
+    },
+    refreshUser: async () => {},
+  });
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<User | null>(null);
@@ -43,12 +44,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     } finally {
       setIsLoading(false);
     }
-  },[]);
+  }, []);
 
-  const login = useCallback(async (signInData: RequestSignInDto) => {
-    await postSignIn(signInData); // 쿠키 저장
-    await refreshUser(); // 로그인 상태 갱신
-  },[refreshUser]);
+  const login = useCallback(
+    async (signInData: RequestSignInDto) => {
+      await postSignIn(signInData); // 쿠키 저장
+      await refreshUser(); // 로그인 상태 갱신
+    },
+    [refreshUser],
+  );
 
   // 앱 초기 실행시 로그인 여부 확인을 위한 useEffect 사용
   useEffect(() => {
@@ -68,5 +72,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
 
-}
+export const useAuth = () => useContext(AuthContext);

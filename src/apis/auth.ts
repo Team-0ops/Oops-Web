@@ -12,7 +12,7 @@ export const postSignIn = async (body: RequestSignInDto): Promise<ResponseSignIn
 };
 
 export const getMyInfo = async () :Promise<ResponseMyInfoDto> => {
-  const {data} = await axiosInstance.get("/user/info");
+  const {data} = await axiosInstance.get("/my-page/profile");
   console.log(data);
   return data;
 }
