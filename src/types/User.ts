@@ -2,7 +2,7 @@ export type User = {
   userId: number;
   nickname?: string;
   email?: string;
-  profileImage?: string | null;
+  profileImageUrl?: string | null;
   point?: number;
   commentReportCount?: number;
   postReportCount?: number;
