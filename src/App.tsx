@@ -8,8 +8,9 @@ import {
 } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import ErrorPage from "./pages/ErrorPage";
-import LoginPage from "./pages/LoginPage";
+import SignInPage from "./pages/SignInPage.tsx";
 import SearchPage from "./pages/SearchPage";
+import { AuthProvider } from "./context/AuthContext.tsx";
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
   {
@@ -23,7 +24,7 @@ const publicRoutes: RouteObject[] = [
       },
       {
         path: "login",
-        element: <LoginPage />,
+        element: <SignInPage />,
       },
       {
         path: "search",
@@ -50,14 +51,14 @@ const router = createBrowserRouter([...publicRoutes]);
 function App() {
   return (
     <>
-      {/* <QueryClientProvider client={queryClient}>
-      <AuthProvider> */}
+      <AuthProvider>
+      {/* <QueryClientProvider client={queryClient} */}
       {/*미디어 쿼리 provider 화면 크기에 따라 context API 수정 */}
       <MediaQueryProvider>
         <RouterProvider router={router} />
       </MediaQueryProvider>
-      {/* </AuthProvider>
-      </QueryClientProvider> */}
+      {/* </QueryClientProvider> */}
+      </AuthProvider>
     </>
   );
 }
