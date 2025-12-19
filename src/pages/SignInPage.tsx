@@ -1,7 +1,12 @@
 import WelcomCard from "../assets/icons/welcomeOops.svg?react";
 import Kakao from "../assets/icons/KakaoLogin.svg?react";
 import Naver from "../assets/icons/NaverLogin.svg?react";
-export const LoginPage = () => {
+import { useState } from "react";
+export const SignInPage = () => {
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+
+
   return (
     <>
       <div className="w-full flex justify-center items-center">
@@ -22,4 +27,4 @@ export const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignInPage;
