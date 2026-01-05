@@ -12,6 +12,9 @@ import SignInPage from "./pages/SignInPage.tsx";
 import SearchPage from "./pages/SearchPage";
 import { AuthProvider } from "./context/AuthContext.tsx";
 //로그인 구현 필요 없이 들어가는 페이지 라우터
+
+import PostWrite from "./pages/Post/PostWritePage.tsx";
+
 const publicRoutes: RouteObject[] = [
   {
     path: "/",
@@ -35,6 +38,10 @@ const publicRoutes: RouteObject[] = [
         path: "*",
         element: <ErrorPage />,
       },
+      {
+        path: "post",
+        element: <PostWrite />
+      }
     ],
   },
 ];
