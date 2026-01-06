@@ -1,4 +1,11 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef} from "react";
+import {
+  Categories,
+  normalizeLabel,
+  CategoryIdMap,
+  type CategoryName,
+} from "../../components/common/post/Category";
+import { wantedCommentType, wantedCommentTypeMap } from "../../types/Common";
 import Plus from "../../assets/icons/Plus.svg?react";
 import BasicImage from "../../assets/icons/BasicImage.svg?react";
 import UpArrow from "../../assets/icons/UpArrow.svg?react";
@@ -77,43 +84,21 @@ const PostWrite = () => {
   }, []);
 
   // 4. 카테고리 목록선언 / 드롭다운 Ui 구현
-  // 선택된 카테고리, 드롭다운 상태관리와 정규화 선언
   /** 랜덤주제(topic도 들어가야하며 카테고리와 똑같이 id매핑 필요) */
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const normalize = (str: string) => str.trim().toLowerCase();
-
+ 
   // 드롭다운 ref
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // 카테고리 목록과 id매핑
-  const [categories] = useState<string[]>([
-    "일상",
-    "연애",
-    "인간관계",
-    "주식/투자",
-    "학교생활",
-    "진로",
-    "창업",
-    "대입/입시",
-    "취업/자격증",
-    "결혼",
-    "여행",
-    "부동산",
-    "정신 건강",
-    "자유",
-  ]);
-  const categoryMap = useMemo(() => {
-    const m = new Map<string, number>();
-    categories.forEach((name, idx) => {
-      m.set(normalize(name), idx + 1); // 1-based
-    });
-    return m;
-  }, [categories]);
-
-  const applySelection = (category: string) => {
+  // 카테고리 선택 적용 함수
+  const applySelection = (category: CategoryName) => {
     setSelectedCategory(category);
-    const id = categoryMap.get(normalize(category));
+    const id = CategoryIdMap.get(category);
+    // id가 없을리 없지만 혹시모르니 예외처리
+    if(!id) {
+      throw new Error("유효하지 않은 카테고리입니다.");
+    }
     console.log("선택된 카테고리:", category, "ID:", id);
   };
 
@@ -135,14 +120,13 @@ const PostWrite = () => {
   }, []);
 
   // 4-2 checkbox 상태관리
-  const [commentTypes, setCommentTypes] = useState<{
-    ADVICE: boolean;
-    EMPATHY: boolean;
-  }>({ ADVICE: true, EMPATHY: false });
+  const [commentTypes, setCommentTypes] = useState<wantedCommentTypeMap>({ ADVICE: true, EMPATHY: false });
 
-  const toggleCommentType = (type: "ADVICE" | "EMPATHY") => {
+  const toggleCommentType = (type: wantedCommentType) => {
     setCommentTypes((prev) => ({ ...prev, [type]: !prev[type] }));
   };
+
+  console.log("선택된 댓글 종류:", commentTypes);
 
   return (
     <div className="w-full flex flex-col gap-20">
@@ -282,10 +266,10 @@ const PostWrite = () => {
             {/* 드롭다운 리스트 */}
             {isDropdownOpen && (
               <ul className="absolute pt-5 top-12 right-[0.4px] bg-[#f3f3f3] w-full h-[180px] rounded-b-[1.25rem] overflow-y-scroll z-20 custom-scroll">
-                {categories.map((label, idx) => {
+                {Categories.map((label, idx) => {
                   const isSelected =
                     selectedCategory &&
-                    normalize(selectedCategory) === normalize(label);
+                    normalizeLabel(selectedCategory) === normalizeLabel(label);
                   return (
                     <li
                       key={`${label}-${idx}`}
@@ -295,7 +279,7 @@ const PostWrite = () => {
                       }}
                       className={`px-5 pb-7 cursor-pointer text-[1.125rem]
                   ${isSelected ? "text-black" : "text-[#999999]"}
-                  ${idx !== categories.length - 1 ? "" : ""}
+                  ${idx !== Categories.length - 1 ? "" : ""}
                 `}
                     >
                       {label}
