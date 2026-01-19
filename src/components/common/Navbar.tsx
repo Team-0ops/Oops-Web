@@ -1,17 +1,16 @@
 import Burger from "../../assets/icons/Burger.svg?react";
 import Logo from "../../assets/icons/OopsLogo.svg?react";
 import Search from "../../assets/icons/Search.svg?react";
-import Write from "../../assets/icons/Write.svg?react";
-import Profile from "../../assets/icons/Profile.svg?react";
-import { useAuth } from "../../context/AuthContext.tsx";
+
+//import { useAuth } from "../../context/AuthContext.tsx";
 
 /*
 Common Component : Navbar
  */
 const Navbar = () => {
-  const {isAuthenticated, user} = useAuth()
+  //const {isAuthenticated, user} = useAuth()
   return (
-    <nav className="w-full h-28.25 flex justify-between items-center px-27">
+    <nav className="w-full h-28.25 flex justify-between items-center">
         <div className="flex gap-12.5">
           <div className="flex gap-7.5">
             <Burger />
