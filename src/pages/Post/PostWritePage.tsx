@@ -1,20 +1,18 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 // 타입 및 상수 임포트
 import {
-  Categories,
-  normalizeLabel,
-  CategoryIdMap,
   type CategoryName,
 } from "../../types/Common";
 import { wantedCommentType, wantedCommentTypeMap } from "../../types/Common";
 // 컴포넌트들 임포트
-import ProgressSercion from "../../components/PostPage/ProgressSercion";
+import ProgressSercion from "../../components/PostPage/ProgressSecion";
 import CommentSection from "../../components/PostPage/CommetSection";
 import ImageSection, {
   UploadImage,
 } from "../../components/PostPage/ImageSection";
 import TitleContentSection from "../../components/PostPage/TitleContentSection";
 import CategorySection from "../../components/PostPage/CategorySection";
+import SubmitSection from "../../components/PostPage/SubmitSection";
 
 // 각섹션에 해당하는 기능/상태관리는 번호를 부여함
 
@@ -56,6 +54,7 @@ const PostWrite = () => {
         setContent={setContent}
       />
 
+
       {/* 두번째 섹션 진행상황 선택 */}
       <ProgressSercion active={active} setActive={setActive} />
 
@@ -67,7 +66,7 @@ const PostWrite = () => {
       />
 
       {/* 네번째 섹션 카테고리 선택, 댓글 종류 선택 */}
-      <section className="w-full flex gap-6">
+      <section className="w-full flex flex-col gap-[5rem]">
         <CategorySection
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -78,11 +77,7 @@ const PostWrite = () => {
         />
       </section>
 
-      <section>
-        <button className="w-full h-[6.75rem] rounded-xl cursor-pointer items-center bg-[#B3E378]">
-          작성하기
-        </button>
-      </section>
+      <SubmitSection />
     </div>
   );
 };

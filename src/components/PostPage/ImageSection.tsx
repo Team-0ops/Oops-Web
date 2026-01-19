@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import Plus from "../../assets/icons/Plus.svg?react";
-import BasicImage from "../../assets/icons/BasicImage.svg?react";
+import BasicImaage from "../../assets/icons/BasicImage.svg?react";
+import X from "../../assets/icons/X.svg?react";
 
-export type UploadImage = { file: File; previewUrl: string }; // 업로드된 이미지 1개를 표현하는 타입 
+export type UploadImage = { file: File; previewUrl: string }; // 업로드된 이미지 1개를 표현하는 타입
 
 // 컴포넌트가 부모로부터 받아야 하는 props 타입 정의
 type Props = {
@@ -64,66 +65,65 @@ const ImageSection = ({ images, setImages, maxImages }: Props) => {
   }, []);
 
   return (
-    <section className="w-full flex flex-col">
-        <div className="mb-3">사진 추가</div>
-        <p className="mb-10">
-          jpg, png, 각 10MB 이하만 최대 5장 업로드 가능합니다.
-        </p>
+    <section className="w-full flex flex-col gap-[1.25rem]">
+      <div className="">이미지 추가</div>
 
-        {/* 파일 인풋 */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/jpeg,image/png"
-          multiple
-          className="hidden"
-          onChange={(e) => handleFiles(e.target.files)}
-        />
+      {/* 파일 인풋 */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/jpeg,image/png"
+        multiple
+        className="hidden"
+        onChange={(e) => handleFiles(e.target.files)}
+      />
 
-        <div className="flex gap-10">
-          {/* 이미지 미리보기 */}
-          {images.map((img, idx) => (
-            <div
-              key={img.previewUrl}
-              className="relative w-[268px] h-[268px] rounded-xl border-[3px] border-[#F5E9D6] border-solid bg-[#FAF6E9] overflow-hidden"
-            >
-              <img
-                src={img.previewUrl}
-                className="w-full h-full object-cover"
-              />
+      <div className="flex gap-[1.25rem]">
+        {/* 이미지 미리보기 */}
+        {images.map((img, idx) => (
+          <div
+            key={img.previewUrl}
+            className="relative w-[12.5rem] h-[12.5rem] rounded-[0.5rem] border-[0.06rem] border-[#e4e4e4] border-solid bg-[#fafafa] overflow-hidden"
+          >
+            <img src={img.previewUrl} className="w-full h-full object-cover" />
 
-              {/* 삭제 버튼 */}
-              <button
-                type="button"
-                onClick={() => removeImage(idx)}
-                className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 text-white text-sm flex items-center justify-center"
-                aria-label="remove image"
-              >
-                X
-              </button>
-            </div>
-          ))}
-
-          {/* 추가 버튼 (5장 미만일 때만 보이게) */}
-          {images.length < maxImages && (
+            {/* 삭제 버튼 */}
             <button
               type="button"
-              onClick={openFilePicker}
-              className="flex gap-10 justify-center items-center"
+              onClick={() => removeImage(idx)}
+              className="absolute top-2 right-2 w-7 h-7 rounded-full bg-[#e4e4e4] flex items-center justify-center cursor-pointer"
+              aria-label="remove image"
             >
-              {/* 이미지가 있을 때만 img 렌더 */}
-              {images.length == 0 && (
-                <div>
-                  <BasicImage />
-                </div>
-              )}
-              <div>
-                <Plus />
-              </div>
+              <X />
             </button>
-          )}
-        </div>
-      </section>
+          </div>
+        ))}
+
+        {/* 추가 버튼 (5장 미만일 때만 보이게) */}
+        {images.length < maxImages && (
+          <button
+            type="button"
+            onClick={openFilePicker}
+            className="flex gap-[1.88rem] justify-center items-center"
+          >
+            {/* 이미지가 있을 때만 img 렌더 */}
+            {images.length == 0 && (
+              <div className="cursor-pointer">
+                <BasicImaage />
+              </div>
+            )}
+
+            <div className="cursor-pointer">
+              <Plus />
+            </div>
+          </button>
+        )}
+      </div>
+      <div className="flex flex-col gap-[0.75rem]">
+        <span className="text-[#8f8f8f]">10MB 이하의 jpg, png 파일만 업로드 가능합니다.</span>
+        <span className="text-[#8f8f8f]">이미지는 최대 {maxImages}장까지 업로드할 수 있습니다.</span>
+      </div>
+    </section>
   );
 };
 

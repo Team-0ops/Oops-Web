@@ -1,11 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Categories, normalizeLabel, CategoryIdMap, type CategoryName } from "../../types/Common";
+import {
+  Categories,
+  normalizeLabel,
+  CategoryIdMap,
+  type CategoryName,
+} from "../../types/Common";
 import UpArrow from "../../assets/icons/UpArrow.svg?react";
 import DownArrow from "../../assets/icons/DownArrow.svg?react";
 
 type Props = {
   selectedCategory: CategoryName | null;
-  setSelectedCategory: React.Dispatch<React.SetStateAction<CategoryName | null>>;
+  setSelectedCategory: React.Dispatch<
+    React.SetStateAction<CategoryName | null>
+  >;
 };
 
 const CategorySection = ({ selectedCategory, setSelectedCategory }: Props) => {
@@ -24,7 +31,10 @@ const CategorySection = ({ selectedCategory, setSelectedCategory }: Props) => {
   // 외부 클릭 시 닫기
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
@@ -34,11 +44,11 @@ const CategorySection = ({ selectedCategory, setSelectedCategory }: Props) => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-[2.5rem]">
-      <a className="flex items-center self-stretch xl:w-[16rem]">카테고리 선택</a>
+    <div className="flex gap-[5.38rem]">
+      <a className="flex items-center self-stretch">카테고리 선택</a>
 
       <div
-        className="relative xl:w-56 bg-[#e6e6e6] flex py-2 px-4 rounded-t-xl h-12"
+        className="flex gap-[1.25rem] justify-between items-center relative w-[10.125rem] h-[2.5rem] px-[1.25rem] py-[0.25rem] border-[0.06rem] border-solid rounded-[0.25rem] border-[#e4e4e4] bg-[#f6f6f6] cursor-pointer select-none"
         ref={dropdownRef}
       >
         {/* 드롭다운 버튼 */}
@@ -48,15 +58,29 @@ const CategorySection = ({ selectedCategory, setSelectedCategory }: Props) => {
           className="w-full flex justify-between items-center text-start gap-[0.62rem]"
         >
           <span>{selectedCategory ?? "카테고리"}</span>
-          <span className="text-sm">{isDropdownOpen ? <UpArrow /> : <DownArrow />}</span>
+          <span className="text-sm cursor-pointer">
+            {isDropdownOpen ? <DownArrow /> : <UpArrow />}
+          </span>
         </button>
 
         {/* 드롭다운 리스트 */}
         {isDropdownOpen && (
-          <ul className="absolute pt-5 top-12 right-[0.4px] bg-[#f3f3f3] w-full h-[180px] rounded-b-[1.25rem] overflow-y-scroll z-20 custom-scroll">
+          <ul
+            className="
+            absolute bottom-12 right-[0.4px] 
+            bg-[#f6f6f6] 
+            w-[13.9375rem] 
+            rounded-[0.25rem] border-[0.06rem] border-[#e4e4e4] 
+            z-20 
+            shadow-[0_1px_2px_0_rgba(0,0,0,0.17)]  
+            overflow-hidden"
+          >
             {Categories.map((label, idx) => {
               const isSelected =
-                selectedCategory && normalizeLabel(selectedCategory) === normalizeLabel(label);
+                selectedCategory &&
+                normalizeLabel(selectedCategory) === normalizeLabel(label);
+
+              const isLast = idx === Categories.length - 1;
 
               return (
                 <li
@@ -65,8 +89,12 @@ const CategorySection = ({ selectedCategory, setSelectedCategory }: Props) => {
                     applySelection(label);
                     setIsDropdownOpen(false);
                   }}
-                  className={`px-5 pb-7 cursor-pointer text-[1.125rem]
-                    ${isSelected ? "text-black" : "text-[#999999]"}
+                  className={`
+                    select-none cursor-pointer
+                    px-[0.88rem] py-[0.75rem]
+                    text-[1rem] font-medium
+                    ${isSelected ? "text-black" : ""}
+                    ${isLast ? "" : "border-b border-[#e4e4e4] "}
                   `}
                 >
                   {label}

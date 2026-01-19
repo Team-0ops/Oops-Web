@@ -8,8 +8,8 @@ type Props = {
 
 const CommentSection = ({ commentTypes, toggleCommentType }: Props) => {
   return (
-    <div className="flex flex-col gap-[2.5rem]">
-      <a className="flex items-center self-stretch xl:w-[16rem]">댓글 종류 선택</a>
+    <div className="flex gap-[5rem]">
+      <a className="flex items-center self-stretch ">댓글 종류 선택</a>
 
       <div className="w-full flex items-center gap-[3.12rem]">
         {/* 조언 */}
