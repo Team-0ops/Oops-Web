@@ -66,7 +66,7 @@ const PostWrite = () => {
       />
 
       {/* 네번째 섹션 카테고리 선택, 댓글 종류 선택 */}
-      <section className="w-full flex flex-col gap-[5rem]">
+      <section className="select-none w-full flex flex-col gap-[5rem]">
         <CategorySection
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -76,7 +76,6 @@ const PostWrite = () => {
           toggleCommentType={toggleCommentType}
         />
       </section>
-
       <SubmitSection />
     </div>
   );

@@ -45,7 +45,7 @@ const CategorySection = ({ selectedCategory, setSelectedCategory }: Props) => {
 
   return (
     <div className="flex gap-[5.38rem]">
-      <a className="flex items-center self-stretch">카테고리 선택</a>
+      <div className="flex items-center self-stretch">카테고리 선택</div>
 
       <div
         className="flex gap-[1.25rem] justify-between items-center relative w-[10.125rem] h-[2.5rem] px-[1.25rem] py-[0.25rem] border-[0.06rem] border-solid rounded-[0.25rem] border-[#e4e4e4] bg-[#f6f6f6] cursor-pointer select-none"

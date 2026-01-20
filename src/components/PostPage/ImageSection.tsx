@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Plus from "../../assets/icons/Plus.svg?react";
-import BasicImaage from "../../assets/icons/BasicImage.svg?react";
+import ImageUpload from "../../assets/icons/ImageUpload.svg?react";
 import X from "../../assets/icons/X.svg?react";
 
 export type UploadImage = { file: File; previewUrl: string }; // 업로드된 이미지 1개를 표현하는 타입
@@ -109,13 +109,15 @@ const ImageSection = ({ images, setImages, maxImages }: Props) => {
             {/* 이미지가 있을 때만 img 렌더 */}
             {images.length == 0 && (
               <div className="cursor-pointer">
-                <BasicImaage />
+                <ImageUpload />
               </div>
             )}
 
-            <div className="cursor-pointer">
-              <Plus />
-            </div>
+            {images.length > 0 && (
+              <div className="cursor-pointer">
+                <Plus />
+              </div>
+            )}
           </button>
         )}
       </div>
