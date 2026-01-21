@@ -1,8 +1,6 @@
 import { useState } from "react";
 // 타입 및 상수 임포트
-import {
-  type CategoryName,
-} from "../../types/Common";
+import { type CategoryName } from "../../types/Common";
 import { wantedCommentType, wantedCommentTypeMap } from "../../types/Common";
 // 컴포넌트들 임포트
 import ProgressSercion from "../../components/PostPage/ProgressSecion";
@@ -23,7 +21,7 @@ const PostWrite = () => {
 
   // 2. 버튼 공통 스타일, 클릭 시 색 바뀌는 상태 적용
   const [active, setActive] = useState<"OOPS" | "OVERCOMING" | "OVERCOME">(
-    "OOPS"
+    "OOPS",
   );
 
   // 3. 이미지 업로드 (최대 5장) 관리
@@ -32,7 +30,9 @@ const PostWrite = () => {
   const [images, setImages] = useState<UploadImage[]>([]);
 
   // 4. 카테고리 목록선언 / 드롭다운 Ui 구현
-  const [selectedCategory, setSelectedCategory] = useState<CategoryName | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryName | null>(
+    null,
+  );
 
   // 4-2 checkbox 상태관리
   const [commentTypes, setCommentTypes] = useState<wantedCommentTypeMap>({
@@ -53,7 +53,6 @@ const PostWrite = () => {
         content={content}
         setContent={setContent}
       />
-
 
       {/* 두번째 섹션 진행상황 선택 */}
       <ProgressSercion active={active} setActive={setActive} />
