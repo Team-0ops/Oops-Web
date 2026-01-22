@@ -45,7 +45,7 @@ export const PostCard = () => {
                           </button>
                       </div>
                   </div>
-                  <div className="w-42.5 h-42.5 flex-shrink-0 overflow-hidden rounded-sm bg-gray-100" />
+                  <div className="w-42.5 h-42.5 shrink-0 overflow-hidden rounded-sm bg-gray-100" />
               </div>
               <hr className="h-px border border-[#D2D2D2]" />
           </div>

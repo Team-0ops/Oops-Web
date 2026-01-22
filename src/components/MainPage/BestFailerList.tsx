@@ -1,4 +1,5 @@
 import { PostCard } from "../common/PostCard";
+import NextArrow from "../../assets/icons/NextArrow.svg?react";
 import BestFailer from "../../assets/icons/BestFailer.svg?react";
 
 export const BestFailerList = () => {
@@ -13,8 +14,9 @@ export const BestFailerList = () => {
               <div className="body2 text-[#464646]">가장 웁스스러운 글들이 모여있는 명예의 전당</div>
             </div>
           </div>
-          <button className="body3 flex hover:underline text-[#6F6F6F]">
+          <button className="body3 flex items-center gap-2 hover:underline text-[#6F6F6F]">
             전체 보기
+            <NextArrow/>
           </button>
         </div>
         <div className="flex flex-col gap-7.5">

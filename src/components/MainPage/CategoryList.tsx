@@ -1,4 +1,5 @@
 import Pin from "../../assets/icons/Pin.svg?react";
+import NextArrow from "../../assets/icons/NextArrow.svg?react";
 import {CategoryPostList} from "./CategoryPostList.tsx";
 
 export const CategoryList = () => {
@@ -10,8 +11,9 @@ export const CategoryList = () => {
                         <Pin/>
                         <div className="h1">주제별 피드</div>
                     </div>
-                    <button className="body3 flex hover:underline text-[#6F6F6F]">
+                    <button className="body3 flex items-center gap-2 hover:underline text-[#6F6F6F]">
                         전체 보기
+                        <NextArrow/>
                     </button>
                 </div>
                 <div className="grid grid-cols-2 gap-x-22 gap-y-10">

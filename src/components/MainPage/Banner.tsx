@@ -1,4 +1,7 @@
 import { MainBanner } from "./MainBanner";
+import FailWiki from "../../assets/icons/FailWiki.svg?react";
+import RandomFeed from "../../assets/icons/RandomFeed.svg?react";
+import RandomAmulet from "../../assets/icons/RandomAmulet.svg?react";
 
 export const Banner = () => {
   return (
@@ -8,20 +11,17 @@ export const Banner = () => {
 
       {/* 하단 버튼 */}
       <div className="flex justify-between gap-6">
-        <div className="flex-1 h-47 border border-[#E4E4E4] bg-[#F6F6F6] rounded-[1.25rem] justify-center items-center">
-            <div>
-
-            </div>
+        <div className="flex flex-col justify-center items-center flex-1 h-47 gap-2.5 px-7 py-6 border border-[#E4E4E4] bg-[#F6F6F6] rounded-[1.25rem]">
+            <FailWiki/>
+            <span className="h5 ">실패위키</span>
         </div>
-        <div className="flex-1 h-47 border border-[#E4E4E4] bg-[#F6F6F6] rounded-[1.25rem] justify-center items-center">
-            <div>
-
-            </div>
+        <div className="flex flex-col justify-center items-center flex-1 h-47 gap-2.5 px-7 py-6 border border-[#E4E4E4] bg-[#F6F6F6] rounded-[1.25rem]">
+            <RandomFeed/>
+            <span className="h5 ">랜덤 주제 피드</span>
         </div>
-        <div className="flex-1 h-47 border border-[#E4E4E4] bg-[#F6F6F6] rounded-[1.25rem] justify-center items-center">
-            <div>
-
-            </div>
+        <div className="flex flex-col justify-center items-center flex-1 h-47 gap-2.5 px-7 py-6 border border-[#E4E4E4] bg-[#F6F6F6] rounded-[1.25rem]">
+            <RandomAmulet/>
+            <span className="h5 ">행운 부적 추첨</span>
         </div>
       </div>
     </div>
