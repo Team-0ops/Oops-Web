@@ -17,7 +17,7 @@ export const FavoriteList = () => {
                         전체 보기
                     </button>
                 </div>
-                <div className="flex border-b border-[#464646]">
+                <div className="flex border-b border-[#D2D2D2]">
                     ㅇㅇㅇ
                 </div>
                 <div className="flex flex-col gap-7.5">
