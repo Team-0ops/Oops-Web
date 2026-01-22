@@ -1,4 +1,4 @@
-//미디어 쿼리 contezt 타입
+//미디어 쿼리 context 타입
 export type MediaQueryType = {
   isMobile: boolean | null;
 };

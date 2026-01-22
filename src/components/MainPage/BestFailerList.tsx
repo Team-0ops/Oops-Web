@@ -1,8 +1,15 @@
 import { PostCard } from "../common/PostCard";
 import NextArrow from "../../assets/icons/NextArrow.svg?react";
 import BestFailer from "../../assets/icons/BestFailer.svg?react";
+import {useGetHomeBestPost} from "../../hooks/post/useGetHomeBestPost.ts";
 
 export const BestFailerList = () => {
+  const { data , error, isLoading } = useGetHomeBestPost();
+
+  if (isLoading) { return <>Loading...</>; }
+  if (error) return <>Error</>;
+
+  console.log(data);
   return (
     <>
       <div className="flex flex-col gap-10">
@@ -20,8 +27,19 @@ export const BestFailerList = () => {
           </button>
         </div>
         <div className="flex flex-col gap-7.5">
-          <PostCard />
-          <PostCard />
+          {data?.result.posts?.map((post) => (
+              <PostCard
+                  key={post.postId}
+                  postId={post.postId}
+                  title={post.title}
+                  content={post.content}
+                  imageUrl={post.image ?? "null"} // null이면 기본 이미지
+                  likes={post.likes}
+                  comments={post.comments}
+                  views={post.views}
+                  category={post.categoryOrTopicName}
+              />
+          ))}
         </div>
       </div>
     </>
