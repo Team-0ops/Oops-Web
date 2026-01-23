@@ -1,8 +1,10 @@
 import Pin from "../../assets/icons/Pin.svg?react";
 import NextArrow from "../../assets/icons/NextArrow.svg?react";
 import {CategoryPostList} from "./CategoryPostList.tsx";
+import {useNavigate} from "react-router-dom";
 
 export const CategoryList = () => {
+    const navigate = useNavigate();
     return (
         <>
             <div className="flex flex-col gap-10">
@@ -11,7 +13,10 @@ export const CategoryList = () => {
                         <Pin/>
                         <div className="h1">주제별 피드</div>
                     </div>
-                    <button className="body3 flex items-center gap-2 hover:underline text-[#6F6F6F]">
+                    <button
+                        className="body3 flex items-center gap-2 hover:underline text-[#6F6F6F]"
+                        onClick={()=>{navigate("/category-feed/:categoryName")}}
+                    >
                         전체 보기
                         <NextArrow/>
                     </button>

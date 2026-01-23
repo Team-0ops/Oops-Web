@@ -1,5 +1,4 @@
 import "./App.css";
-import { MediaQueryProvider } from "./context/MediaQueryContext";
 import PublicLayout from "./layout/PublicLayout";
 import {
   createBrowserRouter,
@@ -11,10 +10,12 @@ import ErrorPage from "./pages/ErrorPage";
 import SignInPage from "./pages/SignInPage.tsx";
 import SearchPage from "./pages/SearchPage";
 import { AuthProvider } from "./context/AuthContext.tsx";
-//로그인 구현 필요 없이 들어가는 페이지 라우터
-
 import PostWrite from "./pages/Post/PostWritePage.tsx";
+import RandomFeedPage from "./pages/RandomFeedPage.tsx";
+import LuckyDrawPage from "./pages/LuckyDrawPage.tsx";
+import MyPage from "./pages/MyPage.tsx";
 
+//로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
   {
     path: "/",
@@ -32,6 +33,18 @@ const publicRoutes: RouteObject[] = [
       {
         path: "search",
         element: <SearchPage />,
+      },
+      {
+        path: "random-feed",
+        element: <RandomFeedPage />,
+      },
+      {
+        path: "lucky-draw",
+        element: <LuckyDrawPage />,
+      },
+      {
+        path: "my-profile",
+        element: <MyPage/>
       },
       // 설정한 path 이외에 모든 Path 에 대해 ErrorPage 랜더링
       {
@@ -60,10 +73,7 @@ function App() {
     <>
       <AuthProvider>
       {/* <QueryClientProvider client={queryClient} */}
-      {/*미디어 쿼리 provider 화면 크기에 따라 context API 수정 */}
-      <MediaQueryProvider>
         <RouterProvider router={router} />
-      </MediaQueryProvider>
       {/* </QueryClientProvider> */}
       </AuthProvider>
     </>

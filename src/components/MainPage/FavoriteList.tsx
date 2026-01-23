@@ -1,8 +1,10 @@
-import {PostCard} from "../common/PostCard.tsx";
+// import {PostCard} from "../common/PostCard.tsx";
 import NextArrow from "../../assets/icons/NextArrow.svg?react";
 import Star from "../../assets/icons/Star.svg?react";
+import {useNavigate} from "react-router-dom";
 
 export const FavoriteList = () => {
+    const navigate = useNavigate();
     return (
         <>
             <div className="flex flex-col gap-10">
@@ -14,7 +16,10 @@ export const FavoriteList = () => {
                             <div className="body2 text-[#464646]">즐겨찾기한 카테고리를 어떤 기준으로 3개선정</div>
                         </div>
                     </div>
-                    <button className="body3 flex items-center gap-2 hover:underline text-[#6F6F6F]">
+                    <button
+                        className="body3 flex items-center gap-2 hover:underline text-[#6F6F6F]"
+                        onClick={() => {navigate("/favorite-feed")}}
+                    >
                         전체 보기
                         <NextArrow/>
                     </button>
@@ -23,8 +28,8 @@ export const FavoriteList = () => {
                     ㅇㅇㅇ
                 </div>
                 <div className="flex flex-col gap-7.5">
-                    <PostCard />
-                    <PostCard />
+                    {/*<PostCard />*/}
+                    {/*<PostCard />*/}
                 </div>
             </div>
         </>

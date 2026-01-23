@@ -2,8 +2,10 @@ import { PostCard } from "../common/PostCard";
 import NextArrow from "../../assets/icons/NextArrow.svg?react";
 import BestFailer from "../../assets/icons/BestFailer.svg?react";
 import {useGetHomeBestPost} from "../../hooks/post/useGetHomeBestPost.ts";
+import {useNavigate} from "react-router-dom";
 
 export const BestFailerList = () => {
+  const navigate = useNavigate();
   const { data , error, isLoading } = useGetHomeBestPost();
 
   if (isLoading) { return <>Loading...</>; }
@@ -21,7 +23,10 @@ export const BestFailerList = () => {
               <div className="body2 text-[#464646]">가장 웁스스러운 글들이 모여있는 명예의 전당</div>
             </div>
           </div>
-          <button className="body3 flex items-center gap-2 hover:underline text-[#6F6F6F]">
+          <button
+              className="body3 flex items-center gap-2 hover:underline text-[#6F6F6F]"
+              onClick={() => {navigate("/best-failer")}}
+          >
             전체 보기
             <NextArrow/>
           </button>
@@ -33,7 +38,7 @@ export const BestFailerList = () => {
                   postId={post.postId}
                   title={post.title}
                   content={post.content}
-                  imageUrl={post.image ?? "null"} // null이면 기본 이미지
+                  image={post.image ?? "null"} // null이면 기본 이미지
                   likes={post.likes}
                   comments={post.comments}
                   views={post.views}
