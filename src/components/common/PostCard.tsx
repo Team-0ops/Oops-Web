@@ -6,7 +6,7 @@ interface PostCardProps {
     postId: number | undefined;
     title: string;
     content: string;
-    imageUrl?: string | null;
+    image?: string | null;
     likes: number;
     comments: number;
     views: number;
@@ -61,7 +61,8 @@ export const PostCard = (postData: PostCardProps) => {
                           </button>
                       </div>
                   </div>
-                  {postData.imageUrl ? <></> : <div className="w-42.5 h-42.5 shrink-0 overflow-hidden rounded-sm bg-gray-100" />}
+                  {/*post image 같은 경우 api에 사진이 안나와서 테스트 진행 불가능 이후 백엔드한테 부탁해서 사진 있는 경우 넣을 예정*/}
+                  {postData.image ? <></>: <div className="w-42.5 h-42.5 shrink-0 overflow-hidden rounded-sm bg-gray-100" />}
               </div>
               <hr className="h-px border border-[#D2D2D2]" />
           </div>
