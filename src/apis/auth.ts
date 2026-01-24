@@ -7,7 +7,6 @@ import { axiosInstance } from "./axios.ts";
 
 export const postSignIn = async (body: RequestSignInDto): Promise<ResponseSignInDto> => {
   const { data } = await axiosInstance.post("/auth/login", body)
-
   return data;
 };
 
