@@ -14,6 +14,7 @@ import PostWrite from "./pages/Post/PostWritePage.tsx";
 import RandomFeedPage from "./pages/RandomFeedPage.tsx";
 import LuckyDrawPage from "./pages/LuckyDrawPage.tsx";
 import MyPage from "./pages/MyPage.tsx";
+import AdminSignInPage from "./pages/Admin/AdminSignInPage.tsx";
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
@@ -56,6 +57,10 @@ const publicRoutes: RouteObject[] = [
         element: <PostWrite />
       }
     ],
+  },
+  {
+    path: "/admin/login",
+    element: <AdminSignInPage />,
   },
 ];
 
