@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import ErrorPage from "./pages/ErrorPage";
-import SignInPage from "./pages/SignInPage.tsx";
+import LogInPage from "./pages/LogInPage.tsx";
 import SearchPage from "./pages/SearchPage";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import PostWrite from "./pages/Post/PostWritePage.tsx";
@@ -28,7 +28,7 @@ const publicRoutes: RouteObject[] = [
       },
       {
         path: "login",
-        element: <SignInPage />,
+        element: <LogInPage />,
       },
       {
         path: "search",
