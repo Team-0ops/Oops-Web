@@ -8,7 +8,7 @@ import {
 } from "react";
 import { RequestSignInDto } from "../types/Auth.ts";
 import { User } from "../types/User.ts";
-import { getMyInfo, postSignIn } from "../apis/auth.ts";
+import { getMyInfo, postLogIn } from "../apis/auth.ts";
 
 // 쿠키 기반의 로그인 : 클라이언트 측에서 토큰을 볼수도, 발급할 수 도 없다 =  때문에 사용자의 정보를 가지고 있어야 로그인 여부 결정 가능
 interface AuthContextType {
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const login = useCallback(
     async (signInData: RequestSignInDto) => {
-      await postSignIn(signInData); // 쿠키 저장
+      await postLogIn(signInData); // 쿠키 저장
       await refreshUser(); // 로그인 상태 갱신
     },
     [refreshUser],

@@ -1,4 +1,5 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
+import {postLogOut} from "./auth.ts";
 
 interface CustomInternalAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -24,7 +25,7 @@ axiosInstance.interceptors.response.use(
 
         // refreshToken 요청 실패면 로그아웃
         if (originalRequest.url === "/auth/refresh") {
-          //TODO : logout 로직 생성
+          await postLogOut();
           return Promise.reject(err);
         }
 
@@ -32,9 +33,11 @@ axiosInstance.interceptors.response.use(
         if (!refreshPromise) {
           refreshPromise = axiosInstance
               .post("/auth/refresh")
-              .catch((error) => {
-                //TODO : logOut 로직 작성
-                return error;
+              .then(() => {
+              })
+              .catch(async() => {
+                await postLogOut()
+                return Promise.reject(err);
               })
               .finally(() => {
                 refreshPromise = null;
