@@ -8,8 +8,8 @@ import {
 } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import ErrorPage from "./pages/ErrorPage";
-import LogInPage from "./pages/LogInPage.tsx";
 import SignUpPage from "./pages/SignUp/SignUpPage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
 import SearchPage from "./pages/SearchPage";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import PostWrite from "./pages/Post/PostWritePage.tsx";
@@ -45,7 +45,7 @@ const publicRoutes: RouteObject[] = [
       },
       {
         path: "login",
-        element: <LogInPage />,
+        element: <LoginPage />,
       },
       //TODO: login 사항 없도록 라우터 분리
       {
@@ -149,9 +149,9 @@ function App() {
   return (
     <>
       <AuthProvider>
-        {/* <QueryClientProvider client={queryClient} */}
+      {/* <QueryClientProvider client={queryClient} */}
         <RouterProvider router={router} />
-        {/* </QueryClientProvider> */}
+      {/* </QueryClientProvider> */}
       </AuthProvider>
     </>
   );
