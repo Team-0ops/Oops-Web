@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreatePost } from "../../apis/Post/useCreatePost";
 // 타입 및 상수 임포트
 import { CategoryIdMap, type CategoryName } from "../../types/Common";
 import { wantedCommentType, wantedCommentTypeMap } from "../../types/Common";
 // 컴포넌트들 임포트
-import ProgressSercion from "../../components/PostPage/ProgressSecion";
+import ProgressSection from "../../components/PostPage/ProgressSecion";
 import CommentSection from "../../components/PostPage/CommetSection";
 import ImageSection, {
   UploadImage,
@@ -17,7 +17,7 @@ import SubmitSection from "../../components/PostPage/SubmitSection";
 // 각섹션에 해당하는 기능/상태관리는 번호를 부여함
 
 const PostWrite = () => {
-  // 네비게이션 
+  // 네비게이션
   const navigate = useNavigate();
   // api 훅
   const { createPost, isLoading } = useCreatePost();
@@ -52,37 +52,59 @@ const PostWrite = () => {
   };
 
   const handleSubmit = async () => {
-  if (!title.trim()) return alert("제목을 입력해주세요!");
-  if (!content.trim()) return alert("내용을 입력해주세요!");
-  if (!selectedCategory) return alert("카테고리를 선택해주세요!");
+    if (!title.trim()) return alert("제목을 입력해주세요!");
+    if (!content.trim()) return alert("내용을 입력해주세요!");
+    if (!selectedCategory) return alert("카테고리를 선택해주세요!");
+    if (active !== "OOPS" && !previousPostId)
+      return alert("이전 게시물을 선택해주세요!");
 
-  const categoryId = CategoryIdMap.get(selectedCategory);
-  if (!categoryId) return;
+    const categoryId = CategoryIdMap.get(selectedCategory);
+    if (!categoryId) return;
 
-  const payload = {
-    title,
-    content,
-    situation: active,
-    categoryId,
-    topicId: null,
-    previousPostId: null,
-    wantedCommentTypes: (Object.keys(commentTypes) as wantedCommentType[])
-      .filter((k) => commentTypes[k]),
+    const payload = {
+      title,
+      content,
+      situation: active,
+      categoryId,
+      topicId: null,
+      previousPostId: active === "OOPS" ? null : previousPostId,
+      wantedCommentTypes: (
+        Object.keys(commentTypes) as wantedCommentType[]
+      ).filter((k) => commentTypes[k]),
+    };
+
+    try {
+      const result = await createPost(
+        payload,
+        images.map((img) => img.file),
+      );
+
+      alert("작성 완료!");
+      console.log("Post created:", result);
+      navigate("/post/success");
+    } catch {
+      alert("작성 실패!");
+    }
   };
 
-  try {
-    const result = await createPost(
-      payload,
-      images.map((img) => img.file)
-    );
+  // 부모 postId 넘겨주기
+  const [previousPostId, setPreviousPostId] = useState<number | null>(null);
+  // 이전 진행상황 글 카테고리 고정
+  const [lockedCategory, setLockedCategory] = useState<CategoryName | null>(
+    null,
+  );
 
-    alert("작성 완료!");
-    console.log("Post created:", result);
-    navigate("/post/success");
-  } catch {
-    alert("작성 실패!");
-  }
-};
+  const handleSelectPrev = (postId: number, category: CategoryName) => {
+    setPreviousPostId(postId);
+    setLockedCategory(category);
+    setSelectedCategory(category);
+  };
+
+  // 진행상황 탭 변경 시 이전 게시물 초기화
+  useEffect(() => {
+    setPreviousPostId(null);
+    setLockedCategory(null);
+  }, [active]);
 
   return (
     <div className="w-full flex flex-col gap-[5rem]">
@@ -95,7 +117,12 @@ const PostWrite = () => {
       />
 
       {/* 두번째 섹션 진행상황 선택 */}
-      <ProgressSercion active={active} setActive={setActive} />
+      <ProgressSection
+        active={active}
+        setActive={setActive}
+        selectedPreviousPostId={previousPostId}
+        onSelectPreviousPostId={handleSelectPrev}
+      />
 
       {/* 세번째 섹션 사진 업로드 */}
       <ImageSection
@@ -109,6 +136,7 @@ const PostWrite = () => {
         <CategorySection
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
+          locked={active !== "OOPS" && !!lockedCategory}
         />
         <CommentSection
           commentTypes={commentTypes}

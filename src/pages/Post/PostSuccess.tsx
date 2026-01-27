@@ -1,12 +1,35 @@
+import OopsIcon from "../../assets/icons/OopsIcon.svg?react";
+import OopsTypo from "../../assets/icons/OopsTypo.svg?react";
+import MainButton from "../../assets/icons/MainBackButton.svg?react";
+import PostButton from "../../assets/icons/PostBackButton.svg?react";
+
+import { useNavigate } from "react-router-dom";
+
 const PostSuccess = () => {
-    return (
-        <div className="w-full h-screen flex items-center justify-center">
-            <div className="text-center">
-                <h1 className="text-2xl font-bold">게시글 작성 완료!</h1>
-                <p className="mt-4">작성하신 게시글이 성공적으로 등록되었습니다.</p>
-            </div>
+    const navigate = useNavigate();
+
+  return (
+    <div className="w-full flex items-center justify-center">
+      <div className="text-center flex flex-col gap-[6.25rem]">
+        <div className="flex flex-col items-center gap-[1.25rem]">
+          <OopsIcon />
+          <OopsTypo />
         </div>
-    );
+        <div className="flex flex-col gap-[0.81rem]">
+          <h1 className="text-2xl font-bold">작성 완료!</h1>
+          <p>10포인트 제공 완료</p>
+        </div>
+        <div className="flex gap-[1.25rem]">
+          <button className="cursor-pointer" onClick={() => navigate("/")}>
+            <MainButton />
+          </button>
+          <button className="cursor-pointer" onClick={() => navigate("/post")}>
+            <PostButton />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default PostSuccess;

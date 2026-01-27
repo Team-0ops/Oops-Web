@@ -1,10 +1,13 @@
+import { Category } from "./category.ts";
 import { wantedCommentType } from "./Common";
 import {CommonResponse} from "./Common.ts";
+
+export type Situation = "OOPS" | "OVERCOMING" | "OVERCOME";
 
 export type MyPost = {
   postId: number;
   title: string;
-  situation: "OOPS" | "OVERCOMING" | "OVERCOME";
+  situation: Situation;
   content: string;
   categoryName: string;
   imageUrl?: string;
@@ -28,7 +31,7 @@ export type CreatePostPayload = {
   wantedCommentTypes: wantedCommentType[];
 };
 
-
+// 게시글 작성 post 응답 타입
 export type GetCreatePostsResponse = {
   isSuccess: boolean;
   code: string;
@@ -60,3 +63,39 @@ export type ResponseBestPostListDTO = CommonResponse<
         last: boolean;
     }
 >;
+
+////////////////////////////////////////////////////////////
+
+// 게시글 상세 조회 응답 타입
+
+export type PostDetail = {
+  postId: number;
+  userId: number;
+
+  title: string;
+  content: string;
+  createdAt: string;
+
+  images: string[] | null;
+  profileImage: string | null;
+  nickname: string;
+
+  likes: number;
+  liked: boolean;
+  watching: number;
+
+  wantedCommentTypes: wantedCommentType[];
+
+  comments: Comment[];
+}
+
+export type PostDetailResponse = {
+  groupId: number;
+  category: Category;
+
+  postFailure: PostDetail | null;
+  postOvercoming: PostDetail | null;
+  postOvercome: PostDetail | null;
+
+  randomTopics : unknown | null;
+}
