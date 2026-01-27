@@ -15,6 +15,7 @@ import PostSuccess from "./pages/Post/PostSuccess.tsx";
 import RandomFeedPage from "./pages/RandomFeedPage.tsx";
 import LuckyDrawPage from "./pages/LuckyDrawPage.tsx";
 import MyPage from "./pages/MyPage.tsx";
+import AdminMainPage from "./pages/Admin/AdminMainPage.tsx";
 
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
@@ -62,6 +63,10 @@ const publicRoutes: RouteObject[] = [
         element: <PostSuccess />
       },
     ],
+  },
+  {
+    path: "/admin",
+    element: <AdminMainPage />,
   },
 ];
 
