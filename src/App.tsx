@@ -14,6 +14,7 @@ import { AuthProvider } from "./context/AuthContext.tsx";
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 
 import PostWrite from "./pages/Post/PostWritePage.tsx";
+import PostSuccess from "./pages/Post/PostSuccess.tsx";
 
 const publicRoutes: RouteObject[] = [
   {
@@ -41,7 +42,11 @@ const publicRoutes: RouteObject[] = [
       {
         path: "post",
         element: <PostWrite />
-      }
+      },
+      {
+        path: "post/success",
+        element: <PostSuccess />
+      },
     ],
   },
 ];

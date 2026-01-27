@@ -1,3 +1,5 @@
+import { wantedCommentType } from "./Common";
+
 export type MyPost = {
   postId: number;
   title: string;
@@ -12,4 +14,29 @@ export type GetMyPostsResponse = {
   code: string;
   message: string;
   result: MyPost[];
+};
+
+// 게시글 작성 post 요청 타입
+export type CreatePostPayload = {
+  title: string;
+  content: string;
+  situation: "OOPS" | "OVERCOMING" | "OVERCOME";
+  categoryId: number;
+  topicId: number | null;
+  previousPostId: number | null;
+  wantedCommentTypes: wantedCommentType[];
+};
+
+
+export type GetCreatePostsResponse = {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  paageInfo: {
+    page: number;
+    size: number;
+    hasNext: boolean;
+    totalElements: number;
+    totalPages: number;
+  };
 };

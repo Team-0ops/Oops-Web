@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCreatePost } from "../../apis/Post/useCreatePost";
 // 타입 및 상수 임포트
-import { type CategoryName } from "../../types/Common";
+import { CategoryIdMap, type CategoryName } from "../../types/Common";
 import { wantedCommentType, wantedCommentTypeMap } from "../../types/Common";
 // 컴포넌트들 임포트
 import ProgressSercion from "../../components/PostPage/ProgressSecion";
@@ -15,6 +17,11 @@ import SubmitSection from "../../components/PostPage/SubmitSection";
 // 각섹션에 해당하는 기능/상태관리는 번호를 부여함
 
 const PostWrite = () => {
+  // 네비게이션 
+  const navigate = useNavigate();
+  // api 훅
+  const { createPost, isLoading } = useCreatePost();
+
   // 1. 제목, 본문 내용 상태관리
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -43,6 +50,39 @@ const PostWrite = () => {
   const toggleCommentType = (type: wantedCommentType) => {
     setCommentTypes((prev) => ({ ...prev, [type]: !prev[type] }));
   };
+
+  const handleSubmit = async () => {
+  if (!title.trim()) return alert("제목을 입력해주세요!");
+  if (!content.trim()) return alert("내용을 입력해주세요!");
+  if (!selectedCategory) return alert("카테고리를 선택해주세요!");
+
+  const categoryId = CategoryIdMap.get(selectedCategory);
+  if (!categoryId) return;
+
+  const payload = {
+    title,
+    content,
+    situation: active,
+    categoryId,
+    topicId: null,
+    previousPostId: null,
+    wantedCommentTypes: (Object.keys(commentTypes) as wantedCommentType[])
+      .filter((k) => commentTypes[k]),
+  };
+
+  try {
+    const result = await createPost(
+      payload,
+      images.map((img) => img.file)
+    );
+
+    alert("작성 완료!");
+    console.log("Post created:", result);
+    navigate("/post/success");
+  } catch {
+    alert("작성 실패!");
+  }
+};
 
   return (
     <div className="w-full flex flex-col gap-[5rem]">
@@ -75,7 +115,11 @@ const PostWrite = () => {
           toggleCommentType={toggleCommentType}
         />
       </section>
-      <SubmitSection />
+      <SubmitSection
+        disabled={isLoading}
+        isLoading={isLoading}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 };

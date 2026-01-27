@@ -2,6 +2,9 @@ import React, { useState, useEffect, useMemo } from "react";
 import { getMyPosts } from "../../apis/Post/postMy";
 import { MyPost } from "../../types/post";
 
+import LeftIcon from "../../assets/icons/LeftArrow.svg?react";
+import RightIcon from "../../assets/icons/RightArrow.svg?react";
+
 type ActiveStatus = "OOPS" | "OVERCOMING" | "OVERCOME";
 
 type Props = {
@@ -103,85 +106,81 @@ const ProgressSection = ({ active, setActive }: Props) => {
 
       {/* 리스트 영역 */}
       {active !== "OOPS" && (
-      <div className="w-full rounded-[1rem] border border-[#e4e4e4] bg-white overflow-hidden">
-        {loading ? (
-          <div className="h-[18rem] flex items-center justify-center text-[#777]">
-            불러오는 중...
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="h-[18rem] flex items-center justify-center text-[#777]">
-            작성된 게시물이 없습니다
-          </div>
-        ) : (
-          <>
-            <ul className="divide-y divide-[#eaeaea]">
-              {paged.map((post) => (
-                <li
-                  key={post.postId}
-                  className="flex justify-between gap-6 p-6"
+        <div
+          className="min-h-[25.3125rem] bg-[#fafafa] w-full 
+          border-[#e4e4e4] border-[0.06rem] rounded-[0.5rem]
+          px-[2.44rem] pb-[2.5rem]
+          flex items-center justify-center 
+          overflow-hidden"
+        >
+          {loading ? (
+            <div className="text-[#b2b2b2]">불러오는 중...</div>
+          ) : filtered.length === 0 ? (
+            <div className="text-[#b2b2b2]">작성된 게시물이 없습니다</div>
+          ) : (
+            <div className="w-full h-full flex flex-col">
+              <ul className="divide-y divide-[#d2d2d2]">
+                {paged.map((post) => (
+                  <li
+                    key={post.postId}
+                    className="flex justify-between gap-[3.12rem] pb-[1.88rem] pt-[2.5rem] "
+                  >
+                    <div className="flex flex-col flex-1 min-w-0 min-h-[10.625rem] justify-between">
+                      <div>
+                      <div>{post.title}</div>
+                      <div className="mt-[0.94rem] max-h-[3.75rem] overflow-hidden">{post.content}</div>
+                      </div>
+
+                      <div className="mt-[1.88rem] flex justify-end">
+                        <span
+                          className="
+                        items-center inline-flex justify-center
+                        px-[0.81rem] py-[0.56rem] 
+                        rounded-[1.88rem] border-[0.06rem] border-[#b3e378] 
+                        bg-[#f3ffe3] w-[6.25rem] h-[2.25rem]"
+                        >
+                          {post.categoryName}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="w-[10.625rem] h-[10.625rem] rounded-[0.25rem] overflow-hidden bg-[#d2d2d2] flex-shrink-0">
+                      {post.imageUrl ? (
+                        <img
+                          src={post.imageUrl}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      ) : null}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+                <hr className="border-[#d2d2d2]" />
+              {/* 페이지네이션 컴포넌트 화 시켜야됨*/}
+              <div className="flex items-center justify-between bg-[#fafafa] mt-[2.5rem]">
+                <button
+                  onClick={goPrev}
+                  disabled={safePage === 1}
                 >
-                  <div className="flex flex-col gap-2 flex-1 min-w-0">
-                    <div className="text-[1.05rem] font-semibold truncate">
-                      {post.title}
-                    </div>
+                  <LeftIcon />
+                </button>
 
-                    <div className="text-[#666] text-[0.9rem] leading-6 line-clamp-2">
-                      {post.content}
-                    </div>
+                <div className="text-[#666] text-[0.9rem]">
+                  {safePage} / {totalPages}
+                </div>
 
-                    <div className="mt-2">
-                      <span className="inline-flex items-center justify-center px-4 py-1 rounded-full border border-[#b3e378] text-[0.85rem] text-[#5a7d2b] bg-[#f3ffe3]">
-                        {post.categoryName}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="w-[120px] h-[84px] rounded-[0.5rem] overflow-hidden bg-[#f2f2f2] flex-shrink-0">
-                    {post.imageUrl ? (
-                      <img
-                        src={post.imageUrl}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
-                    ) : null}
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            {/* 페이지네이션 */}
-            <div className="flex items-center justify-center gap-6 py-4 bg-white">
-              <button
-                onClick={goPrev}
-                disabled={safePage === 1}
-                className={`w-9 h-9 rounded-full border border-[#e4e4e4] flex items-center justify-center ${
-                  safePage === 1
-                    ? "opacity-40 cursor-not-allowed"
-                    : "cursor-pointer"
-                }`}
-              >
-                ‹
-              </button>
-
-              <div className="text-[#666] text-[0.9rem]">
-                {safePage} / {totalPages}
+                <button
+                  onClick={goNext}
+                  disabled={safePage === totalPages}
+                >
+                  <RightIcon />
+                </button>
               </div>
-
-              <button
-                onClick={goNext}
-                disabled={safePage === totalPages}
-                className={`w-9 h-9 rounded-full border border-[#e4e4e4] flex items-center justify-center ${
-                  safePage === totalPages
-                    ? "opacity-40 cursor-not-allowed"
-                    : "cursor-pointer"
-                }`}
-              >
-                ›
-              </button>
             </div>
-          </>
-        )}
-      </div>
+          )}
+        </div>
       )}
     </section>
   );
