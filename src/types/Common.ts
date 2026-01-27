@@ -12,6 +12,7 @@ export type CommonResponse<T> = {
   result: T;
 };
 
+//TODO :  공통 상수 부분 constant 폴더로 옮기기
 // check box에서 선택가능한 타입. (조언/공감)
 export type wantedCommentType = "ADVICE" | "EMPATHY";
 

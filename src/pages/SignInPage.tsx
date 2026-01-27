@@ -7,13 +7,12 @@ export const SignInPage = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, user } =useAuth();
+  const { login } =useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await login({ email: id, password: password });
-      console.log("login successfully", user);
     }catch (error) {
       console.error("로그인 실패:", error);
   }};
