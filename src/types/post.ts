@@ -1,4 +1,5 @@
 import { Category } from "./category.ts";
+import { Comment } from "./comment.ts";
 import { wantedCommentType } from "./Common";
 import {CommonResponse} from "./Common.ts";
 
@@ -74,7 +75,7 @@ export type PostDetail = {
 
   title: string;
   content: string;
-  createdAt: string;
+  created_at: string;
 
   images: string[] | null;
   profileImage: string | null;
