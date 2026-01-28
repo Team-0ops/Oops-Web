@@ -9,6 +9,7 @@ import {
 import { RequestSignInDto } from "../types/Auth.ts";
 import { User } from "../types/User.ts";
 import { getMyInfo, postLogIn } from "../apis/auth.ts";
+import axios from "axios";
 
 // 쿠키 기반의 로그인 : 클라이언트 측에서 토큰을 볼수도, 발급할 수 도 없다 =  때문에 사용자의 정보를 가지고 있어야 로그인 여부 결정 가능
 interface AuthContextType {
@@ -48,10 +49,23 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const login = useCallback(
     async (signInData: RequestSignInDto) => {
-      const res = await postLogIn(signInData); // 쿠키 저장
-      await refreshUser(); // 로그인 상태 갱신
-      // 상세열람페이지에서 내 게시글인지 아닌지 판단하기 위함
-      localStorage.setItem("userId", String(res.result.userId))
+        try{
+            await postLogIn(signInData); // 쿠키 저장
+            await refreshUser(); // 로그인 상태 갱신
+        }catch(error) {
+            console.log(error);
+            if (axios.isAxiosError(error)) {
+                const status = error.response?.status;
+                if (status === 401) {
+                    throw new Error("비밀번호가 일치하지 않습니다.");
+                }
+                if (status === 404) {
+                    throw new Error("회원가입되지 않은 이메일입니다.");
+                }
+            }else{
+                throw new Error("로그인에 실패하였습니다.");
+            }
+        }
     },
     [refreshUser],
   );

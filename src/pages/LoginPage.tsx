@@ -5,7 +5,7 @@ export const LoginPage = () => {
 
   return (
       <div className="w-full flex justify-center">
-      <div className="w-150 flex flex-col items-stretch  gap-12.5">
+      <div className="w-150 flex flex-col items-stretch gap-12.5">
         <MainLogo />
         <LoginForm />
         <div className="flex items-center justify-between self-stretch">
