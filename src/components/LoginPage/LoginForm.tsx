@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useAuth} from "../../context/AuthContext.tsx";
 import Alert from "../../assets/icons/Alert.svg?react";
+import {useNavigate} from "react-router-dom";
 
 interface LoginError{
     isError: boolean;
@@ -8,16 +9,28 @@ interface LoginError{
 }
 
 const LoginForm = () => {
-    const [id, setId] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<LoginError>({isError:false, message:"에러메세지"});
 
     const { login } =useAuth();
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!email.trim()) {
+            setError({ isError: true, message: "이메일을 입력해주세요." });
+            return;
+        }
+        if (!password.trim()) {
+            setError({ isError: true, message: "비밀번호를 입력해주세요." });
+            return;
+        }
+
         try {
-            await login({ email: id, password: password });
+            await login({ email: email, password: password });
         }catch (error) {
             if (error instanceof Error) {
                 if (error.message === "비밀번호가 일치하지 않습니다.") {
@@ -28,7 +41,8 @@ const LoginForm = () => {
                     alert(error.message);
                 }
             }
-        }}
+        }
+    }
 
     return (
         <>
@@ -37,9 +51,9 @@ const LoginForm = () => {
                 <div className="flex flex-col gap-2">
                     <span className="body3" >아이디</span>
                     <input
-                        value={id}
+                        value={email}
                         autoComplete="new-email"
-                        onChange={(e) => setId(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                         placeholder="이메일을 입력하세요"
                         className="body3 h-13.75 items-center bg-[#FAFAFA] border-2 border-[#E4E4E4] rounded-lg px-4
 
@@ -65,13 +79,14 @@ const LoginForm = () => {
                         />
                         <div className="body3 flex items-center justify-center gap-5 text-[#8F8F8F]">
                             <span>
-                                {/*// onClick=*/}
                               회원가입
                             </span>
                             <span className="text-[#D2D2D2]">
                               |
                             </span>
-                            <span>
+                            <span
+                                onClick={()=>navigate("/find-password")}
+                            >
                               비밀번호 찾기
                             </span>
                         </div>
