@@ -1,0 +1,19 @@
+// reportPost.ts
+import { axiosInstance } from "../axios";
+import type { ReportResponse } from "../../types/post";
+
+type ReportPostParams = {
+  postId: number;
+  content: string;
+};
+
+export const reportPost = async ({
+  postId,
+  content,
+}: ReportPostParams): Promise<ReportResponse> => {
+  const { data } = await axiosInstance.post(`posts/${postId}/reports`, {
+    content,
+  });
+  console.log("신고완료!",postId)
+  return data;
+};

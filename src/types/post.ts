@@ -100,3 +100,11 @@ export type PostDetailResponse = {
 
   randomTopics : unknown | null;
 }
+
+///////////////////////////////////////////////////////////////////
+//게시글 신고 응답 
+export type ReportResponse = {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+}

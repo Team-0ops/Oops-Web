@@ -100,6 +100,7 @@ const PostWrite = () => {
     setSelectedCategory(category);
   };
 
+  console.log("previousPostId",previousPostId)
   // 진행상황 탭 변경 시 이전 게시물 초기화
   useEffect(() => {
     setPreviousPostId(null);
