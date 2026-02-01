@@ -30,3 +30,7 @@ export const postVerifyCode = async (body: RequestVerifyCodeDto):Promise<Respons
   const {data} = await axiosInstance.post("/auth/email/verify", body)
   return data;
 }
+
+export const postNewPassword = async (body: ):Promise<> => {
+  const {data} = await axiosInstance.post("/auth/password", body)
+}

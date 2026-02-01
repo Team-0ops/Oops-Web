@@ -1,6 +1,16 @@
 import MainLogo from "../components/common/MainLogo.tsx";
 import NewPasswordInputForm from "../components/SetNewPasswordPage/NewPasswordInputForm.tsx";
+import {useSearchParams} from "react-router-dom";
+
 const SetNewPassWordPage = () => {
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get("token");
+
+    //토큰 입력값이 없을 경우
+    if (!token) {
+        return <div>잘못된 접근입니다.</div>;
+    }
+
     return (
         <>
             <div className="flex justify-center">
@@ -12,7 +22,7 @@ const SetNewPassWordPage = () => {
                     </span>
                     </div>
                     <div>
-                        <NewPasswordInputForm/>
+                        <NewPasswordInputForm token={token}/>
                     </div>
                 </div>
             </div>

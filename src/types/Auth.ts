@@ -18,6 +18,12 @@ export type RequestVerifyCodeDto = {
     code: string
 }
 
+export type RequestSetNewPasswordDto = {
+    email: string,
+    verificationToken: string
+    newPassword: string
+};
+
 //TODO: 추후 백엔드에게 token값 삭제 부탁 -> 자동으로 쿠키에 들어가기 때문
 export type ResponseSignInDto = CommonResponse<{
     userId: number,
@@ -54,3 +60,5 @@ export type ResponseSendVerificationEmailDto = CommonResponse<null>
 export type ResponseVerifyCodeDto = CommonResponse<{
     verificationToken: string
 }>
+
+export type ResponseSetNewPassword = CommonResponse<>
