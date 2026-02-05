@@ -4,9 +4,9 @@ import {
   normalizeLabel,
   CategoryIdMap,
   type CategoryName,
-} from "../../types/Common";
-import UpArrow from "../../assets/icons/UpArrow.svg?react";
-import DownArrow from "../../assets/icons/DownArrow.svg?react";
+} from "../../../../types/Common";
+import UpArrow from "../../../../assets/icons/UpArrow.svg?react";
+import DownArrow from "../../../../assets/icons/DownArrow.svg?react";
 
 type Props = {
   selectedCategory: CategoryName | null;

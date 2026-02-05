@@ -4,7 +4,7 @@ import { PostDetailResponse } from "../../types/post";
 
 export const usePostDetail = (postId: number) => {
   const [data, setData] = useState<PostDetailResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); 
   const [error, setError] = useState<unknown>(null);
 
   useEffect(() => {
@@ -14,8 +14,10 @@ export const usePostDetail = (postId: number) => {
 
     (async () => {
       try {
-        setLoading(true);
+        // data가 없을 때만 loading 표시
+        if (!data) setLoading(true);
         setError(null);
+
         const result = await getPostDetail(postId);
         if (mounted) setData(result);
       } catch (e) {
@@ -28,7 +30,7 @@ export const usePostDetail = (postId: number) => {
     return () => {
       mounted = false;
     };
-  }, [postId]);
+  }, [postId]); // 의도적으로 data는 deps에서 제외
 
   return { data, loading, error };
 };

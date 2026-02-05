@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { usePostDetail } from "../../hooks/post/usePostDetail";
 import type { Situation, PostDetail } from "../../types/post";
 
@@ -14,10 +14,13 @@ const LABEL: Record<Situation, string> = {
 type StageKey = Situation;
 
 export default function PostDetailPage() {
+  const navigate = useNavigate();
   const { postId } = useParams();
   const numericPostId = Number(postId);
 
-  const { data, loading, error } = usePostDetail(numericPostId);
+  const [selectedPostId, setSelectedPostId] = useState<number>(numericPostId);
+
+  const { data, loading, error } = usePostDetail(selectedPostId);
 
   //stage별 게시글 매핑
   const stageMap = useMemo(() => {
@@ -29,29 +32,33 @@ export default function PostDetailPage() {
     } as Record<StageKey, PostDetail | null>;
   }, [data]);
 
-  // 기본 선택 탭: 존재하는 것 중 가장 앞 단계
-  const defaultStage: StageKey = useMemo(() => {
-    if (!stageMap) return "OOPS";
-    if (stageMap.OOPS) return "OOPS";
-    if (stageMap.OVERCOMING) return "OVERCOMING";
-    if (stageMap.OVERCOME) return "OVERCOME";
-    return "OOPS";
-  }, [stageMap]);
-
   const [activeStage, setActiveStage] = useState<StageKey>("OOPS");
-  const [imgIdx, setImgIdx] = useState(0);
 
-  // data가 로드되면 기본 stage로 맞추기
+  //URL이 바뀌면 selectedPostId 동기화
   useEffect(() => {
-    setActiveStage(defaultStage);
-    setImgIdx(0);
-  }, [defaultStage]);
+    if (!Number.isNaN(numericPostId)) {
+      setSelectedPostId(numericPostId);
+    }
+    console.log("현재 postID", selectedPostId);
+  }, [numericPostId]);
+
+  //selectedPostId가 어느 stage인지 찾아서 탭 동기화
+  useEffect(() => {
+    if (!stageMap) return;
+
+    const found: StageKey | null =
+      stageMap.OOPS?.postId === selectedPostId
+        ? "OOPS"
+        : stageMap.OVERCOMING?.postId === selectedPostId
+          ? "OVERCOMING"
+          : stageMap.OVERCOME?.postId === selectedPostId
+            ? "OVERCOME"
+            : null;
+
+    if (found) setActiveStage(found);
+  }, [stageMap, selectedPostId]);
 
   const post = stageMap?.[activeStage] ?? null;
-
-  // 이미지 배열 정규화
-  const images = (post?.images ?? []) || [];
-  const hasImages = images.length > 0;
 
   // 탭 disabled 여부
   const isDisabled = (s: StageKey) => !stageMap?.[s];
@@ -63,7 +70,7 @@ export default function PostDetailPage() {
   const tabIdle = "bg-[#FAF6E9] ";
   const tabDisabled = "bg-[#FAF6E9] text-[#b2b2b2]";
 
-  if (loading)
+  if (loading && !data)
     return (
       <div className="py-10 text-center text-[#b2b2b2]">불러오는 중...</div>
     );
@@ -71,8 +78,8 @@ export default function PostDetailPage() {
     return (
       <div className="py-10 text-center text-[#b2b2b2]">불러오기 실패</div>
     );
-
-  return (
+ 
+    return (
     <div className="w-full flex flex-col gap-[2.5rem]">
       {/* 상단 탭 */}
       <div className="flex w-full gap-[2.12rem] rounded-[1.88rem] border-[0.06rem] border-solid border-[#e4e4e4] bg-[#FAFAFA] px-[0.56rem] py-[0.5rem] h-[3.75rem]">
@@ -88,7 +95,12 @@ export default function PostDetailPage() {
               onClick={() => {
                 if (disabled) return;
                 setActiveStage(s);
-                setImgIdx(0);
+
+                const nextId = stageMap?.[s]?.postId;
+                if (nextId) {
+                  setSelectedPostId(nextId);
+                  navigate(`/posts/${nextId}`, { replace: true });
+                }
               }}
               className={[
                 tabBase,
@@ -108,7 +120,11 @@ export default function PostDetailPage() {
         </div>
       ) : (
         <>
-        <PostViewCard post={post} categoryName={data.category.name} />
+          <PostViewCard
+            key={post.postId}
+            post={post}
+            categoryName={data.category.name}
+          />
 
           {/* 댓글 영역은 나중에 컴포넌트로 분리 예정이라 placeholder만 */}
           <div className="mt-6 text-[#b2b2b2]">댓글 영역(추후 컴포넌트)</div>

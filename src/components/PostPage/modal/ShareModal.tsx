@@ -14,16 +14,15 @@ const ShareModal = ({ isOpen, onClose, url }: Props) => {
     if (isOpen) setCopied(false);
   }, [isOpen, url]);
 
-  const displayUrl = useMemo(() => url ?? "", [url]);
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(displayUrl);
+      await navigator.clipboard.writeText(url);
       setCopied(true);
     } catch {
       //fallback (일부 브라우저/환경)
       const textarea = document.createElement("textarea");
-      textarea.value = displayUrl;
+      textarea.value = url;
       textarea.style.position = "fixed";
       textarea.style.opacity = "0";
       document.body.appendChild(textarea);
@@ -37,15 +36,10 @@ const ShareModal = ({ isOpen, onClose, url }: Props) => {
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
-      onMouseDown={(e) => {
-        // 바깥 클릭 닫기
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
+    
       <div
         className="
+        absolute right-0 top-[4rem] z-50
         w-[40.125rem] bg-white
         rounded-[0.5rem]
         shadow-[0_0_9px_0_rgba(0,0,0,0.25)]
@@ -79,10 +73,10 @@ const ShareModal = ({ isOpen, onClose, url }: Props) => {
           flex items-center
           overflow-hidden
         "
-              title={displayUrl}
+              title={url}
             >
               <span className="truncate text-[#6f6f6f] text-[1rem] font-medium">
-                {displayUrl}
+                {url}
               </span>
             </div>
 
@@ -105,7 +99,6 @@ const ShareModal = ({ isOpen, onClose, url }: Props) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
-import useGetMyPosts from "../../hooks/post/useGetMyPost";
-import { MyPost } from "../../types/post";
-import { CategoryName } from "../../types/Common";
+import useGetMyPosts from "../../../../hooks/post/useGetMyPost";
+import { MyPost } from "../../../../types/post";
+import { CategoryName } from "../../../../types/Common";
 
-import LeftIcon from "../../assets/icons/LeftArrow.svg?react";
-import RightIcon from "../../assets/icons/RightArrow.svg?react";
+import LeftIcon from "../../../../assets/icons/LeftArrow.svg?react";
+import RightIcon from "../../../../assets/icons/RightArrow.svg?react";
 
 type ActiveStatus = "OOPS" | "OVERCOMING" | "OVERCOME";
 

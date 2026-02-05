@@ -5,14 +5,14 @@ import { useCreatePost } from "../../apis/Post/useCreatePost";
 import { CategoryIdMap, type CategoryName } from "../../types/Common";
 import { wantedCommentType, wantedCommentTypeMap } from "../../types/Common";
 // 컴포넌트들 임포트
-import ProgressSection from "../../components/PostPage/ProgressSecion";
-import CommentSection from "../../components/PostPage/CommetSection";
+import ProgressSection from "../../components/PostPage/section/PostWriteSection/ProgressSecion";
+import CommentSection from "../../components/PostPage/section/PostWriteSection/CommetSection";
 import ImageSection, {
   UploadImage,
-} from "../../components/PostPage/ImageSection";
-import TitleContentSection from "../../components/PostPage/TitleContentSection";
-import CategorySection from "../../components/PostPage/CategorySection";
-import SubmitSection from "../../components/PostPage/SubmitSection";
+} from "../../components/PostPage/section/PostWriteSection/ImageSection";
+import TitleContentSection from "../../components/PostPage/section/PostWriteSection/TitleContentSection";
+import CategorySection from "../../components/PostPage/section/PostWriteSection/CategorySection";
+import SubmitSection from "../../components/PostPage/section/PostWriteSection/SubmitSection";
 
 // 각섹션에 해당하는 기능/상태관리는 번호를 부여함
 
