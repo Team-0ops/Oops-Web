@@ -17,7 +17,7 @@ type Props = {
   isShareOpen: boolean;
   onToggleShare: () => void;
   onCloseShare: () => void;
-  onOpenReport: () => void;
+  onOpenReport: (postId: number) => void;
 };
 
 export default function PostFooterSection({
@@ -60,7 +60,7 @@ export default function PostFooterSection({
       </div>
 
       <div className="flex gap-[1.25rem] justify-center items-center">
-        <button className="cursor-pointer" type="button" onClick={onOpenReport}>
+        <button className="cursor-pointer" type="button" onClick={()=>onOpenReport(post.postId)}>
           <ReportIcon />
         </button>
 

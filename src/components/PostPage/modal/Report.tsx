@@ -1,41 +1,44 @@
 import X from "../../../assets/icons/X.svg?react";
 import { useMemo, useState } from "react";
-import { useReportPost } from "../../../hooks/modal/useReportPost";
+import { ReportTarget } from "../../../types/post";
+
+export type ReportSubmitPayload = {
+  reasonId: number;
+  content: string;
+};
 
 type Props = {
   isOpen: boolean;
-  postId: number;
   onClose: () => void;
+  onSubmit: (payload: ReportSubmitPayload) => void; // ✅ 추가
+  isSubmitting?: boolean;
+  target?: ReportTarget | null; // 선택: 문구 분기하고 싶으면
 };
 
 const MAX_LEN = 300;
 
-const Report = ({ isOpen, postId, onClose }: Props) => {
-  const [content, setContent] = useState("");
-  const { mutate, isPending } = useReportPost();
+const Report = ({
+  isOpen,
+  onSubmit,
+  onClose,
+  isSubmitting = false,
+  target,
+}: Props) => {
+  const [reasonId, setReasonId] = useState<number>(1);
+  const [content, setContent] = useState<string>("");
 
   const length = content.length;
   const isValid = useMemo(
     () => content.trim().length > 0 && length <= MAX_LEN,
-    [content, length]
+    [content, length],
   );
 
   if (!isOpen) return null;
 
-  const submit = () => {
-    if (!isValid || isPending) return;
+  const handleSubmit = () => {
 
-    mutate(
-      { postId, content: content.trim() },
-      {
-        onSuccess: () => {
-          setContent("");
-          onClose();
-        },
-      }
-    );
+    onSubmit({ reasonId, content: content ?? "" });
   };
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
@@ -89,13 +92,15 @@ const Report = ({ isOpen, postId, onClose }: Props) => {
             </span>
           </div>
 
-          <span className="mt-[2.75rem]">허위 신고의 경우, 사용자님의 계정 정지 위험이 있습니다.</span>
+          <span className="mt-[2.75rem]">
+            허위 신고의 경우, 사용자님의 계정 정지 위험이 있습니다.
+          </span>
         </div>
 
         <div className="flex justify-end">
           <button
             type="button"
-            onClick={submit}
+            onClick={handleSubmit}
             disabled={!content.trim()}
             className="
           w-[10.125rem] h-[3.125rem]

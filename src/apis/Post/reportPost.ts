@@ -1,4 +1,3 @@
-// reportPost.ts
 import { axiosInstance } from "../axios";
 import type { ReportResponse } from "../../types/post";
 

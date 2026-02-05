@@ -1,7 +1,7 @@
 import { Category } from "./category.ts";
 import { Comment } from "./comment.ts";
 import { wantedCommentType } from "./Common";
-import {CommonResponse} from "./Common.ts";
+import { CommonResponse } from "./Common.ts";
 
 export type Situation = "OOPS" | "OVERCOMING" | "OVERCOME";
 
@@ -47,23 +47,21 @@ export type GetCreatePostsResponse = {
 };
 
 export type Post = {
-    postId: number;
-    title: string;
-    content: string;
-    categoryOrTopicName: string;
-    likes: number;
-    comments: number;
-    views: number;
-    image: string | null;
+  postId: number;
+  title: string;
+  content: string;
+  categoryOrTopicName: string;
+  likes: number;
+  comments: number;
+  views: number;
+  image: string | null;
 };
 
-export type ResponseBestPostListDTO = CommonResponse<
-    {
-        comment: string;
-        posts: Post[];
-        last: boolean;
-    }
->;
+export type ResponseBestPostListDTO = CommonResponse<{
+  comment: string;
+  posts: Post[];
+  last: boolean;
+}>;
 
 ////////////////////////////////////////////////////////////
 
@@ -88,7 +86,7 @@ export type PostDetail = {
   wantedCommentTypes: wantedCommentType[];
 
   comments: Comment[];
-}
+};
 
 export type PostDetailResponse = {
   groupId: number;
@@ -98,13 +96,30 @@ export type PostDetailResponse = {
   postOvercoming: PostDetail | null;
   postOvercome: PostDetail | null;
 
-  randomTopics : unknown | null;
-}
+  randomTopics: unknown | null;
+};
 
 ///////////////////////////////////////////////////////////////////
-//게시글 신고 응답 
+//게시글 신고 응답
 export type ReportResponse = {
   isSuccess: boolean;
   code: string;
   message: string;
+};
+
+// 게시글 모달 댓글과 게시글 모두 합치기위해서 분기를 나누기 위한 타입
+export type ReportTarget =
+  | { type: "POST"; postId: number }
+  | { type: "COMMENT"; commentId: number };
+
+//////////////////////////////////////////////////////////////
+// 유사한 게시글 추천
+export type RecommendResponse ={
+    postId: number;
+    title: string;
+    situation: string;
+}
+
+export type RecommendList = {
+  similarPosts : RecommendResponse[] 
 }

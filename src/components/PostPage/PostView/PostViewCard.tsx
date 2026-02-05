@@ -1,8 +1,6 @@
 import { useRef, useState } from "react";
 import type { PostDetail } from "../../../types/post";
 
-import Report from "../modal/Report";
-
 import PostHeaderSection from "../section/PostViewSection/PostHeaderSection";
 import PostContentSection from "../section/PostViewSection/PostContentSection";
 import PostImagesSection from "../section/PostViewSection/PostImageSection"
@@ -13,11 +11,10 @@ import { useOutsideClick } from "../../../hooks/post/postviewhook/useOutsideClic
 type Props = {
   post: PostDetail;
   categoryName?: string;
+  onOpenPostReport:(postId: number) => void; 
 };
 
-export default function PostViewCard({ post, categoryName }: Props) {
-  // 신고
-  const [isReportOpen, setIsReportOpen] = useState(false);
+export default function PostViewCard({ post, categoryName, onOpenPostReport }: Props) {
   // 공유
   const [isShareOpen, setIsShareOpen] = useState(false);
 
@@ -48,15 +45,11 @@ export default function PostViewCard({ post, categoryName }: Props) {
           isShareOpen={isShareOpen}
           onToggleShare={() => setIsShareOpen((prev) => !prev)}
           onCloseShare={() => setIsShareOpen(false)}
-          onOpenReport={() => setIsReportOpen(true)}
+          onOpenReport={onOpenPostReport}
         />
       </section>
 
-      <Report
-        isOpen={isReportOpen}
-        postId={post.postId}
-        onClose={() => setIsReportOpen(false)}
-      />
+
     </>
   );
 }
