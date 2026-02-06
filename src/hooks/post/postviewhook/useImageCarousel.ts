@@ -6,8 +6,9 @@ type Params = {
 };
 
 export function useImageCarousel({ images, resetKey }: Params) {
-  const normalizedImages = useMemo(() => images ?? [], [images]);
-  const hasImages = normalizedImages.length > 0;
+  const imgs = useMemo(() => images ?? [], [images]);
+  const hasImages = imgs.length > 0;
+  const isMulti = imgs.length > 1;
 
   const [imgIdx, setImgIdx] = useState(0);
 
@@ -18,20 +19,20 @@ export function useImageCarousel({ images, resetKey }: Params) {
 
   const prev = () => {
     if (!hasImages) return;
-    setImgIdx((p) => (p === 0 ? normalizedImages.length - 1 : p - 1));
+    setImgIdx((p) => (p === 0 ? imgs.length - 1 : p - 1)); //  무한 순환
   };
 
   const next = () => {
     if (!hasImages) return;
-    setImgIdx((p) => (p + 1) % normalizedImages.length);
+    setImgIdx((p) => (p + 1) % imgs.length); //  무한 순환
   };
 
   return {
-    images: normalizedImages,
+    images: imgs,
     hasImages,
     imgIdx,
     prev,
     next,
-    isMulti: normalizedImages.length > 1,
+    isMulti,
   };
 }

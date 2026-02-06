@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CommentSortType } from "../../../../types/comment";
+import CommentInput from "./CommentInput";
 
 type CommentHeaderProps = {
   count: number;
@@ -17,7 +18,6 @@ export default function CommentHeader({
   onSubmit,
   isSubmitting = false,
 }: CommentHeaderProps) {
-
   const [input, setInput] = useState("");
 
   const handleSubmit = () => {
@@ -32,7 +32,6 @@ export default function CommentHeader({
       <div className="flex justify-between items-center">
         <div>댓글 {count}개</div>
 
-        {/* 정렬: 기능은 나중에, UI만 */}
         <div className="flex gap-[1rem]">
           <button
             type="button"
@@ -51,37 +50,14 @@ export default function CommentHeader({
         </div>
       </div>
 
-      <div className="flex justify-center gap-[1.25rem] items-center">
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleSubmit();
-          }}
-          className="
-            w-full h-[3.125rem]
-            rounded-[0.5rem] border-[0.06rem] border-[#d2d2d2]
-            bg-[#fff]
-            px-[1.19rem] py-[1rem]
-            placeholder:text-[#464646]"
-          placeholder="댓글을 입력하세요."
-          disabled={isSubmitting}
-        />
-
-        <button
-          type="button"
-          onClick={handleSubmit}
-          disabled={isSubmitting || input.trim().length === 0}
-          className="
-            flex justify-center items-center
-            w-[8.375rem] h-[3.125rem]
-            rounded-[0.5rem]
-            bg-[#b3e378]
-            disabled:opacity-50"
-        >
-          작성
-        </button>
-      </div>
+      <CommentInput
+        value={input}
+        onChange={setInput}
+        onSubmit={handleSubmit}
+        placeholder="댓글을 입력하세요."
+        submitLabel="작성"
+        disabled={isSubmitting}
+      />
     </section>
   );
 }
