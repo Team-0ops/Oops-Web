@@ -60,3 +60,52 @@ export type ResponseBestPostListDTO = CommonResponse<
         last: boolean;
     }
 >;
+
+// 랜덤 피드 API 파라미터 타입
+export type RandomFeedParams = {
+  situation: "OOPS" | "OVERCOMING" | "OVERCOME";
+  page?: number;
+  limit?: number;
+  sort?: "LATEST" | "LIKE" | "VIEW" | "COMMENT" | "BEST";
+};
+
+// 랜덤 피드 응답 타입
+export type RandomFeedResult = {
+  comment: string; // 랜덤 주제 이름
+  posts: Post[];
+  last: boolean;
+};
+
+export type ResponseRandomFeedDTO = CommonResponse<RandomFeedResult>;
+
+// 카테고리 피드 API 파라미터 타입
+export type CategoryFeedParams = {
+  categoryId: number;
+  situation: "OOPS" | "OVERCOMING" | "OVERCOME";
+  page?: number;
+  limit?: number;
+  sort?: "LATEST" | "LIKE" | "VIEW" | "COMMENT";
+};
+
+// 카테고리 피드 응답 타입
+export type CategoryFeedResult = {
+  posts: Post[];
+  last: boolean;
+};
+
+export type ResponseCategoryFeedDTO = CommonResponse<CategoryFeedResult>;
+
+// 베스트 피드 API 파라미터 타입
+export type BestFeedParams = {
+  page?: number;
+  limit?: number;
+  sort?: "BEST" | "LATEST" | "LIKE" | "VIEW" | "COMMENT";
+};
+
+// 베스트 피드 응답 타입
+export type BestFeedResult = {
+  posts: Post[];
+  last: boolean;
+};
+
+export type ResponseBestFeedDTO = CommonResponse<BestFeedResult>;
