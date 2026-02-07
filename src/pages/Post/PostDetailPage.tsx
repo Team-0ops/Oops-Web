@@ -4,10 +4,13 @@ import { usePostDetail } from "../../hooks/post/usePostDetail";
 import type { Situation, PostDetail } from "../../types/post";
 import { ReportTarget } from "../../types/post";
 
+import { useGetLesson } from "../../hooks/modal/useGetLesson";
+
 import PostViewCard from "../../components/PostPage/PostView/PostViewCard";
 import CommentCard from "../../components/PostPage/Comment/CommentCard";
 import ReportModalContainer from "../../components/PostPage/modal/ReportContainer";
 import RecommendCard from "../../components/PostPage/PostView/RecommendCard";
+import Lesson from "../../components/PostPage/modal/Lesson";
 
 const LABEL: Record<Situation, string> = {
   OOPS: "웁스 중",
@@ -18,6 +21,8 @@ const LABEL: Record<Situation, string> = {
 type StageKey = Situation;
 
 export default function PostDetailPage() {
+
+  
   const navigate = useNavigate();
   const { postId } = useParams();
   const numericPostId = Number(postId);
@@ -25,6 +30,9 @@ export default function PostDetailPage() {
   const [selectedPostId, setSelectedPostId] = useState<number>(numericPostId);
 
   const { data, loading, error } = usePostDetail(selectedPostId);
+    // 교훈 조회 
+  const {data:lesson, isLoading: isLessonLoading} = useGetLesson(selectedPostId);
+
 
   //stage별 게시글 매핑
   const stageMap = useMemo(() => {
@@ -85,6 +93,9 @@ export default function PostDetailPage() {
 
   const closeReport = () => setReportTarget(null);
 
+    // 교훈 모달 상태관리
+    const [isLessonOpen, setIsLessonOpen] = useState(false);
+  
   if (loading && !data)
     return (
       <div className="py-10 text-center text-[#b2b2b2]">불러오는 중...</div>
@@ -93,6 +104,7 @@ export default function PostDetailPage() {
     return (
       <div className="py-10 text-center text-[#b2b2b2]">불러오기 실패</div>
     );
+
 
   return (
     <div className="w-full flex flex-col px-[3.63rem] gap-[2.5rem]">
@@ -141,6 +153,9 @@ export default function PostDetailPage() {
               post={post}
               categoryName={data.category.name}
               onOpenPostReport={openPostReport}
+              onClickLesson={() => setIsLessonOpen(true)}
+              lesson={lesson}
+              isLessonLoading={isLessonLoading}
             />
           </div>
           <div className="mt-[1.25rem]">
@@ -160,6 +175,7 @@ export default function PostDetailPage() {
             target={reportTarget}
             onClose={closeReport}
           />
+          {isLessonOpen && <Lesson postId={selectedPostId} onClose={() => setIsLessonOpen(false)} />}
         </>
       )}
     </div>

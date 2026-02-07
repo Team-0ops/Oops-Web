@@ -16,6 +16,5 @@ export const postReportComment = async ({
             content
         }
     );
-    console.log("댓글신고완료!",commentId)
     return data;
 }

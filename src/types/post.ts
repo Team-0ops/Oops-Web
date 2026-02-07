@@ -123,3 +123,11 @@ export type RecommendResponse ={
 export type RecommendList = {
   similarPosts : RecommendResponse[] 
 }
+
+/////////////////////////////////////////////////////////
+// 교훈 조회 응답 타입
+export type GetLessonResult = {
+  title: string;
+  content: string;
+  tagNames: string[];
+}

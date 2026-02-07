@@ -22,7 +22,7 @@ export default function PostImagesSection({ postId, images }: Props) {
           <img
             src={imgs[imgIdx]}
             alt=""
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
 
           {/* 이미지가 2장 이상일 때만 버튼 노출 */}
