@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Checkbox from "../common/Checkbox";
-import RightArrow from "../../assets/icons/RightArrow.svg?react";
+import NextArrow from "../../assets/icons/NextArrow.svg?react";
 
 export const TermsAgreement = () => {
   const [allAgreed, setAllAgreed] = useState(false);
@@ -55,23 +55,23 @@ export const TermsAgreement = () => {
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-5">
               <Checkbox checked={termsAgreed} onChange={handleTermsAgree} />
-              <span className="font-pretendard text-sm text-[#262627]">이용약관 동의</span>
+              <span className="font-pretendard text-sm font-bold text-[#262627]">이용약관 동의</span>
             </div>
-            <RightArrow className="w-4 h-4 text-[#6F6F6F]" />
+            <NextArrow className="w-4 h-4 text-[#6F6F6F]" />
           </div>
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-5">
               <Checkbox checked={privacyAgreed} onChange={handlePrivacyAgree} />
-              <span className="font-pretendard text-sm text-[#262627]">개인정보 이용 동의</span>
+              <span className="font-pretendard text-sm font-bold text-[#262627]">개인정보 이용 동의</span>
             </div>
-            <RightArrow className="w-4 h-4 text-[#6F6F6F]" />
+            <NextArrow className="w-4 h-4 text-[#6F6F6F]" />
           </div>
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-5">
               <Checkbox checked={marketingAgreed} onChange={handleMarketingAgree} />
-              <span className="font-pretendard text-sm text-[#262627]">마케팅 동의 (선택)</span>
+              <span className="font-pretendard text-sm font-bold text-[#262627]">마케팅 동의 (선택)</span>
             </div>
-            <RightArrow className="w-4 h-4 text-[#6F6F6F]" />
+            <NextArrow className="w-4 h-4 text-[#6F6F6F]" />
           </div>
         </div>
       </div>

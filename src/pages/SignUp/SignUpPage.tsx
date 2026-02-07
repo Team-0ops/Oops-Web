@@ -1,8 +1,8 @@
 import OopsIcon from "../../assets/icons/OopsIcon.svg?react";
-import InputWithActionButton from "../../components/SingUpPage/InputWithActionButton";
-import PasswordField from "../../components/SingUpPage/PasswordField";
-import InputField from "../../components/SingUpPage/InputField";
-import TermsAgreement from "../../components/SingUpPage/TermsAgreement";
+import InputWithActionButton from "../../components/SignUpPage/InputWithActionButton";
+import PasswordField from "../../components/SignUpPage/PasswordField";
+import InputField from "../../components/SignUpPage/InputField";
+import TermsAgreement from "../../components/SignUpPage/TermsAgreement";
 import OopsTypo from "../../assets/icons/OopsTypo.svg?react";
 import Button from "../../components/common/Button";
 import { useSignUp } from "../../hooks/auth/useSignUp";
@@ -83,4 +83,3 @@ export const SignUpPage = () => {
 };
 
 export default SignUpPage;
-
