@@ -98,9 +98,9 @@ export const AdminMainPage = () => {
   const handleHide = () => {
     // TODO: 숨김 처리 로직 구현
     if (currentNav === "report") {
-      console.log("신고 숨김 처리:", selectedReports);
+      // 신고 숨김 처리
     } else {
-      console.log("유저 숨김 처리:", selectedUsers);
+      // 유저 숨김 처리
     }
   };
 
