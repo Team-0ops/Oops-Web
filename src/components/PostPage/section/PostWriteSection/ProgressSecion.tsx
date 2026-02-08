@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import useGetMyPosts from "../../../../hooks/post/useGetMyPost";
 import { MyPost } from "../../../../types/post";
-import { CategoryName } from "../../../../types/Common";
+import {CategoryName } from "../../../../types/Common";
 
 import LeftIcon from "../../../../assets/icons/LeftArrow.svg?react";
 import RightIcon from "../../../../assets/icons/RightArrow.svg?react";
@@ -18,6 +18,7 @@ type Props = {
 const PAGE_SIZE = 3;
 
 const ProgressSection = ({ active, setActive, selectedPreviousPostId, onSelectPreviousPostId }: Props) => {
+ 
   const [page, setPage] = useState<number>(1);
 
   // 탭에 따라 게시물 불러오기

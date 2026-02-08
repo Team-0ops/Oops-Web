@@ -1,6 +1,6 @@
 import { Category } from "./category.ts";
 import { Comment } from "./comment.ts";
-import { wantedCommentType } from "./Common";
+import { CategoryName, wantedCommentType } from "./Common";
 import { CommonResponse } from "./Common.ts";
 
 export type Situation = "OOPS" | "OVERCOMING" | "OVERCOME";
@@ -10,7 +10,7 @@ export type MyPost = {
   title: string;
   situation: Situation;
   content: string;
-  categoryName: string;
+  categoryName: CategoryName;
   imageUrl?: string;
 };
 

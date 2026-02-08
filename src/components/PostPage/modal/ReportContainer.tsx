@@ -23,7 +23,6 @@ export default function ReportModalContainer({
   if (!isOpen || !target) return null;
 
   const handleSubmit = (payload: {
-    reasonId: number;
     content: string;
   }) => {
     if (target.type === "POST") {

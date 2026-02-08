@@ -156,7 +156,7 @@ export default function PostDetailPage() {
               categoryName={data.category.name}
               onOpenPostReport={openPostReport}
               onClickLesson={() => setIsLessonOpen(true)}
-              lesson={lesson}
+              lesson={lesson ?? null}
               isLessonLoading={isLessonLoading}
               currentUserId={safeMyUserId}
             />

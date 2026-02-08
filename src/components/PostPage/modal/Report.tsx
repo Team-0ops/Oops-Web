@@ -1,16 +1,15 @@
 import X from "../../../assets/icons/X.svg?react";
-import { useMemo, useState } from "react";
+import {  useState } from "react";
 import { ReportTarget } from "../../../types/post";
 
 export type ReportSubmitPayload = {
-  reasonId: number;
   content: string;
 };
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (payload: ReportSubmitPayload) => void; // ✅ 추가
+  onSubmit: (payload: ReportSubmitPayload) => void;
   isSubmitting?: boolean;
   target?: ReportTarget | null; // 선택: 문구 분기하고 싶으면
 };
@@ -21,23 +20,15 @@ const Report = ({
   isOpen,
   onSubmit,
   onClose,
-  isSubmitting = false,
-  target,
 }: Props) => {
-  const [reasonId, setReasonId] = useState<number>(1);
   const [content, setContent] = useState<string>("");
 
   const length = content.length;
-  const isValid = useMemo(
-    () => content.trim().length > 0 && length <= MAX_LEN,
-    [content, length],
-  );
 
   if (!isOpen) return null;
 
   const handleSubmit = () => {
-
-    onSubmit({ reasonId, content: content ?? "" });
+    onSubmit({  content: content ?? "" });
   };
   return (
     <div
