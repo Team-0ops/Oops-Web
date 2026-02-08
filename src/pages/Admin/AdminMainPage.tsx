@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import AdminHeader from "../../components/Admin/AdminHeader";
 import PostReportTable from "../../components/Admin/PostReportTable";
 import CommentReportTable from "../../components/Admin/CommentReportTable";
@@ -17,12 +18,23 @@ type TabType = "post" | "comment";
 type NavType = "report" | "user";
 
 export const AdminMainPage = () => {
+  const [searchParams] = useSearchParams();
   const [currentNav, setCurrentNav] = useState<NavType>("report");
   const [activeTab, setActiveTab] = useState<TabType>("post");
   const [selectedReports, setSelectedReports] = useState<number[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5; // 한 페이지당 5개 항목
+
+  // URL 쿼리 파라미터에서 nav 값 읽기
+  useEffect(() => {
+    const navParam = searchParams.get("nav");
+    if (navParam === "user") {
+      setCurrentNav("user");
+    } else {
+      setCurrentNav("report");
+    }
+  }, [searchParams]);
 
   const handlePostCheckboxChange = (reportId: number) => {
     setSelectedReports((prev) =>
