@@ -21,7 +21,8 @@ const LABEL: Record<Situation, string> = {
 type StageKey = Situation;
 
 export default function PostDetailPage() {
-
+  const myUserId = Number(localStorage.getItem("userId"));
+  const safeMyUserId = Number.isFinite(myUserId) ? myUserId : undefined;
   
   const navigate = useNavigate();
   const { postId } = useParams();
@@ -30,6 +31,7 @@ export default function PostDetailPage() {
   const [selectedPostId, setSelectedPostId] = useState<number>(numericPostId);
 
   const { data, loading, error } = usePostDetail(selectedPostId);
+
     // 교훈 조회 
   const {data:lesson, isLoading: isLessonLoading} = useGetLesson(selectedPostId);
 
@@ -156,6 +158,7 @@ export default function PostDetailPage() {
               onClickLesson={() => setIsLessonOpen(true)}
               lesson={lesson}
               isLessonLoading={isLessonLoading}
+              currentUserId={safeMyUserId}
             />
           </div>
           <div className="mt-[1.25rem]">
