@@ -16,10 +16,12 @@ import PostSuccess from "./pages/Post/PostSuccess.tsx";
 import RandomFeedPage from "./pages/RandomFeedPage.tsx";
 import LuckyDrawPage from "./pages/LuckyDrawPage.tsx";
 import MyPage from "./pages/MyPage.tsx";
+import PostDetailPage from "./pages/Post/PostDetailPage.tsx";
 import AdminMainPage from "./pages/Admin/AdminMainPage.tsx";
 import PostReportDetailPage from "./pages/Admin/PostReportDetailPage.tsx";
 import CommentReportDetailPage from "./pages/Admin/CommentReportDetailPage.tsx";
 import UserDetailPage from "./pages/Admin/UserDetailPage.tsx";
+
 
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
@@ -70,6 +72,10 @@ const publicRoutes: RouteObject[] = [
         path: "post/success",
         element: <PostSuccess />
       },
+      {
+        path: "posts/:postId",
+        element: <PostDetailPage />
+      }
     ],
   },
   {

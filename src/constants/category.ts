@@ -15,3 +15,4 @@ export const Categories = [
     "정신 건강",
     "자유",
 ];
+

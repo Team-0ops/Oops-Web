@@ -48,8 +48,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const login = useCallback(
     async (signInData: RequestSignInDto) => {
-      await postLogIn(signInData); // 쿠키 저장
+      const res = await postLogIn(signInData); // 쿠키 저장
       await refreshUser(); // 로그인 상태 갱신
+      // 상세열람페이지에서 내 게시글인지 아닌지 판단하기 위함
+      localStorage.setItem("userId", String(res.result.userId))
     },
     [refreshUser],
   );

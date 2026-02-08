@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import Plus from "../../assets/icons/Plus.svg?react";
-import ImageUpload from "../../assets/icons/ImageUpload.svg?react";
-import X from "../../assets/icons/X.svg?react";
+import Plus from "../../../../assets/icons/Plus.svg?react";
+import ImageUpload from "../../../../assets/icons/ImageUpload.svg?react";
+import X from "../../../../assets/icons/X.svg?react";
 
 export type UploadImage = { file: File; previewUrl: string }; // 업로드된 이미지 1개를 표현하는 타입
 
