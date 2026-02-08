@@ -70,8 +70,8 @@ export const Pagination = ({
   return (
     <>
       <div className="flex justify-center items-center gap-2 py-4">
-        {/* 첫 페이지 버튼 - 5페이지를 넘어갈 때만 표시 */}
-        {totalPages > 5 && (
+        {/* 첫 페이지 버튼 - 2페이지 이상일 때 표시 */}
+        {totalPages >= 2 && (
           <button
             onClick={handleFirst}
             disabled={currentPage === 1}
@@ -85,8 +85,8 @@ export const Pagination = ({
           </button>
         )}
         
-        {/* 이전 페이지 버튼 - 5페이지를 넘어갈 때만 표시 */}
-        {totalPages > 5 && (
+        {/* 이전 페이지 버튼 - 2페이지 이상일 때 표시 */}
+        {totalPages >= 2 && (
           <button
             onClick={handlePrevious}
             disabled={currentPage === 1}

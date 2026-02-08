@@ -4,18 +4,19 @@ import {
   normalizeLabel,
   CategoryIdMap,
   type CategoryName,
-} from "../../types/Common";
-import UpArrow from "../../assets/icons/UpArrow.svg?react";
-import DownArrow from "../../assets/icons/DownArrow.svg?react";
+} from "../../../../types/Common";
+import UpArrow from "../../../../assets/icons/UpArrow.svg?react";
+import DownArrow from "../../../../assets/icons/DownArrow.svg?react";
 
 type Props = {
   selectedCategory: CategoryName | null;
   setSelectedCategory: React.Dispatch<
     React.SetStateAction<CategoryName | null>
   >;
+  locked?: boolean;
 };
 
-const CategorySection = ({ selectedCategory, setSelectedCategory }: Props) => {
+const CategorySection = ({ selectedCategory, setSelectedCategory, locked }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -48,12 +49,18 @@ const CategorySection = ({ selectedCategory, setSelectedCategory }: Props) => {
       <div className="flex items-center self-stretch">카테고리 선택</div>
 
       <div
-        className="flex gap-[1.25rem] justify-between items-center relative w-[10.125rem] h-[2.5rem] px-[1.25rem] py-[0.25rem] border-[0.06rem] border-solid rounded-[0.25rem] border-[#e4e4e4] bg-[#f6f6f6] cursor-pointer select-none"
+        className={`
+        flex gap-[1.25rem] justify-between items-center relative 
+        w-[10.125rem] h-[2.5rem] px-[1.25rem] py-[0.25rem] 
+        border-[0.06rem] border-solid rounded-[0.25rem] border-[#e4e4e4] 
+        bg-[#f6f6f6] select-none
+        ${locked ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
         ref={dropdownRef}
       >
         {/* 드롭다운 버튼 */}
         <button
           type="button"
+          disabled={locked}
           onClick={() => setIsDropdownOpen((prev) => !prev)}
           className="w-full flex justify-between items-center text-start gap-[0.62rem]"
         >

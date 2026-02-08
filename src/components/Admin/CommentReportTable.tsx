@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { CommentReportData } from "../../mocks/adminReportData";
 import Checkbox from "../common/Checkbox";
 
@@ -14,6 +15,16 @@ export const CommentReportTable = ({
   onCheckboxChange,
   onSelectAll,
 }: CommentReportTableProps) => {
+  const navigate = useNavigate();
+
+  const handleRowClick = (reportId: number) => {
+    navigate(`/admin/comment-report/${reportId}`);
+  };
+
+  const handleCheckboxClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <>
       <div className="overflow-x-auto px-4">
@@ -61,9 +72,13 @@ export const CommentReportTable = ({
             {data.map((item, index) => (
               <tr
                 key={`${item.id}-${index}`}
-                className="border-b border-[#E4E4E4] hover:bg-[#FAFAFA]"
+                className="border-b border-[#E4E4E4] hover:bg-[#FAFAFA] cursor-pointer"
+                onClick={() => handleRowClick(item.id)}
               >
-                <td className="w-16 px-4 py-3 text-center">
+                <td
+                  className="w-16 px-4 py-3 text-center"
+                  onClick={handleCheckboxClick}
+                >
                   <div className="flex justify-center">
                     <Checkbox
                       checked={selectedIds.includes(item.id)}
