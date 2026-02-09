@@ -7,9 +7,20 @@ import OopsTypo from "../../assets/icons/OopsTypo.svg?react";
 import Button from "../../components/common/Button";
 import { useSignUp } from "../../hooks/auth/useSignUp";
 
+import { useEmailAvailability } from "../../hooks/auth/useEmailAvailability";
+import { validatePassword, validatePasswordConfirm } from "../../hooks/auth/usePWvalidate";
+
 export const SignUpPage = () => {
   const signUp = useSignUp();
 
+  //이메일 
+  const { emailMessage, emailMessageType, isEmailAvailable, isCheckingEmail } =
+    useEmailAvailability(signUp.email, signUp.isEmailValid);
+
+  //비밀번호
+  const pw = validatePassword(signUp.password)
+  const pwConfirm = validatePasswordConfirm(signUp.password, signUp.confirmPassword)
+  
   return (
     <div className="w-full flex justify-center">
       <div className="w-150 flex flex-col items-stretch gap-20">
@@ -28,9 +39,13 @@ export const SignUpPage = () => {
             buttonText="인증번호 발송"
             onButtonClick={signUp.handleSendVerificationCode}
             buttonVariant="confirm"
-            disabled={!signUp.isEmailValid}
-            message={signUp.emailMessage}
-            messageType={signUp.emailMessageType}
+            disabled={
+              !signUp.isEmailValid ||
+              isCheckingEmail ||
+              isEmailAvailable === false
+            }
+            message={emailMessage}
+            messageType={emailMessageType}
           />
           <InputWithActionButton
             label="인증번호"
@@ -52,7 +67,9 @@ export const SignUpPage = () => {
             value={signUp.password}
             onChange={signUp.setPassword}
             onClear={() => signUp.setPassword("")}
-          /> 
+            message={pw.message}
+            messageType={pw.type}
+          />
           <PasswordField
             label="비밀번호 재확인"
             placeholder="비밀번호를 입력하세요"

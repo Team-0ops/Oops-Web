@@ -18,3 +18,17 @@ export type ResponseSignInDto = CommonResponse<{
 }>
 
 export type ResponseMyInfoDto = CommonResponse<User>;
+
+// 이메일 인증코드 발송 타입. 
+// TODO: purpose 유니온 확장 -> 현재는 회원가입의 경우지만 마이페이지에서 이메일 변경할때도 사용하기 때문
+export type SenderEmailParams = {
+    email: string;
+    purpose: "SIGNUP";
+}
+
+// 이메일 인증코드 검증 타입
+export type VerifyEmailParams = {
+    email: string;
+    purpose: "SIGNUP"
+    code: string;
+}

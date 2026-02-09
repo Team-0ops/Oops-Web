@@ -1,5 +1,6 @@
 import { useState } from "react";
-// TODO: API 함수 import (인증번호 발송/확인 API 구현 시 주석 해제)
+import { postSenderEmail } from "../../apis/SignUp/postSenderEmail";
+import { postVerifyEmail } from "../../apis/SignUp/postVerifyEmail";
 // import { sendVerificationCode, verifyCode } from "../../apis/auth";
 
 type VerificationMessage = {
@@ -13,8 +14,11 @@ export const useSignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
-  const [verificationMessage, setVerificationMessage] = useState<VerificationMessage>(null);
+  const [verificationMessage, setVerificationMessage] =
+    useState<VerificationMessage>(null);
 
+  // 인증번호 길이 확인
+  const isVerificationCodeValid = verificationCode.length >= 4;
   // 이메일 형식 검사
   const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -23,9 +27,8 @@ export const useSignUp = () => {
 
   // 이메일이 유효한 형식인지 확인
   const isEmailValid = email.length > 0 && isValidEmail(email);
-
-  // 인증번호 길이 확인
-  const isVerificationCodeValid = verificationCode.length >= 4;
+  // TODO: 이메일 중복체크도 같이
+  // TODO: 이메일 형식 타이트하게. 그냥 자주쓰는 이메일 몇개로 범위 축소해야할듯.
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
@@ -50,11 +53,45 @@ export const useSignUp = () => {
   };
 
   const handleSendVerificationCode = async () => {
-    // TODO: 인증번호 발송 API 호출 로직 구현
+    try {
+      await postSenderEmail({
+        email,
+        purpose: "SIGNUP",
+      });
+
+      setVerificationMessage({
+        text: "인증번호가 이메일로 발송되었습니다.",
+        type: "success",
+      });
+    } catch (error) {
+      console.log("인증번호 발송 실패", error);
+      setVerificationMessage({
+        text: "인증번호 발송에 실패했습니다. 다시 시도해주세요.",
+        type: "error",
+      });
+    }
   };
 
   const handleVerifyCode = async () => {
-    // TODO: 인증번호 확인 API 호출 로직 구현
+    if (!verificationCode) {
+      alert("인증코드를 입력해주세요");
+      return;
+    }
+
+    try {
+      await postVerifyEmail({
+        email,
+        purpose: "SIGNUP",
+        code: verificationCode,
+      });
+      alert("검증이 완료되었습니다");
+    } catch (error) {
+      console.log("검증실패", error);
+      setVerificationMessage({
+        text: "인증번호가 일치하지 않습니다.",
+        type: "error",
+      });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -69,31 +106,27 @@ export const useSignUp = () => {
     password,
     confirmPassword,
     nickname,
-    
+
     // Setters
     setEmail: handleEmailChange,
     setVerificationCode: handleVerificationCodeChange,
     setPassword,
     setConfirmPassword,
     setNickname,
-    
+
     // Clear handlers
     onEmailClear: handleEmailClear,
     onVerificationCodeClear: handleVerificationCodeClear,
-    
+
     // Validation
     isEmailValid,
     isVerificationCodeValid,
-    
+
     // Messages
     verificationMessage,
-    emailMessage: isEmailValid ? "사용 가능한 이메일입니다" : undefined,
-    emailMessageType: isEmailValid ? "success" as const : undefined,
-    
     // Handlers
     handleSendVerificationCode,
     handleVerifyCode,
     handleSubmit,
   };
 };
-

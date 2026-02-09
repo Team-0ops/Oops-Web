@@ -8,6 +8,8 @@ type PasswordFieldProps = {
   value: string;
   onChange: (value: string) => void;
   onClear?: () => void;
+  message?: string;
+  messageType?: "success" | "error";
 };
 
 export const PasswordField = ({
@@ -16,13 +18,17 @@ export const PasswordField = ({
   value,
   onChange,
   onClear,
+  message,
+  messageType,
 }: PasswordFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-start justify-start gap-8">
-        <label className="font-pretendard font-semibold text-[#262627] whitespace-nowrap w-24">{label}</label>
+        <label className="font-pretendard font-semibold text-[#262627] whitespace-nowrap w-24">
+          {label}
+        </label>
         <div className="relative flex-1">
           <input
             type={showPassword ? "text" : "password"}
@@ -55,9 +61,17 @@ export const PasswordField = ({
           </div>
         </div>
       </div>
+      {message ? (
+        <p
+          className={`text-xs ${
+            messageType === "success" ? "text-[#65b900]" : "text-[#ff6d6d]"
+          } ml-32`}
+        >
+          {message}
+        </p>
+      ) : null}
     </div>
   );
 };
 
 export default PasswordField;
-
