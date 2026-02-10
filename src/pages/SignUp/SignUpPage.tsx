@@ -8,19 +8,25 @@ import Button from "../../components/common/Button";
 import { useSignUp } from "../../hooks/auth/useSignUp";
 
 import { useEmailAvailability } from "../../hooks/auth/useEmailAvailability";
-import { validatePassword, validatePasswordConfirm } from "../../hooks/auth/usePWvalidate";
+import {
+  validatePassword,
+  validatePasswordConfirm,
+} from "../../hooks/auth/usePWvalidate";
 
 export const SignUpPage = () => {
   const signUp = useSignUp();
 
-  //이메일 
+  //이메일
   const { emailMessage, emailMessageType, isEmailAvailable, isCheckingEmail } =
     useEmailAvailability(signUp.email, signUp.isEmailValid);
 
   //비밀번호
-  const pw = validatePassword(signUp.password)
-  const pwConfirm = validatePasswordConfirm(signUp.password, signUp.confirmPassword)
-  
+  const pw = validatePassword(signUp.password);
+  const pwConfirm = validatePasswordConfirm(
+    signUp.password,
+    signUp.confirmPassword,
+  );
+
   return (
     <div className="w-full flex justify-center">
       <div className="w-150 flex flex-col items-stretch gap-20">
@@ -67,7 +73,7 @@ export const SignUpPage = () => {
             value={signUp.password}
             onChange={signUp.setPassword}
             onClear={() => signUp.setPassword("")}
-            message={pw.message}
+            messages={pw.messages}
             messageType={pw.type}
           />
           <PasswordField
@@ -76,14 +82,16 @@ export const SignUpPage = () => {
             value={signUp.confirmPassword}
             onChange={signUp.setConfirmPassword}
             onClear={() => signUp.setConfirmPassword("")}
+            messages={pwConfirm.messages}
+            messageType={pwConfirm.type}
           />
           <InputField
             label="닉네임"
             type="text"
             placeholder="닉네임을 입력하세요"
-            value={signUp.nickname}
-            onChange={signUp.setNickname}
-            onClear={() => signUp.setNickname("")}
+            value={signUp.userName}
+            onChange={signUp.setUsername}
+            onClear={() => signUp.setUsername("")}
           />
           <TermsAgreement />
           <Button

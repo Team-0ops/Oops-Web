@@ -21,6 +21,9 @@ import AdminMainPage from "./pages/Admin/AdminMainPage.tsx";
 import PostReportDetailPage from "./pages/Admin/PostReportDetailPage.tsx";
 import CommentReportDetailPage from "./pages/Admin/CommentReportDetailPage.tsx";
 import UserDetailPage from "./pages/Admin/UserDetailPage.tsx";
+import ServiceTerm from "./components/Terms/ServiceTerm.tsx";
+import PrivacyTerms from "./components/Terms/PrivacyTerms.tsx";
+import MarketingTerm from "./components/Terms/Marketing.tsx";
 
 
 
@@ -39,10 +42,24 @@ const publicRoutes: RouteObject[] = [
         path: "login",
         element: <LogInPage />,
       },
+      //TODO: login 사항 없도록 라우터 분리
       {
         path: "signup",
         element: <SignUpPage />,
       },
+      {
+        path: "terms1",
+        element: <ServiceTerm />
+      },
+      {
+        path: "terms2",
+        element: <PrivacyTerms />
+      },
+      {
+        path: "terms3",
+        element: <MarketingTerm/>
+      },
+      /////////////////////////
       {
         path: "search",
         element: <SearchPage />,

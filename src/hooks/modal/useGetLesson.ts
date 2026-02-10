@@ -6,7 +6,6 @@ import { getLesson } from "../../apis/Post/getLessons";
 export const useGetLesson = (postId: number) => {
   return useQuery<GetLessonResult | null>({
     queryKey: ["postLesson", postId],
-    enabled: Number.isFinite(postId) && postId > 0,
     queryFn: async () => {
       try {
         const res = await getLesson(postId);
@@ -17,6 +16,7 @@ export const useGetLesson = (postId: number) => {
         throw e;
       }
     },
+    enabled: typeof postId === "number",
     retry: false,
     staleTime: 1000 * 30,
   });

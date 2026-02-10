@@ -1,6 +1,8 @@
 import { useState } from "react";
 import XIcon from "../../assets/icons/X.svg?react";
 import InvisibleIcon from "../../assets/icons/Invisible.svg?react";
+import { ErrorMessage } from "./Messages";
+import { SuccessMessage } from "./Messages";
 
 type PasswordFieldProps = {
   label: string;
@@ -9,6 +11,7 @@ type PasswordFieldProps = {
   onChange: (value: string) => void;
   onClear?: () => void;
   message?: string;
+  messages?: string[];
   messageType?: "success" | "error";
 };
 
@@ -19,9 +22,15 @@ export const PasswordField = ({
   onChange,
   onClear,
   message,
+  messages,
   messageType,
 }: PasswordFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
+
+  const displayMessages =
+    messages ?? (message ? [message].filter(Boolean) : []);
+
+  const MessageItem = messageType === "success" ? SuccessMessage : ErrorMessage;
 
   return (
     <div className="flex flex-col gap-2">
@@ -61,14 +70,14 @@ export const PasswordField = ({
           </div>
         </div>
       </div>
-      {message ? (
-        <p
-          className={`text-xs ${
-            messageType === "success" ? "text-[#65b900]" : "text-[#ff6d6d]"
-          } ml-32`}
-        >
-          {message}
-        </p>
+      {displayMessages.length > 0 ? (
+        <ul className="ml-32 flex flex-col gap-[0.5rem]">
+          {displayMessages.map((m, idx) => (
+            <li key={`${m}-${idx}`} className="text-xs flex items-center gap-[0.62rem]">
+              <MessageItem text={m} />
+            </li>
+          ))}
+        </ul>
       ) : null}
     </div>
   );

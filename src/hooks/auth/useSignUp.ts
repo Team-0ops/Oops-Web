@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { postSenderEmail } from "../../apis/SignUp/postSenderEmail";
 import { postVerifyEmail } from "../../apis/SignUp/postVerifyEmail";
-// import { sendVerificationCode, verifyCode } from "../../apis/auth";
+import { postSignUp } from "../../apis/SignUp/postSinUp";
 
 type VerificationMessage = {
   text: string;
@@ -13,9 +13,10 @@ export const useSignUp = () => {
   const [verificationCode, setVerificationCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [nickname, setNickname] = useState("");
+  const [userName, setUsername] = useState("");
   const [verificationMessage, setVerificationMessage] =
     useState<VerificationMessage>(null);
+  const [verificationToken, setVerificationToken] = useState("");
 
   // 인증번호 길이 확인
   const isVerificationCodeValid = verificationCode.length >= 4;
@@ -79,12 +80,16 @@ export const useSignUp = () => {
     }
 
     try {
-      await postVerifyEmail({
+      const res = await postVerifyEmail({
         email,
         purpose: "SIGNUP",
         code: verificationCode,
       });
-      alert("검증이 완료되었습니다");
+      setVerificationToken(res.result.verificationToken);
+      setVerificationMessage({
+        text: "인증완료",
+        type: "success",
+      })
     } catch (error) {
       console.log("검증실패", error);
       setVerificationMessage({
@@ -94,9 +99,21 @@ export const useSignUp = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: 회원가입 로직 구현
+
+    try {
+      await postSignUp({
+        email,
+        userName,
+        password,
+        verificationToken,
+      });
+    } catch (e) {
+      console.error(e)
+      throw e
+    }
+    
   };
 
   return {
@@ -105,14 +122,14 @@ export const useSignUp = () => {
     verificationCode,
     password,
     confirmPassword,
-    nickname,
+    userName,
 
     // Setters
     setEmail: handleEmailChange,
     setVerificationCode: handleVerificationCodeChange,
     setPassword,
     setConfirmPassword,
-    setNickname,
+    setUsername,
 
     // Clear handlers
     onEmailClear: handleEmailClear,
