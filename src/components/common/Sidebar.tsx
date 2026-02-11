@@ -7,6 +7,7 @@ import {
   setCategoryBookmark,
   unsetCategoryBookmark,
   getBookmarkedCategories,
+  type BookmarkedCategory,
 } from "../../apis/categories";
 
 interface SidebarProps {
@@ -17,23 +18,19 @@ interface SidebarProps {
 export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState<number[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   // 즐겨찾기 카테고리 목록 가져오기
   useEffect(() => {
     if (isOpen) {
       const fetchBookmarkedCategories = async () => {
         try {
-          setIsLoading(true);
           const response = await getBookmarkedCategories();
           if (response.isSuccess && Array.isArray(response.result)) {
-            const categoryIds = response.result.map((cat) => cat.categoryId);
+            const categoryIds = response.result.map((cat: BookmarkedCategory) => cat.categoryId);
             setFavorites(categoryIds);
           }
         } catch (error) {
           console.error("즐겨찾기 카테고리 조회 실패:", error);
-        } finally {
-          setIsLoading(false);
         }
       };
 
@@ -66,7 +63,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       // 즐겨찾기 목록 다시 불러오기
       const response = await getBookmarkedCategories();
       if (response.isSuccess && Array.isArray(response.result)) {
-        const categoryIds = response.result.map((cat) => cat.categoryId);
+        const categoryIds = response.result.map((cat: BookmarkedCategory) => cat.categoryId);
         setFavorites(categoryIds);
       }
     } catch (error) {

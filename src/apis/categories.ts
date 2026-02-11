@@ -1,5 +1,5 @@
 import { axiosInstance } from "./axios";
-import { CommonResponse } from "../types/post";
+import { CommonResponse } from "../types/Common";
 
 // 카테고리 타입
 export type BookmarkedCategory = {

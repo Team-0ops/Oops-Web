@@ -1,24 +1,10 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { RandomFeedPostCard } from "../components/RandomFeedPage/RandomFeedPostCard";
 import Write from "../assets/icons/Write.svg?react";
 import RightArrow from "../assets/icons/RightArrow.svg?react";
 
 type SituationType = "웁스 중" | "극복 중" | "극복 완료";
-type SortType = "LATEST" | "LIKE" | "VIEW" | "COMMENT";
-
-const situationMap: Record<SituationType, "OOPS" | "OVERCOMING" | "OVERCOME"> = {
-  "웁스 중": "OOPS",
-  "극복 중": "OVERCOMING",
-  "극복 완료": "OVERCOME",
-};
-
-const sortMap: Record<string, SortType> = {
-  "최신순": "LATEST",
-  "좋아요순": "LIKE",
-  "조회수순": "VIEW",
-  "댓글순": "COMMENT",
-};
 
 interface FeedPageProps {
   title: string;

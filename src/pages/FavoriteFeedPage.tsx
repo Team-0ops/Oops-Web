@@ -1,12 +1,9 @@
 import { useState, useMemo, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { RandomFeedPostCard } from "../components/RandomFeedPage/RandomFeedPostCard";
 import { FeedPage } from "./FeedPage";
 import { useGetCategoryFeed } from "../hooks/post/useGetCategoryFeed";
-import { Categories } from "../types/Common";
 import Star from "../assets/icons/Star.svg?react";
 import RightArrow from "../assets/icons/RightArrow.svg?react";
-import { getBookmarkedCategories } from "../apis/categories";
+import { getBookmarkedCategories, type BookmarkedCategory } from "../apis/categories";
 
 type SituationType = "웁스 중" | "극복 중" | "극복 완료";
 type SortType = "LATEST" | "LIKE" | "VIEW" | "COMMENT";
@@ -25,7 +22,6 @@ const sortMap: Record<string, SortType> = {
 };
 
 export const FavoriteFeedPage = () => {
-  const navigate = useNavigate();
   const [favoriteCategories, setFavoriteCategories] = useState<
     Array<{ id: number; name: string }>
   >([]);
@@ -42,7 +38,7 @@ export const FavoriteFeedPage = () => {
         setIsLoadingFavorites(true);
         const response = await getBookmarkedCategories();
         if (response.isSuccess && Array.isArray(response.result)) {
-          const categories = response.result.map((cat) => ({
+          const categories = response.result.map((cat: BookmarkedCategory) => ({
             id: cat.categoryId,
             name: cat.categoryName,
           }));
