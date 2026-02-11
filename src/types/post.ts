@@ -125,14 +125,6 @@ export type RecommendResponse ={
     image: string | null;
 };
 
-export type ResponseBestPostListDTO = CommonResponse<
-    {
-        comment: string;
-        posts: Post[];
-        last: boolean;
-    }
->;
-
 // 랜덤 피드 API 파라미터 타입
 export type RandomFeedParams = {
   situation: "OOPS" | "OVERCOMING" | "OVERCOME";
@@ -181,8 +173,6 @@ export type BestFeedResult = {
 };
 
 export type ResponseBestFeedDTO = CommonResponse<BestFeedResult>;
-    situation: string;
-}
 
 export type RecommendList = {
   similarPosts : RecommendResponse[] 
