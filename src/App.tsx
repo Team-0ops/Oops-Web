@@ -8,6 +8,7 @@ import {
 import MainPage from "./pages/MainPage";
 import ErrorPage from "./pages/ErrorPage";
 import LogInPage from "./pages/LogInPage.tsx";
+import SignUpPage from "./pages/SignUp/SignUpPage.tsx";
 import SearchPage from "./pages/SearchPage";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import PostWrite from "./pages/Post/PostWritePage.tsx";
@@ -15,10 +16,15 @@ import PostSuccess from "./pages/Post/PostSuccess.tsx";
 import RandomFeedPage from "./pages/RandomFeedPage.tsx";
 import LuckyDrawPage from "./pages/LuckyDrawPage.tsx";
 import MyPage from "./pages/MyPage.tsx";
+import PostDetailPage from "./pages/Post/PostDetailPage.tsx";
 import AdminMainPage from "./pages/Admin/AdminMainPage.tsx";
 import FavoriteFeedPage from "./pages/FavoriteFeedPage.tsx";
 import CategoryFeedPage from "./pages/CategoryFeedPage.tsx";
 import BestFeedPage from "./pages/BestFeedPage.tsx";
+import PostReportDetailPage from "./pages/Admin/PostReportDetailPage.tsx";
+import CommentReportDetailPage from "./pages/Admin/CommentReportDetailPage.tsx";
+import UserDetailPage from "./pages/Admin/UserDetailPage.tsx";
+
 
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
@@ -35,6 +41,10 @@ const publicRoutes: RouteObject[] = [
       {
         path: "login",
         element: <LogInPage />,
+      },
+      {
+        path: "signup",
+        element: <SignUpPage />,
       },
       {
         path: "search",
@@ -77,11 +87,27 @@ const publicRoutes: RouteObject[] = [
         path: "post/success",
         element: <PostSuccess />
       },
+      {
+        path: "posts/:postId",
+        element: <PostDetailPage />
+      }
     ],
   },
   {
     path: "/admin",
     element: <AdminMainPage />,
+  },
+  {
+    path: "/admin/post-report/:id",
+    element: <PostReportDetailPage />,
+  },
+  {
+    path: "/admin/comment-report/:id",
+    element: <CommentReportDetailPage />,
+  },
+  {
+    path: "/admin/user/:id",
+    element: <UserDetailPage />,
   },
 ];
 

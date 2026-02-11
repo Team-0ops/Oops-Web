@@ -1,5 +1,5 @@
 import React from "react";
-import DraftIcon from "../../assets/icons/Draft.svg?react";
+import DraftIcon from "../../../../assets/icons/Draft.svg?react";
 
 type Props = {
   title: string;

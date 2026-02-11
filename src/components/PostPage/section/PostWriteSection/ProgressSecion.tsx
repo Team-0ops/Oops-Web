@@ -1,22 +1,24 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { getMyPosts } from "../../apis/Post/postMy";
-import { MyPost } from "../../types/post";
+import useGetMyPosts from "../../../../hooks/post/useGetMyPost";
+import { MyPost } from "../../../../types/post";
+import {CategoryName } from "../../../../types/Common";
 
-import LeftIcon from "../../assets/icons/LeftArrow.svg?react";
-import RightIcon from "../../assets/icons/RightArrow.svg?react";
+import LeftIcon from "../../../../assets/icons/LeftArrow.svg?react";
+import RightIcon from "../../../../assets/icons/RightArrow.svg?react";
 
 type ActiveStatus = "OOPS" | "OVERCOMING" | "OVERCOME";
 
 type Props = {
   active: ActiveStatus;
   setActive: React.Dispatch<React.SetStateAction<ActiveStatus>>;
+  selectedPreviousPostId: number | null;
+  onSelectPreviousPostId: (postId: number, categoryName: CategoryName) => void;
 };
 
 const PAGE_SIZE = 3;
 
-const ProgressSection = ({ active, setActive }: Props) => {
-  const [posts, setPosts] = useState<MyPost[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+const ProgressSection = ({ active, setActive, selectedPreviousPostId, onSelectPreviousPostId }: Props) => {
+ 
   const [page, setPage] = useState<number>(1);
 
   // 탭에 따라 게시물 불러오기
@@ -26,25 +28,7 @@ const ProgressSection = ({ active, setActive }: Props) => {
     return "OOPS";
   }, [active]);
 
-  // 마운트 시 내 게시물 불러오기
-  useEffect(() => {
-    const fetchMyPosts = async () => {
-      try {
-        setLoading(true);
-        const res = await getMyPosts();
-
-        setPosts(res.result);
-        console.log(res.result);
-      } catch (e) {
-        console.error(e);
-        setPosts([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMyPosts();
-  }, []);
+  const { posts, loading } = useGetMyPosts();
 
   // 탭 변경 시 페이지 초기화
   useEffect(() => {
@@ -120,50 +104,54 @@ const ProgressSection = ({ active, setActive }: Props) => {
           ) : (
             <div className="w-full h-full flex flex-col">
               <ul className="divide-y divide-[#d2d2d2]">
-                {paged.map((post) => (
-                  <li
-                    key={post.postId}
-                    className="flex justify-between gap-[3.12rem] pb-[1.88rem] pt-[2.5rem] "
-                  >
-                    <div className="flex flex-col flex-1 min-w-0 min-h-[10.625rem] justify-between">
-                      <div>
-                      <div>{post.title}</div>
-                      <div className="mt-[0.94rem] max-h-[3.75rem] overflow-hidden">{post.content}</div>
-                      </div>
+                {paged.map((post) => {
+                  const isSelected = selectedPreviousPostId === post.postId;
 
-                      <div className="mt-[1.88rem] flex justify-end">
-                        <span
-                          className="
+                  return (
+                    <li
+                      key={post.postId}
+                      onClick={() => onSelectPreviousPostId(post.postId,post.categoryName )}
+                      className={`flex justify-between gap-[3.12rem] pb-[1.88rem] pt-[2.5rem] cursor-pointer ${isSelected ? "border-[#b2b2b2] border-[0.06rem]" : ""}`}
+                    >
+                      <div className={"flex flex-col flex-1 min-w-0 min-h-[10.625rem] justify-between"}>
+                        <div>
+                          <div>{post.title}</div>
+                          <div className="mt-[0.94rem] max-h-[3.75rem] overflow-hidden">
+                            {post.content}
+                          </div>
+                        </div>
+
+                        <div className="mt-[1.88rem] flex justify-end">
+                          <span
+                            className="
                         items-center inline-flex justify-center
                         px-[0.81rem] py-[0.56rem] 
                         rounded-[1.88rem] border-[0.06rem] border-[#b3e378] 
                         bg-[#f3ffe3] w-[6.25rem] h-[2.25rem]"
-                        >
-                          {post.categoryName}
-                        </span>
+                          >
+                            {post.categoryName}
+                          </span>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="w-[10.625rem] h-[10.625rem] rounded-[0.25rem] overflow-hidden bg-[#d2d2d2] flex-shrink-0">
-                      {post.imageUrl ? (
-                        <img
-                          src={post.imageUrl}
-                          alt=""
-                          className="w-full h-full object-cover"
-                        />
-                      ) : null}
-                    </div>
-                  </li>
-                ))}
+                      <div className="w-[10.625rem] h-[10.625rem] rounded-[0.25rem] overflow-hidden bg-[#d2d2d2] flex-shrink-0">
+                        {post.imageUrl ? (
+                          <img
+                            src={post.imageUrl}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        ) : null}
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
 
-                <hr className="border-[#d2d2d2]" />
+              <hr className="border-[#d2d2d2]" />
               {/* 페이지네이션 컴포넌트 화 시켜야됨*/}
               <div className="flex items-center justify-between bg-[#fafafa] mt-[2.5rem]">
-                <button
-                  onClick={goPrev}
-                  disabled={safePage === 1}
-                >
+                <button onClick={goPrev} disabled={safePage === 1}>
                   <LeftIcon />
                 </button>
 
@@ -171,10 +159,7 @@ const ProgressSection = ({ active, setActive }: Props) => {
                   {safePage} / {totalPages}
                 </div>
 
-                <button
-                  onClick={goNext}
-                  disabled={safePage === totalPages}
-                >
+                <button onClick={goNext} disabled={safePage === totalPages}>
                   <RightIcon />
                 </button>
               </div>

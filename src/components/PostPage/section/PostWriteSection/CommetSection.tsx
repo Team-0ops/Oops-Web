@@ -1,6 +1,6 @@
 import React from "react";
-import { wantedCommentType, wantedCommentTypeMap } from "../../types/Common";
-import Check from "../../assets/icons/Check.svg?react";
+import { wantedCommentType, wantedCommentTypeMap } from "../../../../types/Common";
+import Check from "../../../../assets/icons/Check.svg?react";
 
 
 type Props = {
