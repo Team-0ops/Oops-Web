@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import CameraIcon from "../../assets/icons/CamearIcon.svg?react";
+import CameraIcon from "../../../assets/icons/CamearIcon.svg?react";
 
 type Props = {
   currentImageSrc: string | null;

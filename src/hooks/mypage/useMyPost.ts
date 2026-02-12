@@ -3,7 +3,7 @@ import { getMyPosts } from "../../apis/mypage";
 import { myPageKeys } from "./queryKey";
 import type { GetMyPostsParams } from "../../types/MyPage";
 
-// 내 실패담 조회 훅
+// 내 실패담 조회 쿼리훅
 export const useMyPosts = (params: GetMyPostsParams) => {
   return useQuery({
     queryKey: myPageKeys.posts(params),

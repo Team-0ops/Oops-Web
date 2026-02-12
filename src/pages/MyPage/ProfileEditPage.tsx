@@ -3,10 +3,10 @@ import { useProfile } from "../../hooks/mypage/useProfile";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { GetMyProfileResponse } from "../../types/MyPage";
 
-import ProfileAvatarSection from "../../components/MyPage/ProfileAvatarSection";
-import NicknameField from "../../components/MyPage/NicknameField";
-import EmailField from "../../components/MyPage/EmailField";
-import ProfileSaveSection from "../../components/MyPage/ProfileSaveSection";
+import ProfileAvatarSection from "../../components/MyPage/EditProfilePage/ProfileAvatarSection";
+import NicknameField from "../../components/MyPage/EditProfilePage/NicknameField";
+import EmailField from "../../components/MyPage/EditProfilePage/EmailField";
+import ProfileSaveSection from "../../components/MyPage/EditProfilePage/ProfileSaveSection";
 
 const ProfileEditPage = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);

@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import  MyPageSidebar  from "../../components/MyPage/MyPageSidebar";
+import  MyPageSidebar  from "../../components/MyPage/EditProfilePage/MyPageSidebar";
 
 export default function MyPageLayout() {
   return (

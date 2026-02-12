@@ -9,7 +9,7 @@ const menus = [
 const MyPageSidebar = () => {
   return (
     <div className="
-    w-[9.875rem] min-h-[22.25rem] rounded-[0.5rem]
+    w-[9.875rem] max-h-[22.25rem] rounded-[0.5rem]
     border-[0.06rem] border-[#e4e4e4] bg-[#fafafa]">
       <ul className="w-full h-full flex flex-col gap-[2.5rem] py-[2.5rem] px-[1.88rem]">
         {menus.map((m) => (
