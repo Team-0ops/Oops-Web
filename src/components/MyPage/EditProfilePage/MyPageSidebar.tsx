@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { useLogout } from "../../../hooks/auth/useLogout";
 
 const menus = [
   { to: "/my-profile/profile", label: "프로필 수정" },
@@ -7,6 +8,9 @@ const menus = [
 ];
 
 const MyPageSidebar = () => {
+  const {mutate: logoutMute} = useLogout();
+
+
   return (
     <div className="
     w-[9.875rem] max-h-[22.25rem] rounded-[0.5rem]
@@ -27,7 +31,9 @@ const MyPageSidebar = () => {
           </li>
         ))}
         <li className="mt-[3.525rem]">
-          <button className="cursor-pointer">
+          <button
+          onClick={()=>logoutMute()} 
+          className="cursor-pointer">
             로그아웃
           </button>
         </li>

@@ -42,7 +42,7 @@ export type GetMyPostsParams = {
 }
 
 export type GetMyLessonsParams = {
-    tag?: string;
+    tag?: string[];
 }
 
 export type editMyProfileParams = {

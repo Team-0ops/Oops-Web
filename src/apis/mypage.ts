@@ -36,7 +36,6 @@ export const editMyProfile = async ({
     formData.append("profileImage", profileImage);
   }
 
-  //   TODO: api 에러 수정하면 response 타입 정의하기
   const { data } = await axiosInstance.patch<CommonResponse<null>>("my-page/profile", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -67,8 +66,8 @@ export const getMyPosts = async ({
 
 // 내 교훈 조회
 export const getMyLessons = async ({ tag }: GetMyLessonsParams) => {
-  const { data } = await axiosInstance.get<
-    CommonResponse<GetMyLessonsResponse>
+  const {data} = await axiosInstance.get<
+    CommonResponse<GetMyLessonsResponse[]>
   >("my-page/lessons", {
     params: {
       tag,

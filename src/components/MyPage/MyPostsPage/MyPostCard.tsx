@@ -1,6 +1,7 @@
 import type { GetMyPostsResponse } from "../../../types/MyPage";
 import { useNavigate } from "react-router-dom";
 
+//TODO: 카테고리와 content 사이 공간 조정 -> flex로 묶어야할지.. margin을 갈궈야할지.. 고민중
 export default function MyPostCard({ post }: { post: GetMyPostsResponse }) {
   const img = post.imageUrls?.[0] ?? null;
   const navigate = useNavigate();
