@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Checkbox from "../common/Checkbox";
 import NextArrow from "../../assets/icons/NextArrow.svg?react";
 import { useLocation, useNavigate } from "react-router-dom";
