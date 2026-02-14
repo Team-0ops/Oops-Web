@@ -2,6 +2,7 @@ import "./App.css";
 import PublicLayout from "./layout/PublicLayout";
 import {
   createBrowserRouter,
+  Navigate,
   RouterProvider,
   type RouteObject,
 } from "react-router-dom";
@@ -15,7 +16,7 @@ import PostWrite from "./pages/Post/PostWritePage.tsx";
 import PostSuccess from "./pages/Post/PostSuccess.tsx";
 import RandomFeedPage from "./pages/RandomFeedPage.tsx";
 import LuckyDrawPage from "./pages/LuckyDrawPage.tsx";
-import MyPage from "./pages/MyPage.tsx";
+import  MyPageLayout  from "./pages/MyPage/MyPageLayout.tsx";
 import PostDetailPage from "./pages/Post/PostDetailPage.tsx";
 import AdminMainPage from "./pages/Admin/AdminMainPage.tsx";
 import FavoriteFeedPage from "./pages/FavoriteFeedPage.tsx";
@@ -24,8 +25,12 @@ import BestFeedPage from "./pages/BestFeedPage.tsx";
 import PostReportDetailPage from "./pages/Admin/PostReportDetailPage.tsx";
 import CommentReportDetailPage from "./pages/Admin/CommentReportDetailPage.tsx";
 import UserDetailPage from "./pages/Admin/UserDetailPage.tsx";
-
-
+import ServiceTerm from "./components/Terms/ServiceTerm.tsx";
+import PrivacyTerms from "./components/Terms/PrivacyTerms.tsx";
+import MarketingTerm from "./components/Terms/Marketing.tsx";
+import ProfileEditPage from "./pages/MyPage/ProfileEditPage.tsx";
+import MyPostPage from "./pages/MyPage/MyPostPage.tsx";
+import MyLessonPage from "./pages/MyPage/MyLessonPage.tsx";
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
@@ -42,10 +47,24 @@ const publicRoutes: RouteObject[] = [
         path: "login",
         element: <LogInPage />,
       },
+      //TODO: login 사항 없도록 라우터 분리
       {
         path: "signup",
         element: <SignUpPage />,
       },
+      {
+        path: "terms1",
+        element: <ServiceTerm />,
+      },
+      {
+        path: "terms2",
+        element: <PrivacyTerms />,
+      },
+      {
+        path: "terms3",
+        element: <MarketingTerm />,
+      },
+      /////////////////////////
       {
         path: "search",
         element: <SearchPage />,
@@ -72,7 +91,13 @@ const publicRoutes: RouteObject[] = [
       },
       {
         path: "my-profile",
-        element: <MyPage/>
+        element: <MyPageLayout />,
+        children: [
+          { index: true, element: <Navigate to="profile" replace /> },
+          { path: "profile", element: <ProfileEditPage /> },
+          { path: "posts", element: <MyPostPage /> },
+          { path: "lessons", element: <MyLessonPage /> },
+        ],
       },
       // 설정한 path 이외에 모든 Path 에 대해 ErrorPage 랜더링
       {
@@ -81,16 +106,16 @@ const publicRoutes: RouteObject[] = [
       },
       {
         path: "post",
-        element: <PostWrite />
+        element: <PostWrite />,
       },
       {
         path: "post/success",
-        element: <PostSuccess />
+        element: <PostSuccess />,
       },
       {
         path: "posts/:postId",
-        element: <PostDetailPage />
-      }
+        element: <PostDetailPage />,
+      },
     ],
   },
   {
@@ -124,9 +149,9 @@ function App() {
   return (
     <>
       <AuthProvider>
-      {/* <QueryClientProvider client={queryClient} */}
+        {/* <QueryClientProvider client={queryClient} */}
         <RouterProvider router={router} />
-      {/* </QueryClientProvider> */}
+        {/* </QueryClientProvider> */}
       </AuthProvider>
     </>
   );
