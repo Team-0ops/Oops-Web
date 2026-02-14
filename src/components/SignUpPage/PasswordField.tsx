@@ -1,6 +1,8 @@
 import { useState } from "react";
 import XIcon from "../../assets/icons/X.svg?react";
 import InvisibleIcon from "../../assets/icons/Invisible.svg?react";
+import { ErrorMessage } from "./Messages";
+import { SuccessMessage } from "./Messages";
 
 type PasswordFieldProps = {
   label: string;
@@ -8,6 +10,9 @@ type PasswordFieldProps = {
   value: string;
   onChange: (value: string) => void;
   onClear?: () => void;
+  message?: string;
+  messages?: string[];
+  messageType?: "success" | "error";
 };
 
 export const PasswordField = ({
@@ -16,13 +21,23 @@ export const PasswordField = ({
   value,
   onChange,
   onClear,
+  message,
+  messages,
+  messageType,
 }: PasswordFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
+
+  const displayMessages =
+    messages ?? (message ? [message].filter(Boolean) : []);
+
+  const MessageItem = messageType === "success" ? SuccessMessage : ErrorMessage;
 
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-start justify-start gap-8">
-        <label className="font-pretendard font-semibold text-[#262627] whitespace-nowrap w-24">{label}</label>
+        <label className="font-pretendard font-semibold text-[#262627] whitespace-nowrap w-24">
+          {label}
+        </label>
         <div className="relative flex-1">
           <input
             type={showPassword ? "text" : "password"}
@@ -55,9 +70,17 @@ export const PasswordField = ({
           </div>
         </div>
       </div>
+      {displayMessages.length > 0 ? (
+        <ul className="ml-32 flex flex-col gap-[0.5rem]">
+          {displayMessages.map((m, idx) => (
+            <li key={`${m}-${idx}`} className="text-xs flex items-center gap-[0.62rem]">
+              <MessageItem text={m} />
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 };
 
 export default PasswordField;
-
