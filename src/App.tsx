@@ -19,6 +19,9 @@ import LuckyDrawPage from "./pages/LuckyDrawPage.tsx";
 import  MyPageLayout  from "./pages/MyPage/MyPageLayout.tsx";
 import PostDetailPage from "./pages/Post/PostDetailPage.tsx";
 import AdminMainPage from "./pages/Admin/AdminMainPage.tsx";
+import FavoriteFeedPage from "./pages/FavoriteFeedPage.tsx";
+import CategoryFeedPage from "./pages/CategoryFeedPage.tsx";
+import BestFeedPage from "./pages/BestFeedPage.tsx";
 import PostReportDetailPage from "./pages/Admin/PostReportDetailPage.tsx";
 import CommentReportDetailPage from "./pages/Admin/CommentReportDetailPage.tsx";
 import UserDetailPage from "./pages/Admin/UserDetailPage.tsx";
@@ -73,6 +76,18 @@ const publicRoutes: RouteObject[] = [
       {
         path: "lucky-draw",
         element: <LuckyDrawPage />,
+      },
+      {
+        path: "favorite-feed",
+        element: <FavoriteFeedPage />,
+      },
+      {
+        path: "category-feed/:categoryId",
+        element: <CategoryFeedPage />,
+      },
+      {
+        path: "best-failer",
+        element: <BestFeedPage />,
       },
       {
         path: "my-profile",

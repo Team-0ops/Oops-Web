@@ -11,7 +11,7 @@ import {
 } from "../../mocks/adminReportData";
 
 export const PostReportDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id: _id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;

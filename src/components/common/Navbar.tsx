@@ -1,7 +1,9 @@
+import { useState } from "react";
 import Burger from "../../assets/icons/Burger.svg?react";
 import Logo from "../../assets/icons/OopsLogo.svg?react";
 import Search from "../../assets/icons/Search.svg?react";
 import Profile from "../../assets/icons/Profile.svg?react";
+import { Sidebar } from "./Sidebar";
 
 import {useNavigate} from "react-router-dom";
 
@@ -13,11 +15,16 @@ Common Component : Navbar
 const Navbar = () => {
   const {isAuthenticated, user} = useAuth()
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
-    <nav className="w-full h-28.25 flex justify-between items-center">
+    <>
+      <nav className="w-full h-28.25 flex justify-between items-center">
         <div className="flex gap-12.5">
           <div className="flex gap-7.5">
-            <Burger />
+            <button onClick={() => setIsSidebarOpen(true)}>
+              <Burger />
+            </button>
             <Logo
               onClick ={() => navigate("/")}
             />
@@ -25,11 +32,13 @@ const Navbar = () => {
           <div className="body3 flex gap-7.5">
             <div
                 onClick ={() => navigate("/random-feed")}
+                className="cursor-pointer"
             >
               랜덤 주제 피드
             </div>
             <div
                 onClick ={() => navigate("/lucky-draw")}
+                className="cursor-pointer"
             >
               행운 부적 추첨
             </div>
@@ -68,7 +77,9 @@ const Navbar = () => {
               </button>
           }
         </div>
-    </nav>
+      </nav>
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+    </>
   );
 };
 

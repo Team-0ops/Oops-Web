@@ -19,4 +19,3 @@ export const getMyInfo = async () :Promise<ResponseMyInfoDto> => {
 
   return data;
 }
-
