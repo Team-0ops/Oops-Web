@@ -8,8 +8,7 @@ import {
 } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import ErrorPage from "./pages/ErrorPage";
-import LogInPage from "./pages/LogInPage.tsx";
-import SignUpPage from "./pages/SignUp/SignUpPage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
 import SearchPage from "./pages/SearchPage";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import PostWrite from "./pages/Post/PostWritePage.tsx";
@@ -18,19 +17,18 @@ import RandomFeedPage from "./pages/RandomFeedPage.tsx";
 import LuckyDrawPage from "./pages/LuckyDrawPage.tsx";
 import  MyPageLayout  from "./pages/MyPage/MyPageLayout.tsx";
 import PostDetailPage from "./pages/Post/PostDetailPage.tsx";
-import AdminMainPage from "./pages/Admin/AdminMainPage.tsx";
 import FavoriteFeedPage from "./pages/FavoriteFeedPage.tsx";
 import CategoryFeedPage from "./pages/CategoryFeedPage.tsx";
 import BestFeedPage from "./pages/BestFeedPage.tsx";
-import PostReportDetailPage from "./pages/Admin/PostReportDetailPage.tsx";
-import CommentReportDetailPage from "./pages/Admin/CommentReportDetailPage.tsx";
-import UserDetailPage from "./pages/Admin/UserDetailPage.tsx";
 import ServiceTerm from "./components/Terms/ServiceTerm.tsx";
 import PrivacyTerms from "./components/Terms/PrivacyTerms.tsx";
 import MarketingTerm from "./components/Terms/Marketing.tsx";
 import ProfileEditPage from "./pages/MyPage/ProfileEditPage.tsx";
 import MyPostPage from "./pages/MyPage/MyPostPage.tsx";
 import MyLessonPage from "./pages/MyPage/MyLessonPage.tsx";
+import SignUpPage from "./pages/SignUpPage.tsx";
+import FindPasswordPage from "./pages/FindPasswordPage.tsx";
+import SetNewPassWordPage from "./pages/SetNewPasswordPage.tsx";
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
@@ -45,7 +43,7 @@ const publicRoutes: RouteObject[] = [
       },
       {
         path: "login",
-        element: <LogInPage />,
+        element: <LoginPage />,
       },
       //TODO: login 사항 없도록 라우터 분리
       {
@@ -65,6 +63,18 @@ const publicRoutes: RouteObject[] = [
         element: <MarketingTerm />,
       },
       /////////////////////////
+      {
+        path: "find-password",
+        element: <FindPasswordPage />
+      },
+      {
+        path: "set-password",
+        element: <SetNewPassWordPage />
+      },
+      {
+        path: "signup",
+        element: <SignUpPage />
+      },
       {
         path: "search",
         element: <SearchPage />,
@@ -118,22 +128,6 @@ const publicRoutes: RouteObject[] = [
       },
     ],
   },
-  {
-    path: "/admin",
-    element: <AdminMainPage />,
-  },
-  {
-    path: "/admin/post-report/:id",
-    element: <PostReportDetailPage />,
-  },
-  {
-    path: "/admin/comment-report/:id",
-    element: <CommentReportDetailPage />,
-  },
-  {
-    path: "/admin/user/:id",
-    element: <UserDetailPage />,
-  },
 ];
 
 //router 생성 : 이후 portected를 위해 배열로 넣음
@@ -149,9 +143,9 @@ function App() {
   return (
     <>
       <AuthProvider>
-        {/* <QueryClientProvider client={queryClient} */}
+      {/* <QueryClientProvider client={queryClient} */}
         <RouterProvider router={router} />
-        {/* </QueryClientProvider> */}
+      {/* </QueryClientProvider> */}
       </AuthProvider>
     </>
   );

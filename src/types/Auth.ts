@@ -7,6 +7,23 @@ export type RequestSignInDto = {
     password: string;
 };
 
+export type RequestSendVerifyEmailDto = {
+    email: string;
+    purpose: EmailAuthType
+};
+
+export type RequestVerifyCodeDto = {
+    email: string,
+    purpose : EmailAuthType
+    code: string
+}
+
+export type RequestSetNewPasswordDto = {
+    email: string,
+    verificationToken: string
+    newPassword: string
+};
+
 //TODO: 추후 백엔드에게 token값 삭제 부탁 -> 자동으로 쿠키에 들어가기 때문
 export type ResponseSignInDto = CommonResponse<{
     userId: number,
@@ -19,7 +36,7 @@ export type ResponseSignInDto = CommonResponse<{
 
 export type ResponseMyInfoDto = CommonResponse<User>;
 
-// 이메일 인증코드 발송 타입. 
+// 이메일 인증코드 발송 타입.
 // TODO: purpose 유니온 확장 -> 현재는 회원가입의 경우지만 마이페이지에서 이메일 변경할때도 사용하기 때문
 export type SenderEmailParams = {
     email: string;
@@ -32,3 +49,21 @@ export type VerifyEmailParams = {
     purpose: "SIGNUP"
     code: string;
 }
+
+
+export type EmailAuthType =
+    | "SIGNUP"
+    | "PASSWORD_RESET";
+
+export type ResponseSendVerificationEmailDto = CommonResponse<null>
+
+export type ResponseVerifyCodeDto = CommonResponse<{
+    verificationToken: string
+}>
+
+export type RequestSetNewPassword = {
+    email: string,
+    verificationToken: string,
+    newPassword: string
+}
+// export type ResponseSetNewPassword = CommonResponse<>
