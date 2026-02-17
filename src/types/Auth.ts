@@ -66,4 +66,4 @@ export type RequestSetNewPassword = {
     verificationToken: string,
     newPassword: string
 }
-export type ResponseSetNewPassword = CommonResponse<>
+// export type ResponseSetNewPassword = CommonResponse<>

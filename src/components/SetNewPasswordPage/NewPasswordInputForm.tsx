@@ -18,6 +18,7 @@ const NewPasswordInputForm = ({ token, email }: NewPasswordInputFormProps) => {
     } = useSetNewPassword({token, email});
 
 
+    //TODO: api 수정 후 비밀번호 변경 시 발생 에러, 리턴 값 확인 후 설정
     return (
         <><div className="flex flex-col gap-25">
             <div className="flex flex-col justify-center gap-15">
