@@ -2,7 +2,7 @@ import {
   RequestSignInDto,
   ResponseSignInDto,
   ResponseMyInfoDto, RequestSendVerifyEmailDto, ResponseSendVerificationEmailDto, RequestVerifyCodeDto,
-  ResponseVerifyCodeDto,
+  ResponseVerifyCodeDto, RequestSetNewPassword,
 } from "../types/Auth.ts";
 import { axiosInstance } from "./axios.ts";
 
@@ -31,6 +31,7 @@ export const postVerifyCode = async (body: RequestVerifyCodeDto):Promise<Respons
   return data;
 }
 
-export const postNewPassword = async (body: ):Promise<> => {
-  const {data} = await axiosInstance.post("/auth/password", body)
+export const postNewPassword = async (body: RequestSetNewPassword ):Promise<{data: string}> => {
+  const {data} = await axiosInstance.post("/auth/reset-password", body)
+  return data;
 }

@@ -61,4 +61,9 @@ export type ResponseVerifyCodeDto = CommonResponse<{
     verificationToken: string
 }>
 
+export type RequestSetNewPassword = {
+    email: string,
+    verificationToken: string,
+    newPassword: string
+}
 export type ResponseSetNewPassword = CommonResponse<>

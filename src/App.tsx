@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import ErrorPage from "./pages/ErrorPage";
-import SignUpPage from "./pages/SignUp/SignUpPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import SearchPage from "./pages/SearchPage";
 import { AuthProvider } from "./context/AuthContext.tsx";
@@ -18,20 +17,15 @@ import RandomFeedPage from "./pages/RandomFeedPage.tsx";
 import LuckyDrawPage from "./pages/LuckyDrawPage.tsx";
 import  MyPageLayout  from "./pages/MyPage/MyPageLayout.tsx";
 import PostDetailPage from "./pages/Post/PostDetailPage.tsx";
-import AdminMainPage from "./pages/Admin/AdminMainPage.tsx";
 import FavoriteFeedPage from "./pages/FavoriteFeedPage.tsx";
 import CategoryFeedPage from "./pages/CategoryFeedPage.tsx";
 import BestFeedPage from "./pages/BestFeedPage.tsx";
-import PostReportDetailPage from "./pages/Admin/PostReportDetailPage.tsx";
-import CommentReportDetailPage from "./pages/Admin/CommentReportDetailPage.tsx";
-import UserDetailPage from "./pages/Admin/UserDetailPage.tsx";
 import ServiceTerm from "./components/Terms/ServiceTerm.tsx";
 import PrivacyTerms from "./components/Terms/PrivacyTerms.tsx";
 import MarketingTerm from "./components/Terms/Marketing.tsx";
 import ProfileEditPage from "./pages/MyPage/ProfileEditPage.tsx";
 import MyPostPage from "./pages/MyPage/MyPostPage.tsx";
 import MyLessonPage from "./pages/MyPage/MyLessonPage.tsx";
-import MyPage from "./pages/MyPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
 import FindPasswordPage from "./pages/FindPasswordPage.tsx";
 import SetNewPassWordPage from "./pages/SetNewPasswordPage.tsx";
@@ -133,22 +127,6 @@ const publicRoutes: RouteObject[] = [
         element: <PostDetailPage />,
       },
     ],
-  },
-  {
-    path: "/admin",
-    element: <AdminMainPage />,
-  },
-  {
-    path: "/admin/post-report/:id",
-    element: <PostReportDetailPage />,
-  },
-  {
-    path: "/admin/comment-report/:id",
-    element: <CommentReportDetailPage />,
-  },
-  {
-    path: "/admin/user/:id",
-    element: <UserDetailPage />,
   },
 ];
 

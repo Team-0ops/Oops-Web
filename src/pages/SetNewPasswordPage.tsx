@@ -1,13 +1,20 @@
 import MainLogo from "../components/common/MainLogo.tsx";
 import NewPasswordInputForm from "../components/SetNewPasswordPage/NewPasswordInputForm.tsx";
-import {useSearchParams} from "react-router-dom";
+import {useLocation, useSearchParams} from "react-router-dom";
+
+interface LocationState {
+    email: string;
+}
 
 const SetNewPassWordPage = () => {
     const [searchParams] = useSearchParams();
     const token = searchParams.get("token");
+    const location = useLocation();
+    const state = location.state as LocationState | null;
+    const email = state?.email;
 
     //토큰 입력값이 없을 경우
-    if (!token) {
+    if (!token || !email) {
         return <div>잘못된 접근입니다.</div>;
     }
 
@@ -22,7 +29,7 @@ const SetNewPassWordPage = () => {
                     </span>
                     </div>
                     <div>
-                        <NewPasswordInputForm token={token}/>
+                        <NewPasswordInputForm token={token} email={email}/>
                     </div>
                 </div>
             </div>

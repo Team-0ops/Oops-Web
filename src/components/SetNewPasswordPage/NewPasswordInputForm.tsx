@@ -1,21 +1,22 @@
 import FormInput from "../common/FormInput.tsx";
 import useSetNewPassword from "../../hooks/auth/useSetNewPassword.ts";
-interface queryProps {
+interface NewPasswordInputFormProps {
     token: string;
+    email: string;
 }
-
-const NewPasswordInputForm = ({token} :queryProps) => {
+const NewPasswordInputForm = ({ token, email }: NewPasswordInputFormProps) => {
 
     const {
         newPassword,
         setNewPassword,
         newPasswordConfirm,
         setNewPasswordConfirm,
-        error,
-        loading,
-        status,
-        postNewPassword,
-    } = useSetNewPassword(token);
+        // error,
+        // loading,
+        // status,
+        resetPassword
+    } = useSetNewPassword({token, email});
+
 
     return (
         <><div className="flex flex-col gap-25">
@@ -45,7 +46,7 @@ const NewPasswordInputForm = ({token} :queryProps) => {
             </div>
             <button
                 type="submit"
-                onClick={postNewPassword}
+                onClick={resetPassword}
                 className={`body1 h-13.75 items-center text-center rounded-lg
                bg-[#B3E378]`}>
                 비밀번호 변경

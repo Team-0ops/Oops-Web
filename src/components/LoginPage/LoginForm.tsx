@@ -86,6 +86,7 @@ const LoginForm = () => {
                             </span>
                             <span
                                 onClick={()=>navigate("/find-password")}
+                                className={'cursor-pointer'}
                             >
                               비밀번호 찾기
                             </span>
