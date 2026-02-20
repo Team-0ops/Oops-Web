@@ -18,6 +18,7 @@ type Props = {
   lesson: GetLessonResult | null;
   isLessonLoading:boolean;
   currentUserId?:number;
+  onClickDelete: () => void;
 };
 
 export default function PostViewCard({
@@ -27,7 +28,8 @@ export default function PostViewCard({
   onClickLesson,
   lesson,
   isLessonLoading,
-  currentUserId
+  currentUserId,
+  onClickDelete,
 }: Props) {
   // 공유
   const [isShareOpen, setIsShareOpen] = useState(false);
@@ -51,6 +53,7 @@ export default function PostViewCard({
           lesson={lesson}
           isLessonLoading={isLessonLoading}
           currentUserId={currentUserId}
+          onClickDelete={onClickDelete}
         />
 
         {/* (본문) */}

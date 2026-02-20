@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { formatYYMD } from "../../../../utils/date";
 
 import type { GetLessonResult } from "../../../../types/post";
 import type { PostDetail } from "../../../../types/post";
@@ -18,6 +19,7 @@ type Props = {
   lesson: GetLessonResult | null;
   isLessonLoading: boolean;
   currentUserId?: number;
+  onClickDelete: () => void;
 };
 
 export default function PostHeaderSection({
@@ -27,6 +29,7 @@ export default function PostHeaderSection({
   lesson,
   isLessonLoading,
   currentUserId,
+  onClickDelete
 }: Props) {
   const [openPreview, setOpenPreview] = useState(false);
   const [openMore, setOpenMore] = useState(false);
@@ -50,7 +53,6 @@ export default function PostHeaderSection({
 
   const isMine = currentUserId !== undefined && post.userId === currentUserId;
   
-  console.log(currentUserId, post.userId)
   return (
     <section className="flex flex-col gap-[1.25rem]">
       {/* 카테고리 */}
@@ -98,7 +100,7 @@ export default function PostHeaderSection({
             </div>
           </div>
 
-          <div>{new Date(post.created_at).toLocaleString()}</div>
+          <div>{formatYYMD(post.created_at)}</div>
         </div>
 
         {/* 교훈 버튼 + (있으면) 아래 미니 모달 */}
@@ -151,6 +153,7 @@ export default function PostHeaderSection({
                     type="button"
                     onClick={() => {
                       setOpenMore(false);
+                      onClickDelete?.();
                     }}
                     className="w-full px-[1.25rem] py-[0.75rem] text-left hover:bg-[#f6f6f6]"
                   >

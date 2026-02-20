@@ -33,7 +33,7 @@ const TitleContentSection = ({
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full h-[3.9375rem] flex items-center self-stretch bg-[#FAF6E9] px-[1.25rem] 
+            className="w-full h-[3.9375rem] flex items-center self-stretch bg-[#FAFAFA] px-[1.25rem] 
           border-[0.06rem] border-solid border-[#E4E4E4] rounded-[0.5rem]"
           />
         </div>
@@ -44,7 +44,7 @@ const TitleContentSection = ({
             maxLength={3000}
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full h-[20.9375rem] resize-none flex items-start self-stretch bg-[#faf6e9]
+            className="w-full h-[20.9375rem] resize-none flex items-start self-stretch bg-[#FAFAFA]
           border-[0.06rem] border-solid border-[#e4e4e4] rounded-[0.5rem] p-[1.25rem]"
           />
           <div className={`text-[#8f8f8f] ${content.length === 3000 ? "text-red-500" : ""}`}>

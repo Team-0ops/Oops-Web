@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import useGetMyPosts from "../../../../hooks/post/useGetMyPost";
 import { MyPost } from "../../../../types/post";
-import {CategoryName } from "../../../../types/Common";
+import { CategoryName } from "../../../../types/Common";
 
 import LeftIcon from "../../../../assets/icons/LeftArrow.svg?react";
 import RightIcon from "../../../../assets/icons/RightArrow.svg?react";
@@ -17,8 +17,12 @@ type Props = {
 
 const PAGE_SIZE = 3;
 
-const ProgressSection = ({ active, setActive, selectedPreviousPostId, onSelectPreviousPostId }: Props) => {
- 
+const ProgressSection = ({
+  active,
+  setActive,
+  selectedPreviousPostId,
+  onSelectPreviousPostId,
+}: Props) => {
   const [page, setPage] = useState<number>(1);
 
   // 탭에 따라 게시물 불러오기
@@ -39,11 +43,11 @@ const ProgressSection = ({ active, setActive, selectedPreviousPostId, onSelectPr
     "flex w-full cursor-pointer items-center justify-center rounded-[1.88rem] py-[0.69rem] px-[7.75rem] transition-colors";
 
   const getButtonClass = (type: ActiveStatus) =>
-    `${buttonClass} ${active === type ? "bg-[#b3e378]" : "bg-[#faf6e9]"}`;
+    `${buttonClass} ${active === type ? "bg-[#b3e378]" : "bg-[#FAFAFA]"}`;
 
   const filtered = useMemo(
     () => posts.filter((post) => post.situation === displaySituation),
-    [posts, displaySituation],
+    [posts, displaySituation]
   );
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
@@ -65,7 +69,7 @@ const ProgressSection = ({ active, setActive, selectedPreviousPostId, onSelectPr
   return (
     <section className="select-none w-full flex flex-col gap-[1.25rem]">
       <div>진행상황</div>
-      <div className="flex gap-[2.12rem] rounded-[1.88rem] border-[0.06rem] border-solid border-[#e4e4e4] justify-between items-center bg-[#FAF6E9]">
+      <div className="flex gap-[2.12rem] rounded-[1.88rem] border-[0.06rem] border-solid border-[#e4e4e4] justify-between items-center bg-[#FAFAFA]">
         <button
           className={getButtonClass("OOPS")}
           onClick={() => setActive("OOPS")}
@@ -110,10 +114,16 @@ const ProgressSection = ({ active, setActive, selectedPreviousPostId, onSelectPr
                   return (
                     <li
                       key={post.postId}
-                      onClick={() => onSelectPreviousPostId(post.postId,post.categoryName )}
-                      className={`flex justify-between gap-[3.12rem] pb-[1.88rem] pt-[2.5rem] cursor-pointer ${isSelected ? "border-[#b2b2b2] border-[0.06rem]" : ""}`}
+                      onClick={() =>
+                        onSelectPreviousPostId(post.postId, post.categoryName)
+                      }
+                      className={`flex justify-between gap-[3.12rem] pb-[1.88rem] pt-[2.5rem] cursor-pointer ${isSelected ? "bg-[#E4E4E4] rounded-[0.5rem] border-[0.06rem] border-[#b2b2b2] p-[1rem] -mx-[1rem]" : ""}`}
                     >
-                      <div className={"flex flex-col flex-1 min-w-0 min-h-[10.625rem] justify-between"}>
+                      <div
+                        className={
+                          "flex flex-col flex-1 min-w-0 min-h-[10.625rem] justify-between"
+                        }
+                      >
                         <div>
                           <div>{post.title}</div>
                           <div className="mt-[0.94rem] max-h-[3.75rem] overflow-hidden">
@@ -149,7 +159,7 @@ const ProgressSection = ({ active, setActive, selectedPreviousPostId, onSelectPr
               </ul>
 
               <hr className="border-[#d2d2d2]" />
-              {/* 페이지네이션 컴포넌트 화 시켜야됨*/}
+              {/* 페이지네이션*/}
               <div className="flex items-center justify-between bg-[#fafafa] mt-[2.5rem]">
                 <button onClick={goPrev} disabled={safePage === 1}>
                   <LeftIcon />

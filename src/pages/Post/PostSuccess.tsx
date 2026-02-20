@@ -6,7 +6,14 @@ import PostButton from "../../assets/icons/PostBackButton.svg?react";
 import { useNavigate } from "react-router-dom";
 
 const PostSuccess = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const postId = localStorage.getItem("postId");
+
+  const handleSuccess = () => {
+    navigate(`/posts/${postId}`);
+    localStorage.removeItem("postId");
+  }
 
   return (
     <div className="w-full flex items-center justify-center">
@@ -23,7 +30,7 @@ const PostSuccess = () => {
           <button className="cursor-pointer" onClick={() => navigate("/")}>
             <MainButton />
           </button>
-          <button className="cursor-pointer" onClick={() => navigate("/post")}>
+          <button className="cursor-pointer" onClick={handleSuccess}>
             <PostButton />
           </button>
         </div>

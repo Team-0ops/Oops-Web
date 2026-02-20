@@ -44,6 +44,11 @@ export type GetCreatePostsResponse = {
     totalElements: number;
     totalPages: number;
   };
+  result:{
+    imageUrls?:string[];
+    message:string;
+    postId:number;
+  }
 };
 
 export type Post = {

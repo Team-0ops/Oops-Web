@@ -74,13 +74,13 @@ const PostWrite = () => {
     };
 
     try {
-      const result = await createPost(
+      const res = await createPost(
         payload,
         images.map((img) => img.file),
       );
 
       alert("작성 완료!");
-      console.log("Post created:", result);
+      localStorage.setItem("postId",String(res.result.postId));
       navigate("/post/success");
     } catch {
       alert("작성 실패!");
@@ -100,7 +100,6 @@ const PostWrite = () => {
     setSelectedCategory(category);
   };
 
-  console.log("previousPostId",previousPostId)
   // 진행상황 탭 변경 시 이전 게시물 초기화
   useEffect(() => {
     setPreviousPostId(null);
