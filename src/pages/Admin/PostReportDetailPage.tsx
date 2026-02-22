@@ -16,7 +16,7 @@ export const PostReportDetailPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
   // 버셀 에러 해결을 위한 id값 사용
-  console.log("id",id)
+  console.log("id",_id)
 
   // 페이지네이션 계산
   const indexOfLastItem = currentPage * itemsPerPage;

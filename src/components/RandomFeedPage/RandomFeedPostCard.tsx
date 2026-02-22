@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Like from "../../assets/icons/Like.svg?react";
 import Comment from "../../assets/icons/Comment.svg?react";
 import View from "../../assets/icons/View.svg?react";
@@ -20,10 +21,15 @@ interface RandomFeedPostCardProps {
 }
 
 export const RandomFeedPostCard = (postData: RandomFeedPostCardProps) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="flex flex-col gap-[30px]">
-        <div className="flex gap-[50px] items-center">
+        <div
+          className="flex gap-[50px] items-center cursor-pointer"
+          onClick={() => postData.postId !== undefined && navigate(`/posts/${postData.postId}`)}
+        >
           <div className="flex flex-col gap-[30px] flex-1">
             <div className="flex flex-col gap-[15px] text-[#262627]">
               <h3 className="text-[24px] font-bold leading-[100%]">
