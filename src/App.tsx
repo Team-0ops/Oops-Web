@@ -28,7 +28,7 @@ import MyPostPage from "./pages/MyPage/MyPostPage.tsx";
 import MyLessonPage from "./pages/MyPage/MyLessonPage.tsx";
 import FindPasswordPage from "./pages/FindPasswordPage.tsx";
 import SetNewPassWordPage from "./pages/SetNewPasswordPage.tsx";
-import SignUpPage from "./pages/SignUpPage.tsx";
+import SignUpPage from "./pages/SignUp/SignUpPage.tsx";
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
