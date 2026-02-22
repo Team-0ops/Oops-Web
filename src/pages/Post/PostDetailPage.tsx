@@ -105,14 +105,14 @@ export default function PostDetailPage() {
     activeStage,
     stageMap,
     postId: post?.postId,
-    onSuccess: () => {
+    onSuccess: (nextPostId) => {
       alert("삭제되었습니다.");
-
-      const next =
-        stageMap?.OVERCOME?.postId ??
-        stageMap?.OVERCOMING?.postId ??
-        stageMap?.OOPS?.postId;
-      if (next) navigate(`/posts/${next}`, { replace: true });
+  
+      if (nextPostId) {
+        navigate(`/posts/${nextPostId}`, { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
     },
   });
 

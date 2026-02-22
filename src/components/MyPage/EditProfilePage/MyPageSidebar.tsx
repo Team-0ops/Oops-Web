@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom";
-import { useLogout } from "../../../hooks/auth/useLogout";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 const menus = [
   { to: "/my-profile/profile", label: "프로필 수정" },
@@ -8,22 +8,22 @@ const menus = [
 ];
 
 const MyPageSidebar = () => {
-  const {mutate: logoutMute} = useLogout();
-
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
-    <div className="
+    <div
+      className="
     w-[9.875rem] max-h-[22.25rem] rounded-[0.5rem]
-    border-[0.06rem] border-[#e4e4e4] bg-[#fafafa]">
+    border-[0.06rem] border-[#e4e4e4] bg-[#fafafa]"
+    >
       <ul className="w-full h-full flex flex-col gap-[2.5rem] py-[2.5rem] px-[1.88rem]">
         {menus.map((m) => (
           <li key={m.to}>
             <NavLink
               to={m.to}
               className={({ isActive }) =>
-                ` ${
-                  isActive ? "font-semibold" : "bg-white"
-                }`
+                ` ${isActive ? "font-semibold" : "bg-white"}`
               }
             >
               {m.label}
@@ -32,8 +32,12 @@ const MyPageSidebar = () => {
         ))}
         <li className="mt-[3.525rem]">
           <button
-          onClick={()=>logoutMute()} 
-          className="cursor-pointer">
+            onClick={() => {
+              logout();
+              navigate("/");
+            }}
+            className="cursor-pointer"
+          >
             로그아웃
           </button>
         </li>

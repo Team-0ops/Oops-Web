@@ -59,7 +59,7 @@ export default function PostHeaderSection({
       <div className="flex items-center justify-between">
         <div
           className="
-            w-[6.25rem] h-[2.25rem] px-[0.81rem] py-[0.56rem]
+             h-[2.25rem] px-[0.81rem] py-[0.56rem]
             rounded-[1.88rem] border-[0.06rem] border-[#b3e378] bg-[#e6f3d7]
             flex items-center justify-center"
         >
@@ -139,7 +139,7 @@ export default function PostHeaderSection({
                     onClick={() => {
                       setOpenMore(false);
                     }}
-                    className="w-full px-[1.25rem] py-[0.75rem] text-left hover:bg-[#f6f6f6]"
+                    className="w-full px-[1.25rem] py-[0.75rem] cursor-pointer text-left hover:bg-[#f6f6f6]"
                   >
                     <div className="flex justify-start items-center gap-[0.88rem]">
                       <EditIcon />
@@ -155,7 +155,7 @@ export default function PostHeaderSection({
                       setOpenMore(false);
                       onClickDelete?.();
                     }}
-                    className="w-full px-[1.25rem] py-[0.75rem] text-left hover:bg-[#f6f6f6]"
+                    className="w-full cursor-pointer px-[1.25rem] py-[0.75rem] text-left hover:bg-[#f6f6f6]"
                   >
                     <div className="flex justify-start items-center gap-[0.88rem]">
                       <DeleteIcon />
@@ -178,6 +178,7 @@ export default function PostHeaderSection({
                     bg-[#B3E378]
                     border-[0.06rem] border-[#83e378]
                     text-[0.9rem]
+                    cursor-pointer
                   "
                 >
                   교훈 확인

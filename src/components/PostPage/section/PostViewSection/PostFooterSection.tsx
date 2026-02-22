@@ -66,7 +66,7 @@ export default function PostFooterSection({
 
         <div className="relative" ref={shareRef}>
           <button
-            className="cursor-pointer"
+            className="cursor-pointer flex items-center"
             type="button"
             onClick={onToggleShare}
           >
