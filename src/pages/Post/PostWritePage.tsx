@@ -114,6 +114,8 @@ const PostWrite = () => {
         setTitle={setTitle}
         content={content}
         setContent={setContent}
+        headerText="글 작성하기"
+        showDraftButton={true}
       />
 
       {/* 두번째 섹션 진행상황 선택 */}

@@ -9,7 +9,7 @@ export const useEditPost = (postId:number) => {
         postEdit(postId, params.data, params.images),
   
       onSuccess: () => {
-        qc.invalidateQueries({ queryKey: ["postEdit", postId] });
+        qc.invalidateQueries({ queryKey: ["postDetail", postId] });
         // groupId 기반 조회를 쓰면 group/detail 쪽도 invalidate 추가
       },
     });

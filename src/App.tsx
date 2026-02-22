@@ -26,7 +26,7 @@ import MarketingTerm from "./components/Terms/Marketing.tsx";
 import ProfileEditPage from "./pages/MyPage/ProfileEditPage.tsx";
 import MyPostPage from "./pages/MyPage/MyPostPage.tsx";
 import MyLessonPage from "./pages/MyPage/MyLessonPage.tsx";
-import SignUpPage from "./pages/SignUpPage.tsx";
+import SignUpPage from "./pages/SignUp/SignUpPage.tsx";
 import FindPasswordPage from "./pages/FindPasswordPage.tsx";
 import SetNewPassWordPage from "./pages/SetNewPasswordPage.tsx";
 import PostEditPage from "./pages/Post/PostEditPage.tsx";

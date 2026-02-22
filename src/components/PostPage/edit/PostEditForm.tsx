@@ -1,143 +1,97 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import TitleContentSection from "../section/PostWriteSection/TitleContentSection";
+import ImageSection, {
+  UploadImage,
+} from "../section/PostWriteSection/ImageSection";
 import { useEditPost } from "../../../hooks/post/useEditPost";
+import SubmitSection from "../section/PostWriteSection/SubmitSection";
 
 type Props = {
-    postId: number;
-    categoryId: number;
-  
-    initialTitle: string;
-    initialContent: string;
-    initialImageUrls: string[]; // post.images ?? []
-  
-    onCancel: () => void;
-    onSuccess: () => void;
+  postId: number;
+  categoryId: number;
+  initialTitle: string;
+  initialContent: string;
+  initialImageUrls: string[];
+  onCancel: () => void;
+  onSuccess: () => void;
+};
+
+export default function PostEditForm({
+  postId,
+  categoryId,
+  initialTitle,
+  initialContent,
+  initialImageUrls,
+  onCancel,
+  onSuccess,
+}: Props) {
+  const [title, setTitle] = useState(initialTitle);
+  const [content, setContent] = useState(initialContent);
+
+  // write와 동일한 이미지 상태를 사용
+  const [images, setImages] = useState<UploadImage[]>([]);
+  // 기존 이미지 URL은 별도 상태로 들고 있다가, 새 파일 선택 시 비우기
+  const [remainInitialUrls, setRemainInitialUrls] =
+    useState<string[]>(initialImageUrls);
+
+  const { mutateAsync, isPending } = useEditPost(postId);
+
+  const handleSubmit = async () => {
+    if (!title.trim()) return alert("제목을 입력해주세요!");
+    if (!content.trim()) return alert("내용을 입력해주세요!");
+
+    try {
+      await mutateAsync({
+        data: { title, content, categoryId },
+        // 새로 선택한 이미지가 있을 때만 전송 (없으면 유지)
+        images: images.length > 0 ? images.map((img) => img.file) : undefined,
+      });
+      console.log("이미지들", images)
+      alert("수정 완료!");
+      onSuccess();
+    } catch (e) {
+      console.error(e);
+      alert("수정에 실패했습니다.");
+    }
   };
 
-  export default function PostEditForm({
-    postId,
-    categoryId,
-    initialTitle,
-    initialContent,
-    initialImageUrls,
-    onCancel,
-    onSuccess,
-  }: Props) {
-    const [title, setTitle] = useState(initialTitle);
-    const [content, setContent] = useState(initialContent);
-  
-    // null이면 "기존 이미지 유지", File[]이면 "새 이미지로 전체 교체"
-    const [imageFiles, setImageFiles] = useState<File[] | null>(null);
-  
-    const previewUrls = useMemo(() => {
-      if (imageFiles === null) return initialImageUrls;
-      return imageFiles.map((f) => URL.createObjectURL(f));
-    }, [imageFiles, initialImageUrls]);
-  
-    const { mutateAsync, isPending } = useEditPost(postId);
-  
-    const onPickImages = (files: FileList | null) => {
-      if (!files) return;
-      setImageFiles(Array.from(files)); // 선택하면 전체 교체로 간주
-    };
-  
-    const onKeepImages = () => setImageFiles(null);
-  
-    const onSubmit = async () => {
-      try {
-        await mutateAsync({
-          data: { title, content, categoryId },
-          images: imageFiles ?? undefined, // null이면 미전송(유지)
-        });
-        onSuccess();
-      } catch (e) {
-        console.error(e);
-        alert("수정에 실패했습니다.");
-      }
-    };
-  
-    return (
-      <section className="w-full">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[1.05rem] font-semibold text-[#111]">게시글 수정</h2>
-          <button
-            type="button"
-            onClick={onCancel}
-            className="text-[0.9rem] text-[#777]"
-            disabled={isPending}
-          >
-            취소
-          </button>
-        </div>
-  
-        <div className="mb-3">
-          <label className="block text-[0.9rem] text-[#333] mb-2">제목</label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full h-[3rem] px-4 rounded-[0.6rem] border border-[#e4e4e4] outline-none"
-          />
-        </div>
-  
-        <div className="mb-4">
-          <label className="block text-[0.9rem] text-[#333] mb-2">본문</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="w-full min-h-[10rem] p-4 rounded-[0.6rem] border border-[#e4e4e4] outline-none resize-none"
-          />
-        </div>
-  
-        <div className="mb-5">
-          <div className="flex items-center justify-between mb-2">
-            <label className="block text-[0.9rem] text-[#333]">이미지</label>
-            <button
-              type="button"
-              onClick={onKeepImages}
-              className="text-[0.85rem] text-[#666] underline"
-              disabled={isPending}
-            >
-              기존 이미지 유지
-            </button>
-          </div>
-  
-          {previewUrls.length > 0 ? (
-            <div className="grid grid-cols-3 gap-2 mb-3">
-              {previewUrls.map((src, idx) => (
-                <div
-                  key={`${src}-${idx}`}
-                  className="w-full aspect-square rounded-[0.5rem] overflow-hidden bg-[#f3f3f3]"
-                >
-                  <img src={src} alt="" className="w-full h-full object-cover" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-[0.85rem] text-[#999] mb-3">
-              첨부된 이미지가 없습니다.
-            </div>
-          )}
-  
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => onPickImages(e.target.files)}
-            disabled={isPending}
-          />
-  
-          <div className="text-[0.8rem] text-[#888] mt-2">
-            ※ 새 이미지를 선택하면 기존 이미지는 전체 교체됩니다.
-          </div>
-        </div>
-  
+  return (
+    <div className="w-full flex flex-col gap-[5rem]">
+      <TitleContentSection
+        title={title}
+        setTitle={setTitle}
+        content={content}
+        setContent={setContent}
+        headerText="글 수정하기"
+        showDraftButton={false}
+      />
+
+      <ImageSection
+        images={images}
+        setImages={setImages}
+        maxImages={5}
+        initialImageUrls={remainInitialUrls}
+        setInitialImageUrls={setRemainInitialUrls}
+      />
+
+      <div className="flex justify-between items-center">
         <button
           type="button"
-          onClick={onSubmit}
+          onClick={onCancel}
           disabled={isPending}
-          className="w-full h-[3.25rem] rounded-[0.8rem] bg-[#111] text-white font-semibold disabled:opacity-50"
+          className=" w-[13rem] h-[3.75rem] rounded-[0.5rem] px-[4.31rem] py-[1.13rem] items-center bg-gray-100"
         >
-          {isPending ? "수정 중..." : "작성(수정 완료)"}
+          취소
         </button>
-      </section>
-    );
-  }
+
+        <SubmitSection
+          disabled={isPending}
+          isLoading={isPending}
+          onSubmit={handleSubmit}
+          label="수정 완료"
+          loadingLabel="수정 중..."
+        />
+      </div>
+    </div>
+  );
+}

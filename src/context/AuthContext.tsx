@@ -11,7 +11,6 @@ import { RequestSignInDto } from "../types/Auth.ts";
 import { User } from "../types/User.ts";
 import { getMyInfo, postLogIn, postLogOut } from "../apis/auth.ts";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 // 쿠키 기반의 로그인 : 클라이언트 측에서 토큰을 볼수도, 발급할 수 도 없다 =  때문에 사용자의 정보를 가지고 있어야 로그인 여부 결정 가능
 interface AuthContextType {

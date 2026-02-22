@@ -1,5 +1,5 @@
 import MainLogo from "../components/common/MainLogo.tsx";
-import SignupForm from "../components/SignupPage/SignupForm.tsx";
+import SignupForm from "../components/SignUpPage/SignupForm.tsx";
 
 export const SignUpPage = () => {
     return (
