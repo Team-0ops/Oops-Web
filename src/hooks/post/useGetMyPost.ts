@@ -13,7 +13,6 @@ const useGetMyPost = () => {
         const res = await getMyPosts();
 
         setPosts(res.result);
-        console.log("post결과res.result", res.result);
       } catch (e) {
         console.error(e);
         setPosts([]);

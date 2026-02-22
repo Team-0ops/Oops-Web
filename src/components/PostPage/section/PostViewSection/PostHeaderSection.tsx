@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { formatYYMD } from "../../../../utils/date";
 
 import type { GetLessonResult } from "../../../../types/post";
 import type { PostDetail } from "../../../../types/post";
@@ -18,6 +20,7 @@ type Props = {
   lesson: GetLessonResult | null;
   isLessonLoading: boolean;
   currentUserId?: number;
+  onClickDelete: () => void;
 };
 
 export default function PostHeaderSection({
@@ -27,7 +30,9 @@ export default function PostHeaderSection({
   lesson,
   isLessonLoading,
   currentUserId,
+  onClickDelete,
 }: Props) {
+  const navigate = useNavigate();
   const [openPreview, setOpenPreview] = useState(false);
   const [openMore, setOpenMore] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -49,15 +54,14 @@ export default function PostHeaderSection({
   const hasLesson = !!lesson;
 
   const isMine = currentUserId !== undefined && post.userId === currentUserId;
-  
-  console.log(currentUserId, post.userId)
+
   return (
     <section className="flex flex-col gap-[1.25rem]">
       {/* 카테고리 */}
       <div className="flex items-center justify-between">
         <div
           className="
-            w-[6.25rem] h-[2.25rem] px-[0.81rem] py-[0.56rem]
+             h-[2.25rem] px-[0.81rem] py-[0.56rem]
             rounded-[1.88rem] border-[0.06rem] border-[#b3e378] bg-[#e6f3d7]
             flex items-center justify-center"
         >
@@ -98,7 +102,7 @@ export default function PostHeaderSection({
             </div>
           </div>
 
-          <div>{new Date(post.created_at).toLocaleString()}</div>
+          <div>{formatYYMD(post.created_at)}</div>
         </div>
 
         {/* 교훈 버튼 + (있으면) 아래 미니 모달 */}
@@ -116,7 +120,7 @@ export default function PostHeaderSection({
                 aria-label="더보기"
                 className="cursor-pointer"
               >
-               <MoreIcon />
+                <MoreIcon />
               </button>
 
               {openMore ? (
@@ -136,8 +140,9 @@ export default function PostHeaderSection({
                     type="button"
                     onClick={() => {
                       setOpenMore(false);
+                      navigate(`/posts/edit/${post.postId}`)
                     }}
-                    className="w-full px-[1.25rem] py-[0.75rem] text-left hover:bg-[#f6f6f6]"
+                    className="w-full px-[1.25rem] py-[0.75rem] cursor-pointer text-left hover:bg-[#f6f6f6]"
                   >
                     <div className="flex justify-start items-center gap-[0.88rem]">
                       <EditIcon />
@@ -145,14 +150,15 @@ export default function PostHeaderSection({
                     </div>
                   </button>
                   <div className="px-[1.25rem]">
-                  <hr className="border-[0.06rem] border-[#e4e4e4]"/>
+                    <hr className="border-[0.06rem] border-[#e4e4e4]" />
                   </div>
                   <button
                     type="button"
                     onClick={() => {
                       setOpenMore(false);
+                      onClickDelete?.();
                     }}
-                    className="w-full px-[1.25rem] py-[0.75rem] text-left hover:bg-[#f6f6f6]"
+                    className="w-full cursor-pointer px-[1.25rem] py-[0.75rem] text-left hover:bg-[#f6f6f6]"
                   >
                     <div className="flex justify-start items-center gap-[0.88rem]">
                       <DeleteIcon />
@@ -175,12 +181,17 @@ export default function PostHeaderSection({
                     bg-[#B3E378]
                     border-[0.06rem] border-[#83e378]
                     text-[0.9rem]
+                    cursor-pointer
                   "
                 >
                   교훈 확인
                 </button>
               ) : (
-                <button type="button" onClick={onClickLesson}>
+                <button
+                  type="button"
+                  className="cursor-pointer"
+                  onClick={onClickLesson}
+                >
                   <LessonButtonIcon />
                 </button>
               )}
@@ -208,19 +219,23 @@ export default function PostHeaderSection({
                       </div>
                     </div>
 
-                    {lesson.tagNames?.[0] ? (
-                      <div className="flex justify-end items-center shrink-0">
-                        <span
-                          className="
+                    {/* TODO: 어느정도 교훈이 길어지면 어떻게 처리할 것인지. */}
+                    {lesson.tagNames && lesson.tagNames.length > 0 ? (
+                      <div className="flex justify-end items-center gap-2 shrink-0 flex-wrap">
+                        {lesson.tagNames.map((tag, idx) => (
+                          <span
+                            key={`${tag}-${idx}`}
+                            className="
                             px-[0.88rem] py-[0.63rem]
                             border-[0.06rem] border-[#b3e378]
-                            bg-[#e6f3d7]
+                          bg-[#e6f3d7]
                             rounded-[0.5rem]
                             shadow-[0_2px_2px_0_rgba(0,0,0,0.25)]
-                          "
-                        >
-                          {lesson.tagNames[0]}
-                        </span>
+                            "
+                          >
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     ) : null}
                   </div>

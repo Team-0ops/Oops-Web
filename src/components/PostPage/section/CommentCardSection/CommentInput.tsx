@@ -90,6 +90,7 @@ export default function CommentInput({
           rounded-[0.5rem]
           bg-[#b3e378]
           disabled:opacity-50
+          cursor-pointer
           ${buttonClassName}
         `}
       >

@@ -4,12 +4,16 @@ type Props = {
   onSubmit: () => void;
   disabled?: boolean;
   isLoading?: boolean;
+  label?: string;
+  loadingLabel?: string;
 };
 
 const SubmitSection = ({
   onSubmit,
   disabled = false,
   isLoading = false,
+  label,
+  loadingLabel,
 }: Props) => {
   const isDisabled = disabled || isLoading;
 
@@ -23,7 +27,7 @@ const SubmitSection = ({
 ${isDisabled ? "bg-[#d9d9d9] cursor-not-allowed" : "bg-[#B3E378] cursor-pointer"}
 `}
       >
-        {isLoading ? "작성 중..." : "작성하기"}
+        {isLoading ? (loadingLabel ?? "작성 중...") : (label ?? "작성하기")}
       </button>
     </section>
   );

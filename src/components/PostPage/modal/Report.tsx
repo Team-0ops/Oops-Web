@@ -50,7 +50,7 @@ const Report = ({
       >
         <div className="relative flex items-center justify-center">
           <span className="text-[1.25rem] font-semibold">신고</span>
-          <button type="button" onClick={onClose} className="absolute right-0">
+          <button type="button" onClick={onClose} className="absolute right-0 cursor-pointer">
             <X />
           </button>
         </div>
@@ -102,6 +102,7 @@ const Report = ({
           font-medium
           disabled:bg-[#e4e4e4]
           disabled:text-[#999999]
+          cursor-pointer
         "
           >
             작성

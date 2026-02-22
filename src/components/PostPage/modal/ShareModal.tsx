@@ -55,7 +55,7 @@ const ShareModal = ({ isOpen, onClose, url }: Props) => {
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-[1.88rem]"
+            className="absolute cursor-pointer right-[1.88rem]"
             aria-label="close"
           >
             <X />
@@ -92,6 +92,7 @@ const ShareModal = ({ isOpen, onClose, url }: Props) => {
           text-[#262626]
           font-semibold
           disabled:bg-[#b3e378]
+          cursor-pointer
         "
             >
               {copied ? "복사완료" : "복사"}

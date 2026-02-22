@@ -43,6 +43,7 @@ export const RandomFeedPage = () => {
   const randomTopic = data?.result?.comment || "발표";
   const hasNextPage = !data?.result?.last;
 
+
   return (
     <FeedPage
       title={`이번 주 랜덤 주제 : ${randomTopic}`}

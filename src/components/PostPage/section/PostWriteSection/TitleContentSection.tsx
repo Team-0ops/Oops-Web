@@ -6,6 +6,8 @@ type Props = {
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   content: string;
   setContent: React.Dispatch<React.SetStateAction<string>>;
+  headerText?: string;
+  showDraftButton?: boolean;
 };
 
 const TitleContentSection = ({
@@ -13,19 +15,23 @@ const TitleContentSection = ({
   setTitle,
   content,
   setContent,
+  headerText,
+  showDraftButton,
 }: Props) => {
   return (
     <section className="select-none w-full flex flex-col">
       <div className="flex flex-col gap-[1.5rem]">
-        <div>글 작성하기</div>
+        <div>{headerText}</div>
         <hr className="border-[#d2d2d2]"></hr>
       </div>
       {/* 임시저장 버튼 */}
-      <div className="flex flex-col gap-[2.5rem] my-[2.5rem] justify-end items-end">
-        <button className="cursor-pointer flex justify-center items-center">
-          <DraftIcon className="h-[2.5rem]" aria-hidden />
-        </button>
-      </div>
+      {showDraftButton !== false ? (
+        <div className="flex flex-col gap-[2.5rem] my-[2.5rem] justify-end items-end">
+          <button className="cursor-pointer flex justify-center items-center">
+            <DraftIcon className="h-[2.5rem]" aria-hidden />
+          </button>
+        </div>
+      ):<div className="mb-[1.5rem]"></div>}
 
       <div className="flex flex-col gap-[5rem]">
         <div className="flex flex-col gap-[1.25rem] justify-start items-start">
@@ -33,7 +39,7 @@ const TitleContentSection = ({
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full h-[3.9375rem] flex items-center self-stretch bg-[#FAF6E9] px-[1.25rem] 
+            className="w-full h-[3.9375rem] flex items-center self-stretch bg-[#FAFAFA] px-[1.25rem] 
           border-[0.06rem] border-solid border-[#E4E4E4] rounded-[0.5rem]"
           />
         </div>
@@ -44,10 +50,12 @@ const TitleContentSection = ({
             maxLength={3000}
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full h-[20.9375rem] resize-none flex items-start self-stretch bg-[#faf6e9]
+            className="w-full h-[20.9375rem] resize-none flex items-start self-stretch bg-[#FAFAFA]
           border-[0.06rem] border-solid border-[#e4e4e4] rounded-[0.5rem] p-[1.25rem]"
           />
-          <div className={`text-[#8f8f8f] ${content.length === 3000 ? "text-red-500" : ""}`}>
+          <div
+            className={`text-[#8f8f8f] ${content.length === 3000 ? "text-red-500" : ""}`}
+          >
             {content.length}/3000
           </div>
         </div>
