@@ -98,7 +98,7 @@ export default function Lesson({ postId, onClose }: LessonProps) {
           <button
             type="button"
             onClick={onClose}
-            className="absolute right-0 top-0"
+            className="absolute right-0 top-0 cursor-pointer"
             aria-label="close"
           >
             <X />
@@ -149,6 +149,7 @@ export default function Lesson({ postId, onClose }: LessonProps) {
                     type="button"
                     onClick={() => toggleTag(tag)}
                     className={`
+                      cursor-pointer
                       px-[0.88rem] py-[0.63rem]
                       rounded-[0.5rem] border-[0.06rem]
                       shadow-[0_2px_2px_0_rgba(0,0,0,0.25)]
@@ -169,6 +170,7 @@ export default function Lesson({ postId, onClose }: LessonProps) {
                 type="button"
                 onClick={() => setIsAddOpen((p) => !p)}
                 className="
+                  cursor-pointer
                   px-[0.88rem] py-[0.63rem]
                   rounded-[0.5rem] border-[0.06rem] border-[#b3e378]
                   bg-[#e6f3d7]
@@ -201,6 +203,7 @@ export default function Lesson({ postId, onClose }: LessonProps) {
                     rounded-[0.5rem]
                     border border-[#cfe7b6]
                     bg-[#eef7e6]
+                    cursor-pointer
                   "
                 >
                   추가
@@ -214,7 +217,7 @@ export default function Lesson({ postId, onClose }: LessonProps) {
             <button
               type="button"
               onClick={reset}
-              className="w-[10.125rem] h-[3.125rem] rounded-[0.5rem] border-[0.06rem] border-[#B3E378]"
+              className="cursor-pointer w-[10.125rem] h-[3.125rem] rounded-[0.5rem] border-[0.06rem] border-[#B3E378]"
             >
               초기화
             </button>
@@ -224,7 +227,7 @@ export default function Lesson({ postId, onClose }: LessonProps) {
               onClick={submit}
               disabled={!canSubmit}
               className={`
-                w-[10.125rem] h-[3.125rem] rounded-[0.5rem]
+                w-[10.125rem] h-[3.125rem] rounded-[0.5rem] cursor-pointer
                 ${canSubmit ? "bg-[#B3E378]" : "bg-[#d9d9d9] cursor-not-allowed"}
               `}
             >

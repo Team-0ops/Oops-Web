@@ -8,5 +8,6 @@ export const getLesson = async (
   const { data } = await axiosInstance.get<CommonResponse<GetLessonResult>>(
     `/posts/${postId}/lessons`
   );
+
   return data;
 };

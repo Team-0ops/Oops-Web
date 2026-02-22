@@ -11,6 +11,8 @@ import CommentCard from "../../components/PostPage/Comment/CommentCard";
 import ReportModalContainer from "../../components/PostPage/modal/ReportContainer";
 import RecommendCard from "../../components/PostPage/PostView/RecommendCard";
 import Lesson from "../../components/PostPage/modal/Lesson";
+import ConfirmDelete from "../../components/PostPage/modal/ConfirmDelete";
+import { useConfirmPostDelete } from "../../hooks/post/postviewhook/usePostDelete";
 
 const LABEL: Record<Situation, string> = {
   OOPS: "웁스 중",
@@ -23,7 +25,7 @@ type StageKey = Situation;
 export default function PostDetailPage() {
   const myUserId = Number(localStorage.getItem("userId"));
   const safeMyUserId = Number.isFinite(myUserId) ? myUserId : undefined;
-  
+
   const navigate = useNavigate();
   const { postId } = useParams();
   const numericPostId = Number(postId);
@@ -32,9 +34,9 @@ export default function PostDetailPage() {
 
   const { data, loading, error } = usePostDetail(selectedPostId);
 
-    // 교훈 조회 
-  const {data:lesson, isLoading: isLessonLoading} = useGetLesson(selectedPostId);
-
+  // 교훈 조회
+  const { data: lesson, isLoading: isLessonLoading } =
+    useGetLesson(selectedPostId);
 
   //stage별 게시글 매핑
   const stageMap = useMemo(() => {
@@ -53,7 +55,6 @@ export default function PostDetailPage() {
     if (!Number.isNaN(numericPostId)) {
       setSelectedPostId(numericPostId);
     }
-    console.log("현재 postID", selectedPostId);
   }, [numericPostId]);
 
   //selectedPostId가 어느 stage인지 찾아서 탭 동기화
@@ -81,8 +82,8 @@ export default function PostDetailPage() {
     "flex w-full items-center justify-center rounded-[1.88rem] py-[0.69rem] px-[1.25rem] transition-colors";
   const tabActive =
     "bg-[#b3e378] text-[#111] shadow-[0_2px_2px_0_rgba(0,0,0,0.25)] cursor-pointer";
-  const tabIdle = "bg-[#FAF6E9] ";
-  const tabDisabled = "bg-[#FAF6E9] text-[#b2b2b2]";
+  const tabIdle = "bg-[#FAFAFA] ";
+  const tabDisabled = "bg-[#FAFAFA] text-[#b2b2b2]";
 
   // 신고 대상 상태 관리
   const [reportTarget, setReportTarget] = useState<ReportTarget | null>(null);
@@ -95,9 +96,26 @@ export default function PostDetailPage() {
 
   const closeReport = () => setReportTarget(null);
 
-    // 교훈 모달 상태관리
-    const [isLessonOpen, setIsLessonOpen] = useState(false);
+  // 교훈 모달 상태관리
+  const [isLessonOpen, setIsLessonOpen] = useState(false);
+
+  // 삭제 모달
+  // TODO: 삭제 하고나서의 next 생각하기. 만약 웁스중 게시글 까지 삭제됐으면 홈으로
+  const deleteCtrl = useConfirmPostDelete({
+    activeStage,
+    stageMap,
+    postId: post?.postId,
+    onSuccess: (nextPostId) => {
+      alert("삭제되었습니다.");
   
+      if (nextPostId) {
+        navigate(`/posts/${nextPostId}`, { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    },
+  });
+
   if (loading && !data)
     return (
       <div className="py-10 text-center text-[#b2b2b2]">불러오는 중...</div>
@@ -106,7 +124,6 @@ export default function PostDetailPage() {
     return (
       <div className="py-10 text-center text-[#b2b2b2]">불러오기 실패</div>
     );
-
 
   return (
     <div className="w-full flex flex-col px-[3.63rem] gap-[2.5rem]">
@@ -159,6 +176,7 @@ export default function PostDetailPage() {
               lesson={lesson ?? null}
               isLessonLoading={isLessonLoading}
               currentUserId={safeMyUserId}
+              onClickDelete={deleteCtrl.open}
             />
           </div>
           <div className="mt-[1.25rem]">
@@ -178,7 +196,18 @@ export default function PostDetailPage() {
             target={reportTarget}
             onClose={closeReport}
           />
-          {isLessonOpen && <Lesson postId={selectedPostId} onClose={() => setIsLessonOpen(false)} />}
+          {isLessonOpen && (
+            <Lesson
+              postId={selectedPostId}
+              onClose={() => setIsLessonOpen(false)}
+            />
+          )}
+          <ConfirmDelete
+            isOpen={deleteCtrl.isOpen}
+            onClose={deleteCtrl.close}
+            onConfirm={deleteCtrl.confirm}
+            isLoading={deleteCtrl.isDeleting}
+          />
         </>
       )}
     </div>
