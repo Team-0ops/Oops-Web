@@ -48,10 +48,6 @@ const publicRoutes: RouteObject[] = [
       },
       //TODO: login 사항 없도록 라우터 분리
       {
-        path: "signup",
-        element: <SignUpPage />,
-      },
-      {
         path: "terms1",
         element: <ServiceTerm />,
       },
@@ -65,16 +61,16 @@ const publicRoutes: RouteObject[] = [
       },
       /////////////////////////
       {
+        path: "signup",
+        element: <SignUpPage />,
+      },
+      {
         path: "find-password",
         element: <FindPasswordPage />
       },
       {
         path: "set-password",
         element: <SetNewPassWordPage />
-      },
-      {
-        path: "signup",
-        element: <SignUpPage />
       },
       {
         path: "search",
