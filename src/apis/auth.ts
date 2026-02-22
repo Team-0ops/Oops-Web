@@ -1,7 +1,8 @@
 import {
   RequestSignInDto,
   ResponseSignInDto,
-  ResponseMyInfoDto,
+  ResponseMyInfoDto, RequestSendVerifyEmailDto, ResponseSendVerificationEmailDto, RequestVerifyCodeDto,
+  ResponseVerifyCodeDto, RequestSetNewPassword,
 } from "../types/Auth.ts";
 import { axiosInstance } from "./axios.ts";
 
@@ -20,13 +21,17 @@ export const getMyInfo = async () :Promise<ResponseMyInfoDto> => {
   return data;
 }
 
-// 인증번호 발송 API
-export const sendVerificationCode = async (_email: string): Promise<void> => {
-  // TODO: 인증번호 발송 API 구현
-};
+export const postSendEmailVarify = async (body: RequestSendVerifyEmailDto):Promise<ResponseSendVerificationEmailDto> => {
+  const {data} = await axiosInstance.post("/auth/email/send", body)
+  return data;
+}
 
-// 인증번호 확인 API
-export const verifyCode = async (_email: string, _code: string): Promise<boolean> => {
-  // TODO: 인증번호 확인 API 구현
-  return true; // true 또는 false 반환
-};
+export const postVerifyCode = async (body: RequestVerifyCodeDto):Promise<ResponseVerifyCodeDto> => {
+  const {data} = await axiosInstance.post("/auth/email/verify", body)
+  return data;
+}
+
+export const postNewPassword = async (body: RequestSetNewPassword ):Promise<{data: string}> => {
+  const {data} = await axiosInstance.post("/auth/reset-password", body)
+  return data;
+}

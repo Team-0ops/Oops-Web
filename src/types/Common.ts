@@ -61,4 +61,5 @@ export const CategoryIdMap = new Map<string, number>(
 export const getCategoryId = (category: string)=> CategoryIdMap.get(normalizeLabel(category));
 
 
+
 // topic id도 추가할 예정
