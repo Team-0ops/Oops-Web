@@ -29,7 +29,7 @@ export default function PostHeaderSection({
   lesson,
   isLessonLoading,
   currentUserId,
-  onClickDelete
+  onClickDelete,
 }: Props) {
   const [openPreview, setOpenPreview] = useState(false);
   const [openMore, setOpenMore] = useState(false);
@@ -52,7 +52,7 @@ export default function PostHeaderSection({
   const hasLesson = !!lesson;
 
   const isMine = currentUserId !== undefined && post.userId === currentUserId;
-  
+
   return (
     <section className="flex flex-col gap-[1.25rem]">
       {/* 카테고리 */}
@@ -118,7 +118,7 @@ export default function PostHeaderSection({
                 aria-label="더보기"
                 className="cursor-pointer"
               >
-               <MoreIcon />
+                <MoreIcon />
               </button>
 
               {openMore ? (
@@ -147,7 +147,7 @@ export default function PostHeaderSection({
                     </div>
                   </button>
                   <div className="px-[1.25rem]">
-                  <hr className="border-[0.06rem] border-[#e4e4e4]"/>
+                    <hr className="border-[0.06rem] border-[#e4e4e4]" />
                   </div>
                   <button
                     type="button"
@@ -184,7 +184,11 @@ export default function PostHeaderSection({
                   교훈 확인
                 </button>
               ) : (
-                <button type="button" onClick={onClickLesson}>
+                <button
+                  type="button"
+                  className="cursor-pointer"
+                  onClick={onClickLesson}
+                >
                   <LessonButtonIcon />
                 </button>
               )}
@@ -212,19 +216,22 @@ export default function PostHeaderSection({
                       </div>
                     </div>
 
-                    {lesson.tagNames?.[0] ? (
-                      <div className="flex justify-end items-center shrink-0">
-                        <span
-                          className="
+                    {lesson.tagNames && lesson.tagNames.length > 0 ? (
+                      <div className="flex justify-end items-center gap-2 shrink-0 flex-wrap">
+                        {lesson.tagNames.map((tag, idx) => (
+                          <span
+                            key={`${tag}-${idx}`}
+                            className="
                             px-[0.88rem] py-[0.63rem]
                             border-[0.06rem] border-[#b3e378]
-                            bg-[#e6f3d7]
+                          bg-[#e6f3d7]
                             rounded-[0.5rem]
                             shadow-[0_2px_2px_0_rgba(0,0,0,0.25)]
-                          "
-                        >
-                          {lesson.tagNames[0]}
-                        </span>
+                            "
+                          >
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     ) : null}
                   </div>
