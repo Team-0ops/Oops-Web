@@ -29,6 +29,7 @@ import MyLessonPage from "./pages/MyPage/MyLessonPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
 import FindPasswordPage from "./pages/FindPasswordPage.tsx";
 import SetNewPassWordPage from "./pages/SetNewPasswordPage.tsx";
+import PostEditPage from "./pages/Post/PostEditPage.tsx";
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
@@ -118,6 +119,11 @@ const publicRoutes: RouteObject[] = [
         path: "post",
         element: <PostWrite />,
       },
+      {
+        path: "posts/edit/:postId",
+        element: <PostEditPage />
+      },
+
       {
         path: "post/success",
         element: <PostSuccess />,

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { formatYYMD } from "../../../../utils/date";
 
 import type { GetLessonResult } from "../../../../types/post";
@@ -31,6 +32,7 @@ export default function PostHeaderSection({
   currentUserId,
   onClickDelete,
 }: Props) {
+  const navigate = useNavigate();
   const [openPreview, setOpenPreview] = useState(false);
   const [openMore, setOpenMore] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -138,6 +140,7 @@ export default function PostHeaderSection({
                     type="button"
                     onClick={() => {
                       setOpenMore(false);
+                      navigate(`/posts/edit/${post.postId}`)
                     }}
                     className="w-full px-[1.25rem] py-[0.75rem] cursor-pointer text-left hover:bg-[#f6f6f6]"
                   >
@@ -216,6 +219,7 @@ export default function PostHeaderSection({
                       </div>
                     </div>
 
+                    {/* TODO: 어느정도 교훈이 길어지면 어떻게 처리할 것인지. */}
                     {lesson.tagNames && lesson.tagNames.length > 0 ? (
                       <div className="flex justify-end items-center gap-2 shrink-0 flex-wrap">
                         {lesson.tagNames.map((tag, idx) => (
