@@ -26,7 +26,6 @@ import MarketingTerm from "./components/Terms/Marketing.tsx";
 import ProfileEditPage from "./pages/MyPage/ProfileEditPage.tsx";
 import MyPostPage from "./pages/MyPage/MyPostPage.tsx";
 import MyLessonPage from "./pages/MyPage/MyLessonPage.tsx";
-import SignUpPage from "./pages/SignUpPage.tsx";
 import FindPasswordPage from "./pages/FindPasswordPage.tsx";
 import SetNewPassWordPage from "./pages/SetNewPasswordPage.tsx";
 
@@ -47,10 +46,6 @@ const publicRoutes: RouteObject[] = [
       },
       //TODO: login 사항 없도록 라우터 분리
       {
-        path: "signup",
-        element: <SignUpPage />,
-      },
-      {
         path: "terms1",
         element: <ServiceTerm />,
       },
@@ -70,10 +65,6 @@ const publicRoutes: RouteObject[] = [
       {
         path: "set-password",
         element: <SetNewPassWordPage />
-      },
-      {
-        path: "signup",
-        element: <SignUpPage />
       },
       {
         path: "search",
