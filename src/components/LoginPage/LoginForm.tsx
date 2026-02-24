@@ -31,6 +31,7 @@ const LoginForm = () => {
 
         try {
             await login({ email: email, password: password });
+            navigate("/");
         }catch (error) {
             if (error instanceof Error) {
                 if (error.message === "비밀번호가 일치하지 않습니다.") {

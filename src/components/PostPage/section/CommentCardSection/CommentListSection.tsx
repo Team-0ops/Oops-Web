@@ -18,7 +18,7 @@ type Thread = {
   replies: Comment[];
 };
 
-const PAGE_SIZE = 5; // ✅ 한 페이지에 보여줄 "루트댓글(스레드)" 개수
+const PAGE_SIZE = 5; // 한 페이지에 보여줄 "루트댓글(스레드)" 개수
 
 export default function CommentListSection({
   comments,
@@ -115,7 +115,7 @@ export default function CommentListSection({
         ))}
       </ul>
 
-      {/* 페이지네이션은 항상 65rem 박스 하단에 */}
+      {/* 페이지네이션 */}
       <div className="mt-auto pt-[1rem] flex items-center justify-center gap-[1.25rem]">
         <button
           type="button"

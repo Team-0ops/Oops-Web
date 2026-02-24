@@ -36,14 +36,14 @@ export default function CommentHeader({
           <button
             type="button"
             onClick={() => onChangeSortType("LIKE")}
-            className={sortType === "LIKE" ? "text-black" : "text-[#999999]"}
+            className={sortType === "LIKE" ? "text-black cursor-pointer" : "text-[#999999] cursor-pointer"}
           >
             좋아요순
           </button>
           <button
             type="button"
             onClick={() => onChangeSortType("RECENT")}
-            className={sortType === "RECENT" ? "text-black" : "text-[#999999]"}
+            className={sortType === "RECENT" ? "text-black cursor-pointer" : "text-[#999999] cursor-pointer"}
           >
             시간순
           </button>

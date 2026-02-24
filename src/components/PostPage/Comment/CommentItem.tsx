@@ -81,7 +81,7 @@ function CommentItem({
             {comment.parentId == null && (
               <button
                 type="button"
-                className="text-[0.85rem] text-[#6f6f6f]"
+                className="text-[0.85rem] text-[#6f6f6f] cursor-pointer"
                 onClick={() => onClickReply(comment.commentId)}
               >
                 답글쓰기
@@ -94,6 +94,7 @@ function CommentItem({
           <button
             type="button"
             onClick={() => onOpenReport(comment.commentId)}
+            className="cursor-pointer"
             aria-label="댓글 신고"
           >
             <ReportIcon />
@@ -103,7 +104,7 @@ function CommentItem({
             type="button"
             onClick={toggleCheer}
             disabled={isPending}
-            className="flex flex-col justify-center items-center"
+            className="cursor-pointer flex flex-col justify-center items-center cursor-pointer"
           >
             {isCheered ? <LikedIcon /> : <LikeIcon />}
             <span className="text-[0.85rem]">{likes}</span>
@@ -121,10 +122,8 @@ function CommentItem({
             submitLabel="등록"
             disabled={!!isSubmittingReply}
             multiline
-            // 답글은 버튼 크기/높이를 살짝 줄이고 싶으면 여기서 오버라이드
             buttonClassName="w-[6rem]"
-            // textarea 높이를 더 줄이고 싶으면 inputClassName에서
-            inputClassName="h-[4.5rem]"
+            inputClassName="h-[3rem]"
           />
         </div>
       ) : null}

@@ -24,7 +24,7 @@ export const RandomFeedPage = () => {
   const [sortOrder, setSortOrder] = useState("최신순");
   const [currentPage, setCurrentPage] = useState(0);
 
-  // 파라미터
+  // API 파라미터
   const apiParams = useMemo(
     () => ({
       situation: situationMap[activeTab],
@@ -35,8 +35,10 @@ export const RandomFeedPage = () => {
     [activeTab, currentPage, sortOrder]
   );
 
+  // API 호출
   const { data, isLoading, error } = useGetRandomTopicFeed(apiParams);
 
+  // 안전하게 배열로 변환
   const posts = Array.isArray(data?.result?.posts) ? data.result.posts : [];
   const randomTopic = data?.result?.comment || "발표";
   const hasNextPage = !data?.result?.last;

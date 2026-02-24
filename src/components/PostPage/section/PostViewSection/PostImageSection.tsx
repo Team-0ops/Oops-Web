@@ -1,4 +1,7 @@
 import { useImageCarousel } from "../../../../hooks/post/postviewhook/useImageCarousel";
+import LeftIcon from "../../../../assets/icons/LeftIcon.svg?react";
+import RightIcon from "../../../../assets/icons/RightIcon.svg?react";
+
 
 type Props = {
   postId: number | string;
@@ -27,24 +30,24 @@ export default function PostImagesSection({ postId, images }: Props) {
 
           {/* 이미지가 2장 이상일 때만 버튼 노출 */}
           {isMulti && (
-            <>
+            <div className="absolute bottom-3 right-3 flex gap-[1.88rem]">
               <button
                 type="button"
                 onClick={prev}
-                className="absolute left-3 bottom-3 w-10 h-10 rounded-full bg-white/70 flex items-center justify-center"
+                className="cursor-pointer"
                 aria-label="prev image"
               >
-                ‹
+                <LeftIcon />
               </button>
               <button
                 type="button"
                 onClick={next}
-                className="absolute right-3 bottom-3 w-10 h-10 rounded-full bg-white/70 flex items-center justify-center"
+                className="cursor-pointer"
                 aria-label="next image"
               >
-                ›
+                <RightIcon />
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>
