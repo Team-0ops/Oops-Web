@@ -19,7 +19,7 @@ export const useSignUp = () => {
   const [verificationToken, setVerificationToken] = useState("");
 
   // 인증번호 길이 확인
-  const isVerificationCodeValid = verificationCode.length >= 4;
+  const isVerificationCodeValid = verificationCode.length >= 6;
   // 이메일 형식 검사
   const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

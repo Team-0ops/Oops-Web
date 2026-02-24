@@ -78,7 +78,10 @@ const LoginForm = () => {
                             "
                         />
                         <div className="body3 flex items-center justify-center gap-5 text-[#8F8F8F]">
-                            <span>
+                            <span
+                                onClick={() => navigate("/signup")}
+                                className="cursor-pointer"
+                            >
                               회원가입
                             </span>
                             <span className="text-[#D2D2D2]">

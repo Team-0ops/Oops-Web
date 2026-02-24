@@ -27,12 +27,12 @@ export const CategoryFeedPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const categoryIdNum = categoryId ? parseInt(categoryId, 10) : 0;
-  // 카테고리 ID는 1부터 시작, 배열은 0부터 시작하므로 -1
+  // id 1부터
   const categoryName = categoryIdNum > 0 && categoryIdNum <= Categories.length
     ? Categories[categoryIdNum - 1]
     : "카테고리";
 
-  // API 파라미터
+  // 파라미터
   const apiParams = useMemo(
     () => {
       if (categoryIdNum <= 0) {
@@ -49,10 +49,8 @@ export const CategoryFeedPage = () => {
     [categoryIdNum, activeTab, currentPage, sortOrder]
   );
 
-  // API 호출
   const { data, isLoading, error } = useGetCategoryFeed(apiParams);
 
-  // 안전하게 배열로 변환
   const posts = Array.isArray(data?.result?.posts) ? data.result.posts : [];
   const hasNextPage = !data?.result?.last;
 
