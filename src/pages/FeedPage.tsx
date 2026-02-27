@@ -1,10 +1,17 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { RandomFeedPostCard } from "../components/RandomFeedPage/RandomFeedPostCard";
 import Write from "../assets/icons/Write.svg?react";
 import RightArrow from "../assets/icons/RightArrow.svg?react";
 
 type SituationType = "웁스 중" | "극복 중" | "극복 완료";
+
+const DEFAULT_SORT_OPTIONS = [
+  { label: "최신순", value: "최신순" },
+  { label: "조회수순", value: "조회수순" },
+  { label: "좋아요순", value: "좋아요순" },
+  { label: "댓글순", value: "댓글순" },
+] as const;
 
 interface FeedPageProps {
   title: string;
@@ -46,13 +53,13 @@ export const FeedPage = ({
   const navigate = useNavigate();
   const sortDropdownRef = useRef<HTMLDivElement>(null);
   
-  // 내부 상태 (props가 없을 때 사용)
+  // 내부 상태
   const [internalActiveTab, setInternalActiveTab] = useState<SituationType>("웁스 중");
   const [internalSortOrder, setInternalSortOrder] = useState("최신순");
   const [internalCurrentPage, setInternalCurrentPage] = useState(0);
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
 
-  // 외부에서 제어하는 경우 props 사용, 아니면 내부 상태 사용
+  // 외부 제어 시 props 사용
   const activeTab = externalActiveTab ?? internalActiveTab;
   const sortOrder = externalSortOrder ?? internalSortOrder;
   const currentPage = externalCurrentPage ?? internalCurrentPage;
@@ -74,48 +81,50 @@ export const FeedPage = ({
     };
   }, [isSortDropdownOpen]);
 
-  const handleWriteClick = () => {
+  const handleWriteClick = useCallback(() => {
     navigate("/post");
-  };
+  }, [navigate]);
 
-  const handleTabChange = (tab: SituationType) => {
-    if (onTabChange) {
-      onTabChange(tab);
-    } else {
-      setInternalActiveTab(tab);
-    }
-  };
+  const handleTabChange = useCallback(
+    (tab: SituationType) => {
+      if (onTabChange) {
+        onTabChange(tab);
+      } else {
+        setInternalActiveTab(tab);
+      }
+    },
+    [onTabChange]
+  );
 
-  const handleSortChange = (sort: string) => {
-    if (onSortChange) {
-      onSortChange(sort);
-    } else {
-      setInternalSortOrder(sort);
-    }
-    setIsSortDropdownOpen(false);
-  };
+  const handleSortChange = useCallback(
+    (sort: string) => {
+      if (onSortChange) {
+        onSortChange(sort);
+      } else {
+        setInternalSortOrder(sort);
+      }
+      setIsSortDropdownOpen(false);
+    },
+    [onSortChange]
+  );
 
-  const defaultSortOptions = [
-    { label: "최신순", value: "최신순" },
-    { label: "조회수순", value: "조회수순" },
-    { label: "좋아요순", value: "좋아요순" },
-    { label: "댓글순", value: "댓글순" },
-  ];
+  const sortOptions = externalSortOptions || DEFAULT_SORT_OPTIONS;
 
-  const sortOptions = externalSortOptions || defaultSortOptions;
-
-  const handlePageChange = (page: number) => {
-    if (onPageChange) {
-      onPageChange(page);
-    } else {
-      setInternalCurrentPage(page);
-    }
-  };
+  const handlePageChange = useCallback(
+    (page: number) => {
+      if (onPageChange) {
+        onPageChange(page);
+      } else {
+        setInternalCurrentPage(page);
+      }
+    },
+    [onPageChange]
+  );
 
   return (
     <>
       <div className="w-full flex flex-col gap-[40px]">
-        {/* 제목 섹션 */}
+        {/* 제목 */}
         {showTitleSection && (
           <div className="flex flex-col gap-[24px]">
             <div className="flex items-start justify-between">
@@ -141,7 +150,7 @@ export const FeedPage = ({
           </div>
         )}
 
-        {/* 탭 및 정렬 */}
+        {/* 탭·정렬 */}
         {(showTabs || onSortChange) && (
           <div className="flex items-start justify-between">
             {showTabs ? (
@@ -192,7 +201,7 @@ export const FeedPage = ({
                   <RightArrow className={`w-6 h-6 shrink-0 transition-transform ${isSortDropdownOpen ? '-rotate-90' : 'rotate-90'}`} />
                 </button>
                 
-                {/* 드롭다운 메뉴 */}
+                {/* 드롭다운 */}
                 {isSortDropdownOpen && (
                   <div className="absolute top-[50px] right-0 bg-[#F6F6F6] border border-[#E4E4E4] rounded-[4px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.17)] py-[14px] px-[8px] min-w-[193px] z-50">
                     <div className="flex flex-col gap-0">
@@ -221,7 +230,7 @@ export const FeedPage = ({
           </div>
         )}
 
-        {/* 게시물 리스트 */}
+        {/* 리스트 */}
         <div className="flex flex-col gap-[30px]">
           {isLoading ? (
             <div className="text-center text-[#6F6F6F] py-[60px]">
@@ -258,7 +267,7 @@ export const FeedPage = ({
         {posts.length > 0 && (
           <div className="flex gap-[30px] items-center justify-center pt-[60px]">
             <div className="flex gap-[30px] items-center">
-              {/* 이전 페이지 버튼 */}
+              {/* 이전 */}
               {currentPage > 0 && (
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
@@ -268,12 +277,12 @@ export const FeedPage = ({
                 </button>
               )}
 
-              {/* 현재 페이지 표시 */}
+              {/* 현재 페이지 */}
               <button className="w-[46px] h-[46px] bg-[#B3E378] rounded-[23px] flex items-center justify-center text-[18px] font-semibold text-[#262627]">
                 {currentPage + 1}
               </button>
 
-              {/* 다음 페이지 버튼 */}
+              {/* 다음 */}
               {hasNextPage && (
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}

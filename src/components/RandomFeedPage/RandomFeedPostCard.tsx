@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import Like from "../../assets/icons/Like.svg?react";
 import Comment from "../../assets/icons/Comment.svg?react";
@@ -20,7 +21,7 @@ interface RandomFeedPostCardProps {
   date?: string;
 }
 
-export const RandomFeedPostCard = (postData: RandomFeedPostCardProps) => {
+export const RandomFeedPostCard = memo((postData: RandomFeedPostCardProps) => {
   const navigate = useNavigate();
 
   return (
@@ -90,4 +91,8 @@ export const RandomFeedPostCard = (postData: RandomFeedPostCardProps) => {
       </div>
     </>
   );
-};
+});
+
+RandomFeedPostCard.displayName = "RandomFeedPostCard";
+
+export default RandomFeedPostCard;
