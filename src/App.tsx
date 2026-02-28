@@ -30,6 +30,7 @@ import SignUpPage from "./pages/SignUp/SignUpPage.tsx";
 import FindPasswordPage from "./pages/FindPasswordPage.tsx";
 import SetNewPassWordPage from "./pages/SetNewPasswordPage.tsx";
 import PostEditPage from "./pages/Post/PostEditPage.tsx";
+import RequireAuth from "./routes/RequireAuth";
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
@@ -82,7 +83,11 @@ const publicRoutes: RouteObject[] = [
       },
       {
         path: "lucky-draw",
-        element: <LuckyDrawPage />,
+        element: (
+          <RequireAuth>
+            <LuckyDrawPage />
+          </RequireAuth>
+        ),
       },
       {
         path: "favorite-feed",
