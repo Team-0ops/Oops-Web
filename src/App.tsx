@@ -15,7 +15,7 @@ import PostWrite from "./pages/Post/PostWritePage.tsx";
 import PostSuccess from "./pages/Post/PostSuccess.tsx";
 import RandomFeedPage from "./pages/RandomFeedPage.tsx";
 import LuckyDrawPage from "./pages/LuckyDrawPage.tsx";
-import  MyPageLayout  from "./pages/MyPage/MyPageLayout.tsx";
+import MyPageLayout from "./pages/MyPage/MyPageLayout.tsx";
 import PostDetailPage from "./pages/Post/PostDetailPage.tsx";
 import FavoriteFeedPage from "./pages/FavoriteFeedPage.tsx";
 import CategoryFeedPage from "./pages/CategoryFeedPage.tsx";
@@ -30,6 +30,8 @@ import SignUpPage from "./pages/SignUp/SignUpPage.tsx";
 import FindPasswordPage from "./pages/FindPasswordPage.tsx";
 import SetNewPassWordPage from "./pages/SetNewPasswordPage.tsx";
 import PostEditPage from "./pages/Post/PostEditPage.tsx";
+
+import { ProtectedRoute } from "./components/ProtectedRoute.tsx";
 
 //로그인 구현 필요 없이 들어가는 페이지 라우터
 const publicRoutes: RouteObject[] = [
@@ -46,7 +48,6 @@ const publicRoutes: RouteObject[] = [
         path: "login",
         element: <LoginPage />,
       },
-      //TODO: login 사항 없도록 라우터 분리
       {
         path: "terms1",
         element: <ServiceTerm />,
@@ -59,18 +60,17 @@ const publicRoutes: RouteObject[] = [
         path: "terms3",
         element: <MarketingTerm />,
       },
-      /////////////////////////
       {
         path: "signup",
         element: <SignUpPage />,
       },
       {
         path: "find-password",
-        element: <FindPasswordPage />
+        element: <FindPasswordPage />,
       },
       {
         path: "set-password",
-        element: <SetNewPassWordPage />
+        element: <SetNewPassWordPage />,
       },
       {
         path: "search",
@@ -98,7 +98,11 @@ const publicRoutes: RouteObject[] = [
       },
       {
         path: "my-profile",
-        element: <MyPageLayout />,
+        element: (
+          <ProtectedRoute>
+            <MyPageLayout />
+          </ProtectedRoute>
+        ),
         children: [
           { index: true, element: <Navigate to="profile" replace /> },
           { path: "profile", element: <ProfileEditPage /> },
@@ -111,22 +115,38 @@ const publicRoutes: RouteObject[] = [
         path: "*",
         element: <ErrorPage />,
       },
+      // 로그인이 필요한 PostPage들
       {
         path: "post",
-        element: <PostWrite />,
+        element: (
+          <ProtectedRoute>
+            <PostWrite />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "posts/edit/:postId",
-        element: <PostEditPage />
+        element: (
+          <ProtectedRoute>
+            <PostEditPage />
+          </ProtectedRoute>
+        ),
       },
 
       {
         path: "post/success",
-        element: <PostSuccess />,
+        element: (
+          <ProtectedRoute>
+            <PostSuccess />
+          </ProtectedRoute>
+        ),
       },
+      // 게시글 상세는 로그인안해도 볼 수 있도록? 
       {
         path: "posts/:postId",
-        element: <PostDetailPage />,
+        element: (
+            <PostDetailPage />
+        ),
       },
     ],
   },
@@ -145,9 +165,9 @@ function App() {
   return (
     <>
       <AuthProvider>
-      {/* <QueryClientProvider client={queryClient} */}
+        {/* <QueryClientProvider client={queryClient} */}
         <RouterProvider router={router} />
-      {/* </QueryClientProvider> */}
+        {/* </QueryClientProvider> */}
       </AuthProvider>
     </>
   );
