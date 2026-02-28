@@ -6,7 +6,7 @@ import { useGetBestFeed } from "../hooks/post/useGetBestFeed";
 type SortType = "BEST" | "LATEST" | "LIKE" | "VIEW" | "COMMENT";
 
 const sortMap: Record<string, SortType> = {
-  "베스트순": "BEST",
+  "인기순": "BEST",
   "최신순": "LATEST",
   "좋아요순": "LIKE",
   "조회수순": "VIEW",
@@ -14,7 +14,7 @@ const sortMap: Record<string, SortType> = {
 };
 
 export const BestFeedPage = () => {
-  const [sortOrder, setSortOrder] = useState("베스트순");
+  const [sortOrder, setSortOrder] = useState("인기순");
   const [currentPage, setCurrentPage] = useState(0);
 
   const apiParams = useMemo(
@@ -30,6 +30,7 @@ export const BestFeedPage = () => {
 
   const posts = Array.isArray(data?.result?.posts) ? data.result.posts : [];
   const hasNextPage = !data?.result?.last;
+  const totalPages = data?.pageInfo?.totalPages;
 
   return (
     <>
@@ -62,9 +63,10 @@ export const BestFeedPage = () => {
           isLoading={isLoading}
           error={error}
           hasNextPage={hasNextPage}
+          totalPages={totalPages}
           sortOrder={sortOrder}
           sortOptions={[
-            { label: "베스트순", value: "베스트순" },
+            { label: "인기순", value: "인기순" },
             { label: "최신순", value: "최신순" },
             { label: "좋아요순", value: "좋아요순" },
             { label: "조회수순", value: "조회수순" },

@@ -1,8 +1,12 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { RandomFeedPostCard } from "../components/RandomFeedPage/RandomFeedPostCard";
 import Write from "../assets/icons/Write.svg?react";
 import RightArrow from "../assets/icons/RightArrow.svg?react";
+import NextArrow from "../assets/icons/NextArrow.svg?react";
+import NextDoubleArrow from "../assets/icons/NextDoubleArrow.svg?react";
+import PreviousArrow from "../assets/icons/PreviousArrow.svg?react";
+import PreviousDoubleArrow from "../assets/icons/PreviousDoubleArrow.svg?react";
 
 type SituationType = "웁스 중" | "극복 중" | "극복 완료";
 
@@ -23,6 +27,7 @@ interface FeedPageProps {
   isLoading?: boolean;
   error?: Error | null;
   hasNextPage?: boolean;
+  totalPages?: number;
   activeTab?: SituationType;
   sortOrder?: string;
   sortOptions?: Array<{ label: string; value: string }>;
@@ -42,6 +47,7 @@ export const FeedPage = ({
   isLoading = false,
   error = null,
   hasNextPage = false,
+  totalPages,
   activeTab: externalActiveTab,
   sortOrder: externalSortOrder,
   sortOptions: externalSortOptions,
@@ -92,8 +98,13 @@ export const FeedPage = ({
       } else {
         setInternalActiveTab(tab);
       }
+      if (onPageChange) {
+        onPageChange(0);
+      } else {
+        setInternalCurrentPage(0);
+      }
     },
-    [onTabChange]
+    [onTabChange, onPageChange]
   );
 
   const handleSortChange = useCallback(
@@ -103,9 +114,14 @@ export const FeedPage = ({
       } else {
         setInternalSortOrder(sort);
       }
+      if (onPageChange) {
+        onPageChange(0);
+      } else {
+        setInternalCurrentPage(0);
+      }
       setIsSortDropdownOpen(false);
     },
-    [onSortChange]
+    [onSortChange, onPageChange]
   );
 
   const sortOptions = externalSortOptions || DEFAULT_SORT_OPTIONS;
@@ -120,6 +136,42 @@ export const FeedPage = ({
     },
     [onPageChange]
   );
+
+  const pagination = useMemo(() => {
+    const currentPage1 = currentPage + 1; // 1-based
+    const knownTotal = typeof totalPages === "number" && totalPages > 0 ? totalPages : undefined;
+
+    const blockStart = Math.floor((currentPage1 - 1) / 5) * 5 + 1;
+    const blockEnd = knownTotal ? Math.min(blockStart + 4, knownTotal) : blockStart + 4;
+
+    const pageNumbers: number[] = [];
+    for (let p = blockStart; p <= blockEnd; p++) pageNumbers.push(p);
+
+    const canFirst = currentPage1 > 1;
+    const canPrev5 = currentPage1 > 1;
+    const canNext5 = knownTotal ? currentPage1 < knownTotal : hasNextPage;
+    const canLast = knownTotal ? currentPage1 < knownTotal : false;
+
+    const goToPage1 = (page1: number) => {
+      const clamped = knownTotal ? Math.max(1, Math.min(knownTotal, page1)) : Math.max(1, page1);
+      handlePageChange(clamped - 1); // back to 0-based
+    };
+
+    return {
+      currentPage1,
+      knownTotal,
+      pageNumbers,
+      canFirst,
+      canPrev5,
+      canNext5,
+      canLast,
+      goFirst: () => goToPage1(1),
+      goPrev5: () => goToPage1(currentPage1 - 5),
+      goNext5: () => goToPage1(currentPage1 + 5),
+      goLast: knownTotal ? () => goToPage1(knownTotal) : undefined,
+      goToPage1,
+    };
+  }, [currentPage, totalPages, hasNextPage, handlePageChange]);
 
   return (
     <>
@@ -265,33 +317,70 @@ export const FeedPage = ({
 
         {/* 페이지네이션 */}
         {posts.length > 0 && (
-          <div className="flex gap-[30px] items-center justify-center pt-[60px]">
-            <div className="flex gap-[30px] items-center">
-              {/* 이전 */}
-              {currentPage > 0 && (
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  className="w-6 h-6 flex items-center justify-center rotate-180"
-                >
-                  <RightArrow className="w-6 h-6" />
-                </button>
-              )}
+          <div className="flex justify-center items-center gap-2 pt-[60px]">
+            {/* 처음 */}
+            <button
+              onClick={pagination.goFirst}
+              disabled={!pagination.canFirst}
+              className={`w-10 h-10 flex items-center justify-center transition-colors ${
+                pagination.canFirst ? "cursor-pointer hover:bg-[#F6F6F6]" : "opacity-50 cursor-not-allowed"
+              }`}
+              aria-label="첫 페이지"
+            >
+              <PreviousDoubleArrow />
+            </button>
 
-              {/* 현재 페이지 */}
-              <button className="w-[46px] h-[46px] bg-[#B3E378] rounded-[23px] flex items-center justify-center text-[18px] font-semibold text-[#262627]">
-                {currentPage + 1}
-              </button>
+            {/* -5 */}
+            <button
+              onClick={pagination.goPrev5}
+              disabled={!pagination.canPrev5}
+              className={`w-10 h-10 flex items-center justify-center transition-colors ${
+                pagination.canPrev5 ? "cursor-pointer hover:bg-[#F6F6F6]" : "opacity-50 cursor-not-allowed"
+              }`}
+              aria-label="이전 5페이지"
+            >
+              <PreviousArrow />
+            </button>
 
-              {/* 다음 */}
-              {hasNextPage && (
+            {/* 1~5 */}
+            {pagination.pageNumbers.map((page) => {
+              const isActive = page === pagination.currentPage1;
+              return (
                 <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  className="w-6 h-6 flex items-center justify-center"
+                  key={page}
+                  onClick={() => pagination.goToPage1(page)}
+                  className={`w-10 h-10 rounded-full body2 transition-colors ${
+                    isActive ? "bg-[#B3E378] text-[#262627]" : "text-[#262627] hover:bg-[#F6F6F6]"
+                  }`}
                 >
-                  <RightArrow className="w-6 h-6" />
+                  {page}
                 </button>
-              )}
-            </div>
+              );
+            })}
+
+            {/* +5 */}
+            <button
+              onClick={pagination.goNext5}
+              disabled={!pagination.canNext5}
+              className={`w-10 h-10 flex items-center justify-center transition-colors ${
+                pagination.canNext5 ? "cursor-pointer hover:bg-[#F6F6F6]" : "opacity-50 cursor-not-allowed"
+              }`}
+              aria-label="다음 5페이지"
+            >
+              <NextArrow />
+            </button>
+
+            {/* 마지막 (totalPages 있을 때만) */}
+            <button
+              onClick={pagination.goLast}
+              disabled={!pagination.canLast || !pagination.goLast}
+              className={`w-10 h-10 flex items-center justify-center transition-colors ${
+                pagination.canLast && pagination.goLast ? "cursor-pointer hover:bg-[#F6F6F6]" : "opacity-50 cursor-not-allowed"
+              }`}
+              aria-label="마지막 페이지"
+            >
+              <NextDoubleArrow />
+            </button>
           </div>
         )}
       </div>

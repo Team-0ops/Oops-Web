@@ -94,6 +94,10 @@ const publicRoutes: RouteObject[] = [
         element: <FavoriteFeedPage />,
       },
       {
+        path: "category-feed",
+        element: <Navigate to="/category-feed/1" replace />,
+      },
+      {
         path: "category-feed/:categoryId",
         element: <CategoryFeedPage />,
       },

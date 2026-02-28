@@ -15,7 +15,9 @@ export const CategoryList = () => {
                     </div>
                     <button
                         className="body3 flex items-center gap-2 hover:underline text-[#6F6F6F]"
-                        onClick={()=>{navigate("/category-feed/:categoryName")}}
+                        onClick={() => {
+                          navigate("/category-feed");
+                        }}
                     >
                         전체 보기
                         <NextArrow/>
