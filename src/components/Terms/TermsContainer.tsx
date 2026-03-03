@@ -18,12 +18,13 @@ const TermsContainer = ({ id }: Props) => {
     localStorage.setItem(lsKey(id), "true");
     navigate(-1);
   };
+  
   return (
     <div className="w-full flex flex-col gap-[3.12rem]">
       <div className="flex justify-center items-center text-[1.5rem] font-bold">
         {term?.title}
       </div>
-      <div>{term?.content}</div>
+      <div className="whitespace-pre-wrap">{term?.content}</div>
       {/* 누르면 체크 ok되고 넘어가는거로 */}
       <button
         type="button"

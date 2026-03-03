@@ -47,7 +47,6 @@ export const TermsAgreement = () => {
   }, [location.key, terms.length, requiredTerms, optionalTerms]);
 
   const setOptionalTrue = () => {
-    // 요구사항 4: 전체약관 동의 누르면 OPTIONAL은 자동 체크
     for (const t of optionalTerms) {
       localStorage.setItem(lsKey(t.id), "true");
     }
