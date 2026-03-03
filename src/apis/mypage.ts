@@ -41,7 +41,6 @@ export const editMyProfile = async ({
       "Content-Type": "multipart/form-data",
     },
   });
-
   return data;
 };
 

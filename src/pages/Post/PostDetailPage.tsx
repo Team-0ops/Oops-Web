@@ -121,9 +121,7 @@ export default function PostDetailPage() {
       <div className="py-10 text-center text-[#b2b2b2]">불러오는 중...</div>
     );
   if (error || !data || !stageMap)
-    return (
-      <div className="py-10 text-center text-[#b2b2b2]">불러오기 실패</div>
-    );
+    return;
 
   return (
     <div className="w-full flex flex-col px-[3.63rem] gap-[2.5rem]">

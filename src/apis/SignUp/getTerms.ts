@@ -12,5 +12,6 @@ export const getTerms = async ():Promise<CommonResponse<TermItem>> => {
     const {data} = await axiosInstance.get<CommonResponse<TermItem>>(
         `/terms`
     );
+    console.log("약관 조회", data);
     return data;
 }
