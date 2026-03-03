@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import BackSvg from "../../assets/icons/back.svg?react";
@@ -6,14 +7,13 @@ const Verso = () => (
   <BackSvg className="w-full h-full" />
 );
 
-interface Props {
-  index: number;
+interface CardFlipProps {
   forceStop: boolean;
   isWinner?: boolean;
   FrontCard: React.FC;
 }
 
-const CardFlip = ({ forceStop, isWinner, FrontCard }: Props) => {
+const CardFlip = memo(({ forceStop, isWinner, FrontCard }: CardFlipProps) => {
   const [rotateY, setRotateY] = useState(0);
   const intervalRef = useRef<number | null>(null);
 
@@ -61,6 +61,8 @@ const CardFlip = ({ forceStop, isWinner, FrontCard }: Props) => {
       </div>
     </motion.div>
   );
-};
+});
+
+CardFlip.displayName = "CardFlip";
 
 export default CardFlip;

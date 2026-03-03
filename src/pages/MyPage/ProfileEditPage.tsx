@@ -5,7 +5,7 @@ import type { GetMyProfileResponse } from "../../types/MyPage";
 
 import ProfileAvatarSection from "../../components/MyPage/EditProfilePage/ProfileAvatarSection";
 import NicknameField from "../../components/MyPage/EditProfilePage/NicknameField";
-import EmailField from "../../components/MyPage/EditProfilePage/EmailField";
+// import EmailField from "../../components/MyPage/EditProfilePage/EmailField";
 import ProfileSaveSection from "../../components/MyPage/EditProfilePage/ProfileSaveSection";
 
 const ProfileEditPage = () => {
@@ -20,7 +20,7 @@ const ProfileEditPage = () => {
 
   // 폼 상태
   const [userName, setUserName] = useState("");
-  const [emailDraft, setEmailDraft] = useState(""); // 아직 저장 로직 없음
+  // const [emailDraft, setEmailDraft] = useState(""); // 아직 저장 로직 없음
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -28,7 +28,7 @@ const ProfileEditPage = () => {
   useEffect(() => {
     if (!profile) return;
     setUserName(profile.userName ?? "");
-    setEmailDraft(profile.email ?? "");
+    // setEmailDraft(profile.email ?? "");
     // 이미지 preview는 "선택한 파일"이 우선이라, 여기서 previewUrl은 건드리지 않음
   }, [profile?.userName, profile?.email]); // profile 전체 의존성 걸면 불필요 렌더 가능
 
@@ -107,7 +107,7 @@ const ProfileEditPage = () => {
 
     <NicknameField value={userName} onChange={setUserName} />
 
-    <EmailField value={emailDraft} onChange={setEmailDraft} />
+    {/* <EmailField value={emailDraft} onChange={setEmailDraft} /> */}
 
     <ProfileSaveSection
       onSave={onSave}

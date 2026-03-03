@@ -31,7 +31,7 @@ export const FavoriteFeedPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoadingFavorites, setIsLoadingFavorites] = useState(true);
 
-  // 즐겨찾기 카테고리 로드
+  // 즐겨찾기 로드
   useEffect(() => {
     const fetchBookmarkedCategories = async () => {
       try {
@@ -57,7 +57,7 @@ export const FavoriteFeedPage = () => {
     void fetchBookmarkedCategories();
   }, []);
 
-  // API 파라미터
+  // 파라미터
   const apiParams = useMemo(
     () => {
       if (!activeCategoryId) return null;
@@ -72,12 +72,11 @@ export const FavoriteFeedPage = () => {
     [activeCategoryId, activeTab, currentPage, sortOrder]
   );
 
-  // API 호출
   const { data, isLoading, error } = useGetCategoryFeed(
     apiParams || { categoryId: 0, situation: "OOPS" }
   );
 
-  // 로딩 중일 때
+  // 로딩
   if (isLoadingFavorites) {
     return (
       <div className="w-full flex flex-col gap-[40px]">
@@ -98,7 +97,6 @@ export const FavoriteFeedPage = () => {
     );
   }
 
-  // 안전하게 배열로 변환
   const posts = activeCategoryId && data?.result?.posts
     ? Array.isArray(data.result.posts)
       ? data.result.posts
@@ -106,7 +104,7 @@ export const FavoriteFeedPage = () => {
     : [];
   const hasNextPage = !data?.result?.last;
 
-  // 즐겨찾기가 없을 때
+  // 즐겨찾기 없음
   if (favoriteCategories.length === 0) {
     return (
       <div className="w-full flex flex-col gap-[40px]">
@@ -129,7 +127,7 @@ export const FavoriteFeedPage = () => {
     );
   }
 
-  // 활성 카테고리 이름
+  // 활성 카테고리
   const activeCategoryName =
     favoriteCategories.find((cat) => cat.id === activeCategoryId)?.name ||
     "전체";
@@ -137,7 +135,7 @@ export const FavoriteFeedPage = () => {
   return (
     <>
       <div className="w-full flex flex-col gap-[40px]">
-        {/* 제목 섹션 */}
+        {/* 제목 */}
         <div className="flex flex-col gap-[24px]">
           <div className="flex items-start justify-between">
             <div className="flex flex-col gap-[16px]">
@@ -182,7 +180,7 @@ export const FavoriteFeedPage = () => {
           </div>
         </div>
 
-        {/* 게시물 리스트 */}
+        {/* 리스트 */}
         {activeCategoryId ? (
           <FeedPage
             title={activeCategoryName}

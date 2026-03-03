@@ -5,7 +5,6 @@ import type { LuckyCard } from "../../types/lucky";
 interface FullResultCardProps {
   onClose: () => void;
   card: LuckyCard & { FrontComponent: React.FC };
-  selectedIndex: number;
 }
 
 const formatContent = (text: string, maxCharsPerLine: number) => {
@@ -25,7 +24,7 @@ const formatContent = (text: string, maxCharsPerLine: number) => {
   return result;
 };
 
-const FullResultCard = ({ onClose, card, selectedIndex: _selectedIndex }: FullResultCardProps) => {
+const FullResultCard = ({ onClose, card }: FullResultCardProps) => {
   const { name, content, FrontComponent } = card;
 
   return (

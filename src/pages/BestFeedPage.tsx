@@ -28,14 +28,13 @@ export const BestFeedPage = () => {
 
   const { data, isLoading, error } = useGetBestFeed(apiParams);
 
-  // 안전하게 배열로 변환
   const posts = Array.isArray(data?.result?.posts) ? data.result.posts : [];
   const hasNextPage = !data?.result?.last;
 
   return (
     <>
       <div className="w-full flex flex-col gap-[40px]">
-        {/* 제목 섹션 */}
+        {/* 제목 */}
         <div className="flex flex-col gap-[24px]">
           <div className="flex items-start justify-between">
             <div className="flex flex-col gap-[16px]">
@@ -53,7 +52,7 @@ export const BestFeedPage = () => {
           <hr className="border-t-2 border-[#D2D2D2]" />
         </div>
 
-        {/* FeedPage 재사용 (제목 섹션 숨김, 상황 탭 없이, 정렬 기능 포함) */}
+        {/* FeedPage 재사용 */}
         <FeedPage
           title=""
           showWriteButton={false}

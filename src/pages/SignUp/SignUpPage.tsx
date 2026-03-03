@@ -56,7 +56,7 @@ export const SignUpPage = () => {
           <InputWithActionButton
             label="인증번호"
             type="text"
-            placeholder="인증번호 4자리"
+            placeholder="인증번호 6자리"
             value={signUp.verificationCode}
             onChange={signUp.setVerificationCode}
             onClear={signUp.onVerificationCodeClear}

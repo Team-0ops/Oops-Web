@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import CardFlip from "./CardFlip";
@@ -6,6 +6,11 @@ import FullResultCard from "./FullResultCard";
 import { requestLuckyDraw, getUserProfile } from "../../apis/luckyDrawApi";
 import type { LuckyCard } from "../../types/lucky";
 import type { CustomAxiosError } from "../../types/AxiosError";
+import {
+  MIN_POINT_TO_DRAW,
+  DELAY_BEFORE_RESULT_MS,
+  DELAY_BEFORE_FULL_CARD_MS,
+} from "./constants";
 import LeftArrow from "../../assets/icons/LeftArrow.svg?react";
 import OctoSvg from "../../assets/icons/octopus.svg?react";
 import BunnySvg from "../../assets/icons/rabit.svg?react";
@@ -27,19 +32,29 @@ const Turtle = () => <TurtleSvg className="w-full h-full object-contain" />;
 const Bear = () => <BearSvg className="w-full h-full object-contain" />;
 const Croco = () => <CrocoSvg className="w-full h-full object-contain" />;
 
-const cardList = [Octo, Bunny, Whale, Penguin, Cat, Puppy, Turtle, Bear, Croco];
+// 카드 설정 (keywords = API name 매칭)
+const CARD_CONFIG: ReadonlyArray<{
+  keywords: readonly string[];
+  Component: React.FC;
+}> = [
+  { keywords: ["문어"], Component: Octo },
+  { keywords: ["토끼"], Component: Bunny },
+  { keywords: ["고래"], Component: Whale },
+  { keywords: ["펭"], Component: Penguin },
+  { keywords: ["냥"], Component: Cat },
+  { keywords: ["강아지", "멍"], Component: Puppy },
+  { keywords: ["꾸준", "거북이"], Component: Turtle },
+  { keywords: ["곰"], Component: Bear },
+  { keywords: ["악어", "아거"], Component: Croco },
+];
+
+const cardList = CARD_CONFIG.map((c) => c.Component);
 
 const getIndexFromName = (name: string): number => {
-  if (name.includes("문어")) return 0;
-  if (name.includes("토끼")) return 1;
-  if (name.includes("고래")) return 2;
-  if (name.includes("펭")) return 3;
-  if (name.includes("냥")) return 4;
-  if (name.includes("강아지") || name.includes("멍")) return 5;
-  if (name.includes("꾸준") || name.includes("거북이")) return 6;
-  if (name.includes("곰")) return 7;
-  if (name.includes("악어") || name.includes("아거")) return 8;
-  return 0;
+  const index = CARD_CONFIG.findIndex((config) =>
+    config.keywords.some((k) => name.includes(k))
+  );
+  return index >= 0 ? index : 0;
 };
 
 const LuckyDraw = () => {
@@ -63,15 +78,15 @@ const LuckyDraw = () => {
     fetchPoint();
   }, []);
 
-  const handleCloseResult = () => {
+  const handleCloseResult = useCallback(() => {
     setShowFullCard(false);
     setShowResult(false);
     setForceStop(false);
     setSelectedIndex(null);
     setSelectedCard(null);
-  };
+  }, []);
 
-  const handleDrawClick = async () => {
+  const handleDrawClick = useCallback(async () => {
     setForceStop(true);
 
     try {
@@ -89,36 +104,31 @@ const LuckyDraw = () => {
         setShowResult(true);
         setTimeout(() => {
           setShowFullCard(true);
-        }, 1500);
-      }, 500);
+        }, DELAY_BEFORE_FULL_CARD_MS);
+      }, DELAY_BEFORE_RESULT_MS);
     } catch (e: unknown) {
       console.error("API 오류:", e);
 
+      let message = "부적 뽑기 실패!";
       if ((e as AxiosError).isAxiosError) {
         const axiosError = e as CustomAxiosError;
         const serverMessage = axiosError.response?.data?.message;
-        console.error("오류 발생:", serverMessage || axiosError.message);
+        if (serverMessage) message = serverMessage;
       } else if (e instanceof Error) {
-        console.error("오류 발생:", e.message);
-      } else {
-        console.error("알 수 없는 오류", e);
+        message = e.message;
       }
 
-      alert("부적 뽑기 실패!");
+      alert(message);
       setForceStop(false);
     }
-  };
+  }, []);
 
-  const isDrawDisabled = userPoint < 150 || forceStop;
+  const isDrawDisabled = userPoint < MIN_POINT_TO_DRAW || forceStop;
 
   return (
     <div className="w-full flex flex-col items-center relative bg-[#FFFBF8] min-h-screen px-[20px]">
-      {showFullCard && selectedCard && selectedIndex !== null && (
-        <FullResultCard
-          onClose={handleCloseResult}
-          card={selectedCard}
-          selectedIndex={selectedIndex}
-        />
+      {showFullCard && selectedCard && (
+        <FullResultCard onClose={handleCloseResult} card={selectedCard} />
       )}
 
       <button
@@ -138,7 +148,6 @@ const LuckyDraw = () => {
         {cardList.map((CardComponent, idx) => (
           <CardFlip
             key={idx}
-            index={idx}
             forceStop={forceStop}
             isWinner={showResult && selectedIndex === idx}
             FrontCard={CardComponent}
@@ -155,8 +164,8 @@ const LuckyDraw = () => {
             : "bg-[#B3E378] text-black"
           }`}
       >
-        {userPoint < 150
-          ? "150포인트가 모이면 뽑을 수 있어요!"
+        {userPoint < MIN_POINT_TO_DRAW
+          ? `${MIN_POINT_TO_DRAW}포인트가 모이면 뽑을 수 있어요!`
           : "행운 부적 뽑으러 가기"}
       </button>
     </div>

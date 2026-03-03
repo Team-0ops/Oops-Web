@@ -43,11 +43,15 @@ export const RandomFeedPage = () => {
   const randomTopic = data?.result?.comment || "발표";
   const hasNextPage = !data?.result?.last;
 
+  const icon = useMemo(
+    () => <DiceIcon className="w-[40px] h-[40px]" />,
+    []
+  );
 
   return (
     <FeedPage
       title={`이번 주 랜덤 주제 : ${randomTopic}`}
-      icon={<DiceIcon className="w-[40px] h-[40px]" />}
+      icon={icon}
       showWriteButton={true}
       posts={posts}
       isLoading={isLoading}
