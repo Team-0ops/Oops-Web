@@ -6,22 +6,28 @@ import { useTerms } from "../../hooks/terms/useTerms";
 
 const lsKey = (id: number) => `terms_agree_${id}`;
 
+
 export const TermsAgreement = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const { terms, requiredTerms, optionalTerms } = useTerms();
-
+  
   const [allAgreed, setAllAgreed] = useState(false);
   const [termsAgreed, setTermsAgreed] = useState(false);
   const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [marketingAgreed, setMarketingAgreed] = useState(false);
 
-  //terms id값 매핑
+
+  console.log("terms", terms)
   const idToUrl = (id: number) => {
-    const sorted = [...terms].sort((a, b) => a.id - b.id);
-    const idx = sorted.findIndex((t) => t.id === id);
-    return idx >= 0 ? `/terms${idx + 1}` : "/terms1";
+    const map: Record<number, string> = {
+      2: "/terms1",
+      3: "/terms2",
+      4: "/terms3",
+    };
+  
+    return map[id] ?? "/terms1";
   };
 
   // localStorage -> state 동기화 (뒤로 돌아올 때도 반영)
