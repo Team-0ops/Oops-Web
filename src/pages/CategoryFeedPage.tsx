@@ -26,7 +26,8 @@ export const CategoryFeedPage = () => {
   const [sortOrder, setSortOrder] = useState("최신순");
   const [currentPage, setCurrentPage] = useState(0);
 
-  const categoryIdNum = categoryId ? parseInt(categoryId, 10) : 0;
+  const parsedCategoryId = categoryId ? parseInt(categoryId, 10) : 0;
+  const categoryIdNum = Number.isFinite(parsedCategoryId) ? parsedCategoryId : 0;
   // id 1부터
   const categoryName = categoryIdNum > 0 && categoryIdNum <= Categories.length
     ? Categories[categoryIdNum - 1]
@@ -53,6 +54,7 @@ export const CategoryFeedPage = () => {
 
   const posts = Array.isArray(data?.result?.posts) ? data.result.posts : [];
   const hasNextPage = !data?.result?.last;
+  const totalPages = data?.pageInfo?.totalPages;
 
   return (
     <FeedPage
@@ -62,6 +64,7 @@ export const CategoryFeedPage = () => {
       isLoading={isLoading}
       error={error}
       hasNextPage={hasNextPage}
+      totalPages={totalPages}
       activeTab={activeTab}
       sortOrder={sortOrder}
       currentPage={currentPage}

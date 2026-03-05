@@ -42,6 +42,7 @@ export const RandomFeedPage = () => {
   const posts = Array.isArray(data?.result?.posts) ? data.result.posts : [];
   const randomTopic = data?.result?.comment || "발표";
   const hasNextPage = !data?.result?.last;
+  const totalPages = data?.pageInfo?.totalPages;
 
   const icon = useMemo(
     () => <DiceIcon className="w-[40px] h-[40px]" />,
@@ -57,6 +58,7 @@ export const RandomFeedPage = () => {
       isLoading={isLoading}
       error={error}
       hasNextPage={hasNextPage}
+      totalPages={totalPages}
       activeTab={activeTab}
       sortOrder={sortOrder}
       currentPage={currentPage}

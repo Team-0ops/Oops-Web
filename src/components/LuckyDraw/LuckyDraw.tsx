@@ -72,11 +72,18 @@ const LuckyDraw = () => {
         const res = await getUserProfile();
         setUserPoint(res.result.point);
       } catch (e) {
+        if ((e as AxiosError).isAxiosError) {
+          const status = (e as AxiosError).response?.status;
+          if (status === 401) {
+            navigate("/login", { replace: true });
+            return;
+          }
+        }
         console.error("포인트 조회 실패", e);
       }
     };
     fetchPoint();
-  }, []);
+  }, [navigate]);
 
   const handleCloseResult = useCallback(() => {
     setShowFullCard(false);
@@ -112,6 +119,11 @@ const LuckyDraw = () => {
       let message = "부적 뽑기 실패!";
       if ((e as AxiosError).isAxiosError) {
         const axiosError = e as CustomAxiosError;
+        const status = axiosError.response?.status;
+        if (status === 401) {
+          navigate("/login", { replace: true });
+          return;
+        }
         const serverMessage = axiosError.response?.data?.message;
         if (serverMessage) message = serverMessage;
       } else if (e instanceof Error) {
@@ -121,7 +133,7 @@ const LuckyDraw = () => {
       alert(message);
       setForceStop(false);
     }
-  }, []);
+  }, [navigate]);
 
   const isDrawDisabled = userPoint < MIN_POINT_TO_DRAW || forceStop;
 
