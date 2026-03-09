@@ -18,8 +18,6 @@ export const TermsAgreement = () => {
   const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [marketingAgreed, setMarketingAgreed] = useState(false);
 
-
-  console.log("terms", terms)
   const idToUrl = (id: number) => {
     const map: Record<number, string> = {
       2: "/terms1",
@@ -38,9 +36,9 @@ export const TermsAgreement = () => {
 
     // 지금 UI는 3개 fixed라서 기존처럼 1/2/3에 매핑
     // (terms가 정렬되어 있든 아니든, url과 동일하게 1/2/3로 가고 있으니 그대로 유지)
-    const t1 = isAgreed(1);
-    const t2 = isAgreed(2);
-    const t3 = isAgreed(3);
+    const t1 = isAgreed(2);
+    const t2 = isAgreed(3);
+    const t3 = isAgreed(4);
 
     setTermsAgreed(t1);
     setPrivacyAgreed(t2);
@@ -100,7 +98,7 @@ export const TermsAgreement = () => {
       return;
     }
     // 해제
-    localStorage.removeItem(lsKey(1));
+    localStorage.removeItem(lsKey(2));
     setTermsAgreed(false);
     setAllAgreed(false);
   };
@@ -111,7 +109,7 @@ export const TermsAgreement = () => {
       return;
     }
     // 해제
-    localStorage.removeItem(lsKey(2));
+    localStorage.removeItem(lsKey(3));
     setPrivacyAgreed(false);
     setAllAgreed(false);
   };
@@ -121,8 +119,8 @@ export const TermsAgreement = () => {
     const newValue = !marketingAgreed;
     setMarketingAgreed(newValue);
 
-    if (newValue) localStorage.setItem(lsKey(3), "true");
-    else localStorage.removeItem(lsKey(3));
+    if (newValue) localStorage.setItem(lsKey(4), "true");
+    else localStorage.removeItem(lsKey(4));
 
     // 전체동의 여부는 effect에서 계산되지만, 즉시 UX 반영하고 싶으면:
     setAllAgreed(false);
