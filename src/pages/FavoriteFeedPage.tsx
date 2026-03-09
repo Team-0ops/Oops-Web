@@ -103,6 +103,7 @@ export const FavoriteFeedPage = () => {
       : []
     : [];
   const hasNextPage = !data?.result?.last;
+  const totalPages = data?.pageInfo?.totalPages;
 
   // 즐겨찾기 없음
   if (favoriteCategories.length === 0) {
@@ -189,6 +190,7 @@ export const FavoriteFeedPage = () => {
             isLoading={isLoading}
             error={error}
             hasNextPage={hasNextPage}
+            totalPages={totalPages}
             activeTab={activeTab}
             sortOrder={sortOrder}
             currentPage={currentPage}

@@ -16,16 +16,29 @@ import {
 export const SignUpPage = () => {
   const signUp = useSignUp();
 
-  //이메일
   const { emailMessage, emailMessageType, isEmailAvailable, isCheckingEmail } =
     useEmailAvailability(signUp.email, signUp.isEmailValid);
 
-  //비밀번호
   const pw = validatePassword(signUp.password);
   const pwConfirm = validatePasswordConfirm(
     signUp.password,
     signUp.confirmPassword,
   );
+
+  const isServiceAgreed = localStorage.getItem("terms_agree_2") === "true";
+  const isPrivacyAgreed = localStorage.getItem("terms_agree_3") === "true";
+
+  const canSubmit =
+    signUp.isEmailValid &&
+    isEmailAvailable === true &&
+    signUp.verificationMessage?.type === "success" &&
+    signUp.password.length > 0 &&
+    pw.type === "success" &&
+    signUp.confirmPassword.length > 0 &&
+    pwConfirm.type === "success" &&
+    signUp.userName.trim().length > 0 &&
+    isServiceAgreed &&
+    isPrivacyAgreed;
 
   return (
     <div className="w-full flex justify-center">
@@ -96,7 +109,8 @@ export const SignUpPage = () => {
           <TermsAgreement />
           <Button
             type="submit"
-            variant="default"
+            variant={canSubmit ? "confirm" : "default"}
+            disabled={!canSubmit}
             className="h-15 body1 font-bold"
           >
             회원가입
