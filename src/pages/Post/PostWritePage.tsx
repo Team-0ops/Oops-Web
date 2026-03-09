@@ -54,7 +54,11 @@ const PostWrite = () => {
   const handleSubmit = async () => {
     if (!title.trim()) return alert("제목을 입력해주세요!");
     if (!content.trim()) return alert("내용을 입력해주세요!");
-    if (!selectedCategory) return alert("카테고리를 선택해주세요!");
+    if (!selectedCategory) {
+      alert("카테고리를 선택하지 않으면 자유 카테고리로 작성됩니다.");
+      return setSelectedCategory("자유");
+    }
+    
     if (active !== "OOPS" && !previousPostId)
       return alert("이전 게시물을 선택해주세요!");
 

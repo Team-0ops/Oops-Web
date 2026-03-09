@@ -1,56 +1,58 @@
-import { useState } from "react";
 import { postSenderEmail } from "../../apis/SignUp/postSenderEmail";
 import { postVerifyEmail } from "../../apis/SignUp/postVerifyEmail";
 import { postSignUp } from "../../apis/SignUp/postSinUp";
-
-type VerificationMessage = {
-  text: string;
-  type: "success" | "error";
-} | null;
+import { useNavigate } from "react-router-dom";
+import { useSignUpStore } from "../../store/useSignUpStore";
 
 export const useSignUp = () => {
-  const [email, setEmail] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [userName, setUsername] = useState("");
-  const [verificationMessage, setVerificationMessage] =
-    useState<VerificationMessage>(null);
-  const [verificationToken, setVerificationToken] = useState("");
+  const navigate = useNavigate();
+
+  const {
+    email,
+    verificationCode,
+    password,
+    confirmPassword,
+    userName,
+    verificationMessage,
+    verificationToken,
+    setEmail,
+    setVerificationCode,
+    setPassword,
+    setConfirmPassword,
+    setUserName,
+    setVerificationMessage,
+    setVerificationToken,
+    clearEmail,
+    clearVerificationCode,
+    reset,
+  } = useSignUpStore();
 
   // 인증번호 길이 확인
   const isVerificationCodeValid = verificationCode.length >= 6;
+
   // 이메일 형식 검사
-  const isValidEmail = (email: string) => {
+  const isValidEmail = (value: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return emailRegex.test(value);
   };
 
   // 이메일이 유효한 형식인지 확인
   const isEmailValid = email.length > 0 && isValidEmail(email);
-  // TODO: 이메일 중복체크도 같이
-  // TODO: 이메일 형식 타이트하게. 그냥 자주쓰는 이메일 몇개로 범위 축소해야할듯.
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
-    // 이메일 변경 시 인증번호 메시지 초기화
-    setVerificationMessage(null);
   };
 
   const handleEmailClear = () => {
-    setEmail("");
-    setVerificationMessage(null);
+    clearEmail();
   };
 
   const handleVerificationCodeChange = (value: string) => {
     setVerificationCode(value);
-    // 인증번호 변경 시 메시지 초기화
-    setVerificationMessage(null);
   };
 
   const handleVerificationCodeClear = () => {
-    setVerificationCode("");
-    setVerificationMessage(null);
+    clearVerificationCode();
   };
 
   const handleSendVerificationCode = async () => {
@@ -85,11 +87,12 @@ export const useSignUp = () => {
         purpose: "SIGNUP",
         code: verificationCode,
       });
+
       setVerificationToken(res.result.verificationToken);
       setVerificationMessage({
         text: "인증완료",
         type: "success",
-      })
+      });
     } catch (error) {
       console.log("검증실패", error);
       setVerificationMessage({
@@ -109,11 +112,14 @@ export const useSignUp = () => {
         password,
         verificationToken,
       });
+
+      alert("회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.");
+      reset();
+      navigate("/login");
     } catch (e) {
-      console.error(e)
-      throw e
+      console.error(e);
+      throw e;
     }
-    
   };
 
   return {
@@ -129,7 +135,7 @@ export const useSignUp = () => {
     setVerificationCode: handleVerificationCodeChange,
     setPassword,
     setConfirmPassword,
-    setUsername,
+    setUsername: setUserName,
 
     // Clear handlers
     onEmailClear: handleEmailClear,
@@ -141,6 +147,7 @@ export const useSignUp = () => {
 
     // Messages
     verificationMessage,
+
     // Handlers
     handleSendVerificationCode,
     handleVerifyCode,

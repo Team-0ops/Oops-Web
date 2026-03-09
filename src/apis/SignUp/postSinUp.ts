@@ -23,6 +23,6 @@ export const postSignUp = async ({
             verificationToken,
         }
     );
-    console.log("회원가입", data);
+
     return data;
 }
