@@ -1,6 +1,9 @@
+import { useCallback } from "react";
 import { motion } from "framer-motion";
 import X from "../../assets/icons/X.svg?react";
 import type { LuckyCard } from "../../types/lucky";
+
+const SAVED_CHARMS_KEY = "oops-saved-lucky-charms";
 
 interface FullResultCardProps {
   onClose: () => void;
@@ -26,6 +29,20 @@ const formatContent = (text: string, maxCharsPerLine: number) => {
 
 const FullResultCard = ({ onClose, card }: FullResultCardProps) => {
   const { name, content, FrontComponent } = card;
+
+  const handleSave = useCallback(() => {
+    try {
+      const saved = localStorage.getItem(SAVED_CHARMS_KEY);
+      const list: Array<{ name: string; content: string; savedAt: string }> = saved
+        ? JSON.parse(saved)
+        : [];
+      list.push({ name, content, savedAt: new Date().toISOString() });
+      localStorage.setItem(SAVED_CHARMS_KEY, JSON.stringify(list));
+      alert("행운 부적이 저장되었습니다.");
+    } catch {
+      alert("저장에 실패했습니다.");
+    }
+  }, [name, content]);
 
   return (
     <>
@@ -56,12 +73,22 @@ const FullResultCard = ({ onClose, card }: FullResultCardProps) => {
           <FrontComponent />
         </div>
 
-        <button
-          onClick={onClose}
-          className="bg-[#B3E378] text-[16px] font-semibold py-[12px] h-[63px] w-[335px] rounded-[4px]"
-        >
-          확인
-        </button>
+        <div className="flex gap-3 w-full max-w-[335px]">
+          <button
+            type="button"
+            onClick={handleSave}
+            className="flex-1 bg-[#E6F3D7] text-[16px] font-semibold py-[12px] h-[63px] rounded-[4px] border border-[#B3E378] cursor-pointer"
+          >
+            저장
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 bg-[#B3E378] text-[16px] font-semibold py-[12px] h-[63px] rounded-[4px] cursor-pointer"
+          >
+            확인
+          </button>
+        </div>
       </motion.div>
     </>
   );

@@ -14,9 +14,10 @@ type Props = {
     React.SetStateAction<CategoryName | null>
   >;
   locked?: boolean;
+  preselectedTopicName?: string | null;
 };
 
-const CategorySection = ({ selectedCategory, setSelectedCategory, locked }: Props) => {
+const CategorySection = ({ selectedCategory, setSelectedCategory, locked, preselectedTopicName }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -54,17 +55,17 @@ const CategorySection = ({ selectedCategory, setSelectedCategory, locked }: Prop
         w-[10.125rem] h-[2.5rem] px-[1.25rem] py-[0.25rem] 
         border-[0.06rem] border-solid rounded-[0.25rem] border-[#e4e4e4] 
         bg-[#f6f6f6] select-none
-        ${locked ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+        ${locked || preselectedTopicName ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
         ref={dropdownRef}
       >
         {/* 드롭다운 버튼 */}
         <button
           type="button"
-          disabled={locked}
-          onClick={() => setIsDropdownOpen((prev) => !prev)}
+          disabled={locked || !!preselectedTopicName}
+          onClick={() => !preselectedTopicName && setIsDropdownOpen((prev) => !prev)}
           className="w-full flex justify-between items-center text-start gap-[0.62rem]"
         >
-          <span>{selectedCategory ?? "카테고리"}</span>
+          <span>{preselectedTopicName ?? selectedCategory ?? "카테고리"}</span>
           <span className="text-sm cursor-pointer">
             {isDropdownOpen ? <DownArrow /> : <UpArrow />}
           </span>
