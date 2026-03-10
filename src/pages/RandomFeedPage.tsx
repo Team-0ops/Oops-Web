@@ -54,6 +54,7 @@ export const RandomFeedPage = () => {
       title={`이번 주 랜덤 주제 : ${randomTopic}`}
       icon={icon}
       showWriteButton={true}
+      preselectedTopicName={randomTopic}
       posts={posts}
       isLoading={isLoading}
       error={error}

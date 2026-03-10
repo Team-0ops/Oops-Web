@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useCreatePost } from "../../apis/Post/useCreatePost";
 // 타입 및 상수 임포트
-import { CategoryIdMap, type CategoryName } from "../../types/Common";
+import { Categories, CategoryIdMap, type CategoryName } from "../../types/Common";
 import { wantedCommentType, wantedCommentTypeMap } from "../../types/Common";
 // 컴포넌트들 임포트
 import ProgressSection from "../../components/PostPage/section/PostWriteSection/ProgressSecion";
@@ -17,7 +17,7 @@ import SubmitSection from "../../components/PostPage/section/PostWriteSection/Su
 // 각섹션에 해당하는 기능/상태관리는 번호를 부여함
 
 const PostWrite = () => {
-  // 네비게이션
+  const location = useLocation();
   const navigate = useNavigate();
   // api 훅
   const { createPost, isLoading } = useCreatePost();
@@ -40,6 +40,21 @@ const PostWrite = () => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryName | null>(
     null,
   );
+  // 랜덤 주제 피드에서 넘어온 경우 표시용 주제명 (발표 등)
+  const [preselectedTopicName, setPreselectedTopicName] = useState<string | null>(null);
+
+  // 카테고리 피드/랜덤 주제 피드에서 글작성 클릭 시 해당 항목 고정
+  useEffect(() => {
+    const state = location.state as { categoryId?: number; topicName?: string } | null;
+    if (!state) return;
+
+    if (state.categoryId && state.categoryId >= 1 && state.categoryId <= Categories.length) {
+      setSelectedCategory(Categories[state.categoryId - 1]);
+    } else if (state.topicName) {
+      setPreselectedTopicName(state.topicName);
+      setSelectedCategory("자유"); // API용 categoryId (자유=15)
+    }
+  }, []);
 
   // 4-2 checkbox 상태관리
   const [commentTypes, setCommentTypes] = useState<wantedCommentTypeMap>({
@@ -143,6 +158,7 @@ const PostWrite = () => {
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           locked={active !== "OOPS" && !!lockedCategory}
+          preselectedTopicName={preselectedTopicName}
         />
         <CommentSection
           commentTypes={commentTypes}

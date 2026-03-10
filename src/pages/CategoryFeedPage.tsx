@@ -60,6 +60,7 @@ export const CategoryFeedPage = () => {
     <FeedPage
       title={categoryName}
       showWriteButton={true}
+      preselectedCategoryId={categoryIdNum}
       posts={posts}
       isLoading={isLoading}
       error={error}

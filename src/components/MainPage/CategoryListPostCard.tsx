@@ -1,43 +1,63 @@
+import { useNavigate } from "react-router-dom";
 import Like from "../../assets/icons/Like.svg?react";
 import Comment from "../../assets/icons/Comment.svg?react";
+import type { Post } from "../../types/post";
 
-export const CategoryListPostCard = () => {
-    return (
-        <>
-            <div className="flex flex-col gap-7.5">
-                <div className="flex flex-col gap-3.75 text-[#262627]">
-                    <div className="h3 ">
-                        나 오늘 부장님한테 어쩌고
-                    </div>
-                    <div className="body3">
-                        어쩜 이렇게 하늘은 더 파란 건지 오늘따라 왜 바람은 또 완벽한지 그냥 모르는 척 하나 못들은 척 지워버린 척 딴 얘길 시작할까
-                    </div>
-                </div>
-                <div className="caption3 flex justify-between items-center self-stretch">
-                    <div className="flex gap-7.5 items-center">
-                        <div className="flex gap-2.5 items-center">
-                            <div className="w-8 h-8 bg-[#D2D2D2] rounded-[3.125rem]" />
-                            <span>닉네임최대</span>
-                        </div>
-                        <div className="flex gap-5">
-                            <div className="flex items-center gap-2.5">
-                                <Like />
-                                <span>좋아요</span>
-                            </div>
-                            <div className="flex items-center gap-2.5">
-                                <Comment />
-                                <span>댓글</span>
-                            </div>
-                        </div>
-                        <div>
-                            2일 전
-                        </div>
-                    </div>
-                    <button className="caption1 w-25 h-9 flex justify-center items-center rounded-[1.875rem] border-[#B3E378] bg-[#E6F3D7]">
-                        카테고리
-                    </button>
-                </div>
+type Props = {
+  categoryName?: string;
+  post?: Post | null;
+};
+
+export const CategoryListPostCard = ({ categoryName, post }: Props) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    if (post) navigate(`/posts/${post.postId}`);
+  };
+
+  const title = post?.title ?? "아직 게시글이 없어요";
+  const content = post?.content ?? "해당 카테고리의 첫 글을 작성해 보세요!";
+  const likes = post?.likes ?? 0;
+  const comments = post?.comments ?? 0;
+  const isClickable = !!post;
+
+  return (
+    <div
+      role={isClickable ? "button" : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      onClick={isClickable ? handleCardClick : undefined}
+      onKeyDown={
+        isClickable
+          ? (e) => e.key === "Enter" && handleCardClick()
+          : undefined
+      }
+      className={`flex flex-col gap-7.5 ${isClickable ? "cursor-pointer hover:opacity-80" : ""}`}
+    >
+      <div className="flex flex-col gap-3.75 text-[#262627]">
+        <div className="h3">{title}</div>
+        <div className="body3 line-clamp-2">{content}</div>
+      </div>
+      <div className="caption3 flex justify-between items-center self-stretch">
+        <div className="flex gap-7.5 items-center">
+          <div className="flex gap-2.5 items-center">
+            <div className="w-8 h-8 bg-[#D2D2D2] rounded-[3.125rem]" />
+            <span>닉네임최대</span>
+          </div>
+          <div className="flex gap-5">
+            <div className="flex items-center gap-2.5">
+              <Like />
+              <span>{likes}</span>
             </div>
-        </>
-    )
-}
+            <div className="flex items-center gap-2.5">
+              <Comment />
+              <span>{comments}</span>
+            </div>
+          </div>
+        </div>
+        <span className="caption1 px-4 py-2 rounded-[1.875rem] border border-[#B3E378] bg-[#E6F3D7]">
+          {categoryName ?? "카테고리"}
+        </span>
+      </div>
+    </div>
+  );
+};
