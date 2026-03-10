@@ -35,6 +35,8 @@ interface FeedPageProps {
   onSortChange?: (sort: string) => void;
   onPageChange?: (page: number) => void;
   currentPage?: number;
+  preselectedCategoryId?: number;
+  preselectedTopicName?: string;
 }
 
 export const FeedPage = ({
@@ -55,6 +57,8 @@ export const FeedPage = ({
   onSortChange,
   onPageChange,
   currentPage: externalCurrentPage,
+  preselectedCategoryId,
+  preselectedTopicName,
 }: FeedPageProps) => {
   const navigate = useNavigate();
   const sortDropdownRef = useRef<HTMLDivElement>(null);
@@ -88,8 +92,14 @@ export const FeedPage = ({
   }, [isSortDropdownOpen]);
 
   const handleWriteClick = useCallback(() => {
-    navigate("/post");
-  }, [navigate]);
+    if (preselectedCategoryId) {
+      navigate("/post", { state: { categoryId: preselectedCategoryId } });
+    } else if (preselectedTopicName) {
+      navigate("/post", { state: { topicName: preselectedTopicName } });
+    } else {
+      navigate("/post");
+    }
+  }, [navigate, preselectedCategoryId, preselectedTopicName]);
 
   const handleTabChange = useCallback(
     (tab: SituationType) => {
