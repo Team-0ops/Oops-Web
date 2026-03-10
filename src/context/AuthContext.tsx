@@ -57,7 +57,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         await refreshUser(); // 로그인 상태 갱신
         localStorage.setItem("userId", String(res.result.userId));
       } catch (error) {
-        console.log(error);
         if (axios.isAxiosError(error)) {
           const status = error.response?.status;
           if (status === 401) {
@@ -69,6 +68,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         } else {
           throw new Error("로그인에 실패하였습니다.");
         }
+        // axios 분기 마지막까지 error 캐치
+        throw new Error("로그인에 실패하였습니다.");
       }
     },
     [refreshUser]

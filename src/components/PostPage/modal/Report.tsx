@@ -1,9 +1,15 @@
 import X from "../../../assets/icons/X.svg?react";
-import {  useState } from "react";
+import { useState } from "react";
 import { ReportTarget } from "../../../types/post";
+import Alert from "../../../assets/icons/Alert.svg?react";
 
 export type ReportSubmitPayload = {
   content: string;
+};
+
+type ErrorState = {
+  isError: boolean;
+  message: string;
 };
 
 type Props = {
@@ -12,15 +18,13 @@ type Props = {
   onSubmit: (payload: ReportSubmitPayload) => void;
   isSubmitting?: boolean;
   target?: ReportTarget | null; // 선택: 문구 분기하고 싶으면
+  error: ErrorState;
+  onClearError: () => void;
 };
 
 const MAX_LEN = 300;
 
-const Report = ({
-  isOpen,
-  onSubmit,
-  onClose,
-}: Props) => {
+const Report = ({ isOpen, onSubmit, onClose, error, onClearError }: Props) => {
   const [content, setContent] = useState<string>("");
 
   const length = content.length;
@@ -28,7 +32,7 @@ const Report = ({
   if (!isOpen) return null;
 
   const handleSubmit = () => {
-    onSubmit({  content: content ?? "" });
+    onSubmit({ content: content ?? "" });
   };
   return (
     <div
@@ -40,7 +44,7 @@ const Report = ({
     >
       <div
         className="
-          w-[55.25rem] h-[39.4375rem] bg-[#fff]
+          w-[55.25rem] min-h-[39.4375rem] bg-[#fff]
           rounded-[0.5rem]
           p-[1.88rem]
           shadow-[0_0_9px_0_rgba(0,0,0,0.25)]
@@ -50,7 +54,11 @@ const Report = ({
       >
         <div className="relative flex items-center justify-center">
           <span className="text-[1.25rem] font-semibold">신고</span>
-          <button type="button" onClick={onClose} className="absolute right-0 cursor-pointer">
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute right-0 cursor-pointer"
+          >
             <X />
           </button>
         </div>
@@ -63,6 +71,7 @@ const Report = ({
             onChange={(e) => {
               const next = e.target.value;
               if (next.length <= MAX_LEN) setContent(next);
+              if (error.isError) onClearError();
             }}
             className="
               w-full h-[14.625rem]  
@@ -87,6 +96,17 @@ const Report = ({
             허위 신고의 경우, 사용자님의 계정 정지 위험이 있습니다.
           </span>
         </div>
+
+        {error.isError && (
+            <div
+              className="body3 h-15 flex gap-4 items-center p-5 text-[#464646]
+               shadow-[0_2px_2px_0_rgba(0,0,0,0.25)]
+               border border-[#FF6D6D] rounded-lg bg-[#FFEAEA]"
+            >
+              <Alert />
+              <span>{error.message}</span>
+            </div>
+          )}
 
         <div className="flex justify-end">
           <button

@@ -11,10 +11,11 @@ export const postReportComment = async ({
     content,
 }: ReportCommentParams) : Promise<CommonResponse<null>> => {
     const {data} = await axiosInstance.post<CommonResponse<null>>(
-        `/posts/${commentId}/comments` ,
+        `/comments/${commentId}/reports` ,
         {
             content
         }
     );
+    console.log("data",data);
     return data;
 }
